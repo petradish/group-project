@@ -46,7 +46,6 @@ export const selectProject = (project) => {
   return async dispatch => {
       const { data } = await axios.post(`/api/projects/select`, project);
       dispatch(setProject(data));
-      socket.emit('select-project', data);
   };
 };
 // REDUCER

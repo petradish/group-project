@@ -2,10 +2,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import Popup from '../src/components/Popup'
 import './App.css';
-// import io from 'socket.io-client'
 import SingleProject from './components/SingleProject';
 import {getAllProjects, selectProject, getProject} from './store'
-// const socket = io()
 import socket from '../src/socket'
 
 
@@ -19,7 +17,6 @@ class App extends Component {
     }
     this.togglePopup = this.togglePopup.bind(this)
     this.handleSelect = this.handleSelect.bind(this)
-    this.connectToServer = this.connectToServer.bind(this)
   }
   togglePopup() {
     this.setState({
@@ -39,21 +36,7 @@ class App extends Component {
       alert('The group is now full! Choose another!')
     }
   }
-//   handleSelect(student, project, key){
-//     if (this.state.projects[key].students.length < 4){
-//       socket.emit('select-project', {
-//         student: student,
-//         project: project,
-//         key: key
-//       })
-//       alert(`You chose well! Let's see who else joins your group on ${project}`)
-//       this.setState({
-//         isSelected: true
-//       })
-//     } else {
-//       alert('The group is now full! Choose another!')
-//     }
-// }
+
   componentDidUpdate(prevProps, prevState){
       if (prevState.name !== sessionStorage.getItem('name')){
           this.setState({
@@ -61,12 +44,8 @@ class App extends Component {
       })
     }
   }
-  connectToServer(){
-    fetch('/ping')
-  }
 
   componentDidMount(){
-    this.connectToServer()
     this.props.getProjects()
     socket.on('select-project', (data) => {
        console.log(`${data.project} was chosen by ${data.name}`)
