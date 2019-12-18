@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import Popup from '../src/components/Popup'
 import './App.css';
 import SingleProject from './components/SingleProject';
-import {getAllProjects, selectProject, getProject} from './store'
+import {getAllProjects, selectProject} from './store'
 import socket from '../src/socket'
 
 
@@ -49,6 +49,7 @@ class App extends Component {
     this.props.getProjects()
     socket.on('select-project', (data) => {
        console.log(`${data.project} was chosen by ${data.name}`)
+       this.props.getProjects()
    })
   }
   
@@ -80,7 +81,6 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
   getProjects: () => dispatch(getAllProjects()),
-  getProjectUsers:(projectId) => dispatch(getProject(projectId)),
   chooseProject: (project) => dispatch(selectProject(project))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(App);
