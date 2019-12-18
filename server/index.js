@@ -29,10 +29,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // 'API' routes
 app.use('/api', require('./api'));
 // send index.html
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, '..', 'client/build')));
 
 app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'client/build', 'index.html'));
 });
 
 
