@@ -31,11 +31,19 @@ app.use('/api', require('./api'));
 // send index.html
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-if (process.env.NODE_ENV === 'production') {  
-  app.use(express.static(path.join(__dirname, 'client/build')));
-  app.get('*', (req, res) => res.sendfile(path.join(__dirname = 'client/build/index.html')))
-}
-app.get('*', (req, res) => {  res.sendFile(path.join(__dirname +'/client/public/index.html'));})
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
+
+
+
+// app.use(express.static(path.join(__dirname, 'client/build')));
+
+// if (process.env.NODE_ENV === 'production') {  
+//   app.use(express.static(path.join(__dirname, 'client/build')));
+//   app.get('*', (req, res) => res.sendfile(path.join(__dirname = 'client/build/index.html')))
+// }
+// app.get('*', (req, res) => {  res.sendFile(path.join(__dirname +'/client/public/index.html'));})
 // 404 middleware
 app.use((req, res, next) =>
   path.extname(req.path).length > 0 ?
