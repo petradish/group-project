@@ -6,6 +6,7 @@
   },
   "description": "server",
   "main": "server/index.js",
+  "homepage": "http://school-group-project.herokuapp.com/",
   "scripts": {
     "client-install": "npm install --prefix client",
     "start": "node server/index.js",
