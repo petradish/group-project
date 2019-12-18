@@ -27,7 +27,7 @@ class App extends Component {
   handleSelect(id, numStudents, name){
     if (numStudents < 4) {
       this.props.chooseProject({id: id, name: this.state.name})
-      socket.emit('select-project', {name: this.state.name, project: name})
+      socket.emit('select-project', {name: this.state.name, project: name, numStudents: numStudents})
       alert(`You chose well! Let's see who else joins your group on ${name}`)
       this.setState({
           isSelected: true
@@ -48,8 +48,10 @@ class App extends Component {
   componentDidMount(){
     this.props.getProjects()
     socket.on('select-project', (data) => {
+      if (data.numStudents >=3 ){
+        this.props.getProjects()
+      }
        console.log(`${data.project} was chosen by ${data.name}`)
-       this.props.getProjects()
    })
   }
   
