@@ -48,8 +48,9 @@ class App extends Component {
   componentDidMount(){
     this.props.getProjects()
     socket.on('select-project', (data) => {
-      if (data.numStudents >=3 ){
-        this.props.getProjects()
+      if (data.numStudents ===3 ){
+        timer = setTimeout(() => this.props.getProjects(), 3000)
+        
       }
        console.log(`${data.project} was chosen by ${data.name}`)
    })

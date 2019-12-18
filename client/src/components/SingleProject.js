@@ -15,7 +15,7 @@ class SingleProject extends Component {
             <div class="project-swatch" style={{backgroundColor: `rgb(${rgb})`}} onClick={!this.props.isSelected ? () => this.props.selectProject(id, numStudents, name) : null} >
                 <h2>{name}</h2>
                 <div class='group'>
-                {numStudents>=3 ? 
+                {numStudents === 4 ? 
                 users.map(student => {
                     return (
                     <p>{student.name}</p>
