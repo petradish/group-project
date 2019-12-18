@@ -6,7 +6,7 @@ import SingleProject from './components/SingleProject';
 import {getAllProjects, selectProject} from './store'
 import socket from '../src/socket'
 
-
+let timer = null;
 class App extends Component {
   constructor (){
     super()
@@ -44,7 +44,7 @@ class App extends Component {
       })
     }
   }
-
+  
   componentDidMount(){
     this.props.getProjects()
     socket.on('select-project', (data) => {
@@ -55,7 +55,9 @@ class App extends Component {
        console.log(`${data.project} was chosen by ${data.name}`)
    })
   }
-  
+  componentWillUnmount(){
+    clearTimeout(timer);
+  }
 render() { 
   return (
     <React.Fragment>
