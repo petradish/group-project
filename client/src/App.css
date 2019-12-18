@@ -21,7 +21,7 @@
   display: grid;
   grid-template-columns: auto auto;
   margin-top: 0;
-  line-height: 1vh
+  line-height: 2vh
 }
 .App .project-swatch:hover {
   transform: scale(1.2);
