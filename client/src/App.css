@@ -1,0 +1,41 @@
+
+.App {
+  text-align: center;
+  display: grid;
+  margin-left: 10vw;
+  grid-template-columns: auto auto auto;
+  grid-row-gap: 10vh; 
+  background-color: black
+}
+
+
+.App .project-swatch {
+  display: grid;
+  height: 30vh;
+  width: 20vw;
+  color: white;
+  transition: all 0.4s ease-in-out;
+  border-radius: 1vw
+}
+.App .project-swatch .group {
+  display: grid;
+  grid-template-columns: auto auto;
+  margin-top: 0;
+  line-height: 1vh
+}
+.App .project-swatch:hover {
+  transform: scale(1.2);
+  color: black;
+}
+.App .project-swatch:active {
+  background-color: white
+}
+h2 {
+  text-align: center;
+  margin-top: 5vh;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+}
