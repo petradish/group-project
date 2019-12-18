@@ -1,6 +1,9 @@
 {
   "name": "group-project",
   "version": "1.0.0",
+  "engines": {
+    "node": "12.5.0"
+  },
   "description": "server",
   "main": "server/index.js",
   "scripts": {
