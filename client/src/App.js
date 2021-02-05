@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import Popup from '../src/components/Popup'
 import './App.css';
 import SingleProject from './components/SingleProject';
-import {getAllProjects, selectProject} from './store'
+import {getAllProjects, me, selectProject} from './store'
 import socket from '../src/socket'
 
 let timer = null;
@@ -12,8 +12,7 @@ class App extends Component {
     super()
     this.state = {
       isSelected: false,
-      showPopup: true,
-      name: 'student',
+      showPopup: true
     }
     this.togglePopup = this.togglePopup.bind(this)
     this.handleSelect = this.handleSelect.bind(this)
@@ -25,10 +24,10 @@ class App extends Component {
   }
 
   handleSelect(id, numStudents, name){
-    if (numStudents < 4) {
-      this.props.chooseProject({id: id, name: this.state.name})
-      socket.emit('select-project', {name: this.state.name, project: name, numStudents: numStudents})
-      alert(`You chose well! Let's see who else joins your group on ${name}`)
+    if (numStudents < 1) {
+      this.props.chooseProject({id: id, name: 'test'})
+      socket.emit('select-project', {name: 'test', project: name, numStudents: numStudents})
+      alert(`You chose well! Your topic for Black History Month is: ${name}`)
       this.setState({
           isSelected: true
       })
@@ -37,41 +36,47 @@ class App extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState){
-      if (prevState.name !== sessionStorage.getItem('name')){
-          this.setState({
-          name: sessionStorage.getItem('name')
-      })
-    }
-  }
+  // componentDidUpdate(prevProps, prevState){
+  //     if (prevState.name !== sessionStorage.getItem('name')){
+  //         this.setState({
+  //         name: sessionStorage.getItem('name')
+  //     })
+  //   }
+  // }
   
   componentDidMount(){
     this.props.getProjects()
     socket.on('select-project', (data) => {
-      if (data.numStudents ===3 ){
+      if (data.numStudents < 1){
         timer = setTimeout(() => this.props.getProjects(), 3000)
         
       }
-       console.log(`${data.project} was chosen by ${data.name}`)
+       console.log(`${data.project} was chosen by ${data.name}`);
    })
   }
   componentWillUnmount(){
     clearTimeout(timer);
   }
-render() { 
+render() {
+    console.log(this.props.getUser())
   return (
     <React.Fragment>
     {this.state.showPopup ?
-      <Popup
-       closePopup={this.togglePopup}
-      />
-      : (<h1>
-       Hi, {this.state.name}! Choose your topic quickly!</h1>)
-    }  
-    
+      <Popup closePopup={this.togglePopup}/>
+      : (<h1>Hi, {'test'}! Choose your BHM topic!</h1>)}
+
     <div className="App">
       {this.props.projects.length ? this.props.projects.map((project) => {
-        return <SingleProject key={project.id} id={project.id} student={this.state.name} users={project.users} name={project.name} numStudents={project.numStudents} isSelected={this.state.isSelected} selectProject={this.handleSelect}/>
+        return <SingleProject
+            key={project.id}
+            id={project.id}
+            student={this.state.name}
+            users={project.users}
+            name={project.name}
+            numStudents={project.numStudents}
+            isSelected={this.state.isSelected}
+            selectProject={this.handleSelect}
+            />
       })
     : 'Loading Project Name' }
     </div>
@@ -85,6 +90,7 @@ const mapStateToProps = state => ({
   projects: state.project
 })
 const mapDispatchToProps = dispatch => ({
+  getUser: () => dispatch(me()),
   getProjects: () => dispatch(getAllProjects()),
   chooseProject: (project) => dispatch(selectProject(project))
 })

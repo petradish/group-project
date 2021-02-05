@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-// import {connect} from 'react-redux'
-// import {getProject, selectProject} from '../store'
 
 class SingleProject extends Component {
 
@@ -12,13 +10,15 @@ class SingleProject extends Component {
           rgb.push(r)
         }
         return (
-            <div class="project-swatch" style={{backgroundColor: `rgb(${rgb})`}} onClick={!this.props.isSelected ? () => this.props.selectProject(id, numStudents, name) : null} >
+            <div className="project-swatch"
+                 style={{backgroundColor: !numStudents ? `rgb(${rgb})` : 'black'}}
+                 onClick={!this.props.isSelected ? () => this.props.selectProject(id, numStudents, name) : null}>
                 <h2>{name}</h2>
-                <div class='group'>
-                {numStudents === 4 ? 
-                users.map(student => {
+                <div className='group'>
+                {numStudents === 1 ?
+                users.map((student, i) => {
                     return (
-                    <p>{student.name}</p>
+                    <p key={i}>{student.name}</p>
                     )
                 })
                 : null}
@@ -29,12 +29,5 @@ class SingleProject extends Component {
     }
     
 }
-// const mapStateToProps = state => ({
-//     // projects: state.project
-//   })
-//   const mapDispatchToProps = dispatch => ({
-   
-//   })
 
-//   export default connect(mapStateToProps, mapDispatchToProps)(SingleProject);
 export default SingleProject

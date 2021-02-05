@@ -10,12 +10,26 @@ async function seed() {
   console.log('db synced!');
 
   const projects = await Promise.all([
-    Project.create({ name: 'Morocco'}),
-    Project.create({ name: 'Mexico'}),
-    Project.create({ name: 'Ecuador'}),
-    Project.create({ name: 'Brazil'}),
-    Project.create({ name: 'Bangladesh'}),
-    Project.create({ name: 'Colombia'})
+    Project.create({ name: 'Kobe Bryant'}),
+    Project.create({ name: 'Oprah Winfrey'}),
+    Project.create({ name: 'Chadwick Boseman'}),
+    Project.create({ name: 'John Lewis'}),
+    Project.create({ name: 'Muhammed Ali'}),
+    Project.create({ name: 'Will Smith'}),
+    Project.create({ name: 'Michael Jordan'}),
+    Project.create({ name: 'Serena Williams'}),
+    Project.create({ name: 'Michelle Obama'}),
+    Project.create({ name: 'Barack Obama'}),
+    Project.create({ name: 'Martin Luther King, Jr.'}),
+    Project.create({ name: 'Harriet Tubman'}),
+    Project.create({ name: 'Michael Jackson'}),
+    Project.create({ name: 'Meghan Markle'}),
+    Project.create({ name: 'Kamala Harris'}),
+    Project.create({ name: 'Simone Biles'}),
+    Project.create({ name: 'Beyoncé'}),
+    Project.create({ name: 'Malcolm X'}),
+    Project.create({ name: 'Nelson Mandela'}),
+    Project.create({ name: 'Rosa Parks'})
   ])
 }
 

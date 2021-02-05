@@ -29,3 +29,4 @@ const store = createStore(
 export default store;
 export * from './name';
 export * from './project';
+export * from './user';
