@@ -9,7 +9,7 @@ const Project = db.define('project', {
       type: Sequelize.INTEGER,
       defaultValue: 0,
       validate: {
-          max: 4
+          max: 1
       }
   }
 });

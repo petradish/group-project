@@ -24,7 +24,7 @@ router.get('/', async (req, res, next) => {
       const project = await Project.findByPk(id, {
           include: {model: User}
       })
-      if (project.numStudents < 4){
+      if (project.numStudents < 1){
         await user.setProject(project)
         await project.update({numStudents: project.numStudents + 1})
         res.status(201);
