@@ -20,20 +20,24 @@ class App extends Component {
   }
   togglePopup() {
     this.setState({
-      showPopup: !this.state.showPopup
+      showPopup: !sessionStorage.getItem('name') || sessionStorage.getItem('name').length < 5
     });
   }
 
   handleSelect(id, numStudents, name){
-    if (numStudents < 4) {
+    if (this.props.projects.find(it => it.users[0] && it.users[0].name === sessionStorage.getItem('name'))) {
+      alert('You already chose a project');
+      return;
+    }
+    if (numStudents < 1) {
       this.props.chooseProject({id: id, name: this.state.name})
       socket.emit('select-project', {name: this.state.name, project: name, numStudents: numStudents})
-      alert(`You chose well! Let's see who else joins your group on ${name}`)
+      alert(`You chose well! Your topic for Black History Month is: ${name}`)
       this.setState({
           isSelected: true
       })
     } else {
-      alert('The group is now full! Choose another!')
+      alert('The project is already taken! Choose another!')
     }
   }
 
@@ -48,7 +52,7 @@ class App extends Component {
   componentDidMount(){
     this.props.getProjects()
     socket.on('select-project', (data) => {
-      if (data.numStudents ===3 ){
+      if (data.numStudents < 1){
         timer = setTimeout(() => this.props.getProjects(), 3000)
         
       }
@@ -62,16 +66,21 @@ render() {
   return (
     <React.Fragment>
     {this.state.showPopup ?
-      <Popup
-       closePopup={this.togglePopup}
-      />
-      : (<h1>
-       Hi, {this.state.name}! Choose your topic quickly!</h1>)
-    }  
-    
+      <Popup closePopup={this.togglePopup} />
+      : (<h1>Hi, {this.state.name}! Choose your BHM topic</h1>)}
+
     <div className="App">
       {this.props.projects.length ? this.props.projects.map((project) => {
-        return <SingleProject key={project.id} id={project.id} student={this.state.name} users={project.users} name={project.name} numStudents={project.numStudents} isSelected={this.state.isSelected} selectProject={this.handleSelect}/>
+        return <SingleProject
+            key={project.id}
+            id={project.id}
+            student={this.state.name}
+            users={project.users}
+            name={project.name}
+            numStudents={project.numStudents}
+            isSelected={this.state.isSelected}
+            selectProject={this.handleSelect}
+            />
       })
     : 'Loading Project Name' }
     </div>

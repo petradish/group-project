@@ -25,20 +25,44 @@ code {
   background-color: rgba(0, 0, 0, 0.849);
 }
 .popup_inner {
+  display: flex;
   position: absolute;
   left: 25%;
   right: 25%;
   top: 25%;
   bottom: 25%;
+  align-items: center;
   margin: auto;
   border-radius: 20px;
   background: white;
 }
-.form-inline {
-  padding-top: 5vh;
-  text-align: center;
-  color: black
+
+input[type=text] {
+  padding: 1vh;
+  font-size: 2.25vh;
 }
+
+button {
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: antiquewhite;
+  width: 5vw;
+  height: 5vh;
+}
+
+button:hover {
+  background-color: azure;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+/*.form-inline {*/
+/*  padding-top: 5vh;*/
+/*  text-align: center;*/
+/*  color: black*/
+/*}*/
 p {
   text-align: center;
   margin: 2vh;

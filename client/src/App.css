@@ -2,37 +2,44 @@
 .App {
   text-align: center;
   display: grid;
-  margin-left: 10vw;
-  grid-template-columns: auto auto auto;
-  grid-row-gap: 10vh; 
+  grid-template-columns: auto auto auto auto auto;
+  grid-row-gap: 1vh;
   background-color: black
 }
 
-
 .App .project-swatch {
   display: grid;
-  height: 30vh;
-  width: 20vw;
+  height: 18vh;
+  width: 18vw;
   color: white;
   transition: all 0.4s ease-in-out;
+  margin: 1vw;
   border-radius: 1vw
 }
+
 .App .project-swatch .group {
-  display: grid;
-  grid-template-columns: auto auto;
-  margin-top: 0;
-  line-height: 2vh
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
+
 .App .project-swatch:hover {
   transform: scale(1.2);
   color: black;
 }
+
 .App .project-swatch:active {
   background-color: white
 }
+
 h2 {
   text-align: center;
   margin-top: 5vh;
+  font-size: 3vh;
+}
+
+p, label {
+  font-size: 2.25vh;
 }
 
 h1 {
