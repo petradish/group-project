@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import Popup from './Popup'
-import '../App.css';
 import SingleProject from './SingleProject';
 import {getAllProjects, me, selectProject} from '../store'
 import socket from '../../src/socket'
@@ -59,7 +58,12 @@ render() {
     <React.Fragment>
     {this.state.showPopup ?
       <Popup closePopup={this.closePopup} />
-      : (<h1>Hi, {this.props.user.name}! Choose your BHM topic</h1>)}
+      : (
+          <div>
+              <h1>Hi, {this.props.user.name}! Choose your BHM topic</h1>
+            <button className={'logout-button'}><a href="/auth/logout">Logout</a></button>
+          </div>
+        )}
 
     <div className="App">
       {this.props.projects.length ? this.props.projects.map((project) => {
@@ -87,6 +91,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getUser: () => dispatch(me()),
   getProjects: () => dispatch(getAllProjects()),
-  chooseProject: (project) => dispatch(selectProject(project))
+  chooseProject: (project) => dispatch(selectProject(project)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

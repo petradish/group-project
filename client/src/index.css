@@ -1,8 +1,57 @@
+
+.App {
+  text-align: center;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-row-gap: 1vh;
+  background-color: black
+}
+
+.App .project-swatch {
+  display: grid;
+  height: 18vh;
+  width: 18vw;
+  color: white;
+  transition: all 0.4s ease-in-out;
+  margin: 1vw;
+  border-radius: 1vw
+}
+
+.App .project-swatch .group {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.App .project-swatch:hover {
+  transform: scale(1.2);
+  color: black;
+}
+
+.App .project-swatch:active {
+  background-color: white
+}
+
+h2 {
+  text-align: center;
+  margin-top: 5vh;
+  font-size: 3vh;
+}
+
+p, label {
+  font-size: 2.25vh;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: black;
@@ -10,7 +59,13 @@ body {
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  monospace;
+}
+
+.logout-button {
+  position: absolute;
+  right: 1vw;
+  top: 3vh;
 }
 
 .popup {
@@ -24,6 +79,7 @@ code {
   margin: auto;
   background-color: rgba(0, 0, 0, 0.849);
 }
+
 .popup_inner {
   display: flex;
   position: absolute;
@@ -37,8 +93,8 @@ code {
   margin: auto;
   border-radius: 20px;
   background: white;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   opacity: 96%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .popup_inner .message,
@@ -90,15 +146,10 @@ button:hover {
 }
 
 a {
-
   color: black;
   text-decoration: none;
 }
-/*.form-inline {*/
-/*  padding-top: 5vh;*/
-/*  text-align: center;*/
-/*  color: black*/
-/*}*/
+
 p {
   text-align: center;
   margin: 2vh;

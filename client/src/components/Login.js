@@ -1,6 +1,5 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {auth} from '../store'
 
 /**
  * COMPONENT
@@ -34,13 +33,4 @@ const mapLogin = state => {
     }
 }
 
-const mapDispatch = dispatch => {
-    return {
-        handleSubmit(evt) {
-            evt.preventDefault()
-            dispatch(auth())
-        }
-    }
-}
-
-export const Login = connect(mapLogin, mapDispatch)(LoginForm)
+export const Login = connect(mapLogin, null)(LoginForm)
