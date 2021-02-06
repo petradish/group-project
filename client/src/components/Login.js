@@ -1,11 +1,12 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {auth} from '../store';
 
 /**
  * COMPONENT
  */
 const LoginForm = props => {
-    const {error} = props
+    const {login, error} = props
 
     return (
         <div className='popup-login'>
@@ -15,22 +16,23 @@ const LoginForm = props => {
                     <p>Create any group project, first-come-first-served.</p>
                     <br />
 
-                    <button><a href="/auth/google">Teacher Log In with Google</a></button>
+                    <button onClick={login}>Teacher Log In with Google</button>
                     <br />
-                    <button><a href="/auth/google">Student Log In with Google</a></button>
+                    <button onClick={login}>Student Log In with Google</button>
 
-                    {error && error.response && <div> {error.response.data} </div>}
+                    {error && <p style={{color: 'red'}}> {error.message} </p>}
                 </div>
             </div>
         </div>
-    )
+    );
 }
+const mapState = state => ({
+    user: state.user,
+    error: state.user.error
+})
 
-const mapLogin = state => {
-    return {
-        error: state.user?.error,
-        closePopup: true
-    }
-}
+const mapDispatch = dispatch => ({
+    login: () => dispatch(auth())
+})
 
-export const Login = connect(mapLogin, null)(LoginForm)
+export const Login = connect(mapState, mapDispatch)(LoginForm)

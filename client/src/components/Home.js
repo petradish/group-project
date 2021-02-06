@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import Popup from './Popup'
 import SingleProject from './SingleProject';
-import {getAllProjects, me, selectProject} from '../store'
+import {auth, getAllProjects, logout, me, selectProject} from '../store'
 import socket from '../../src/socket'
 
 let timer = null;
@@ -15,12 +15,17 @@ class Home extends Component {
     }
     this.handleSelect = this.handleSelect.bind(this)
     this.closePopup = this.closePopup.bind(this)
+    this.logout = this.logout.bind(this)
   }
 
   closePopup() {
     this.setState({
       showPopup: false
     })
+  }
+
+  logout(){
+    this.props.logout();
   }
 
   handleSelect({id, name, students, maxStudents}){
@@ -56,15 +61,12 @@ class Home extends Component {
 render() {
   return (
     <React.Fragment>
-    {this.state.showPopup ?
-      <Popup closePopup={this.closePopup} />
-      : (
-          <div>
-              <h1>Hi, {this.props.user.name}! Choose your BHM topic</h1>
-            <button className={'logout-button'}><a href="/auth/logout">Logout</a></button>
-          </div>
-        )}
+    {this.state.showPopup ? <Popup closePopup={this.closePopup} /> : null}
 
+    <div>
+      <h1>Hi, {this.props.user.name}! Choose your BHM topic</h1>
+      <button onClick={this.logout} className={'logout-button'}>Logout</button>
+    </div>
     <div className="App">
       {this.props.projects.length ? this.props.projects.map((project) => {
         return <SingleProject
@@ -92,5 +94,7 @@ const mapDispatchToProps = dispatch => ({
   getUser: () => dispatch(me()),
   getProjects: () => dispatch(getAllProjects()),
   chooseProject: (project) => dispatch(selectProject(project)),
+  logout: () => dispatch(logout()),
+  login: () => dispatch(auth())
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

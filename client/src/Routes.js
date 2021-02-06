@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {me} from './store';
+import {auth, me} from './store';
 import App from './App';
 import Popup from './components/Popup';
 import {Login} from './components/Login';
@@ -48,9 +48,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
     return {
-        loadInitialData() {
-            dispatch(me())
-        }
+        loadInitialData: () => dispatch(me())
     }
 }
 
