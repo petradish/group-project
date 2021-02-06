@@ -17,30 +17,21 @@ router.get('/', async (req, res, next) => {
   
   router.post('/select', async (req, res, next) => {
     try {
-      const {name, id} = req.body
-      const user = await User.create({
-        name: name
-      })
-      const project = await Project.findByPk(id, {
-          include: {model: User}
-      })
-      if (project.numStudents < 1){
-        await user.setProject(project)
-        await project.update({numStudents: project.numStudents + 1})
-        res.status(201);
-        const projects = await Project.findAll({
-            include: {model: User}
-          })
-        res.json(projects)
+      const {name, id} = req.body,
+          project = await Project.findByPk(id);
+      if (project.students.length < project.maxStudents) {
+          const newStudents = [...project.students, name];
+          await project.update({students: newStudents});
+          res.status(201);
+          const projects = await Project.findAll();
+          res.json(projects);
       } else {
-        const projects = await Project.findAll({
-            include: {model: User}
-          })
-          res.status(403)
-          res.json(projects)
+          const projects = await Project.findAll();
+          res.status(403);
+          res.json(projects);
       }
 
     } catch (error) {
-      next(error);
+      next (error);
     }
   });

@@ -21,7 +21,6 @@ export const getAllProjects = () => {
     return async dispatch => {
       try {
         const { data } = await axios.get('/api/projects');
-        //will return the array of students set on projects
         dispatch(gotAllProjects(data));
       } catch (err) {
         console.error(err);
@@ -37,7 +36,6 @@ export const selectProject = (project) => {
 // REDUCER
 export default function project (state = [], action) {
   switch (action.type) {
-
     case SET_PROJECT:
       return action.project;
     case GET_ALL_PROJECTS:

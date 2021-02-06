@@ -2,7 +2,7 @@ const router = require('express').Router()
 module.exports = router
 
 //Logs out a user, deletes the session
-router.post('/logout', (req, res) => {
+router.get('/logout', (req, res) => {
     req.logout();
     req.session.destroy();
     res.redirect('/');

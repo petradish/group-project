@@ -24,14 +24,14 @@ class Home extends Component {
     })
   }
 
-  handleSelect(id, numStudents, name){
-    if (this.props.projects.find(it => it.users[0] && it.users[0].name === sessionStorage.getItem('name'))) {
+  handleSelect({id, name, students, maxStudents}){
+    if (this.props.projects.find(it => it.students[0] === this.props.user.name)) {
       alert('You already chose a project');
       return;
     }
-    if (numStudents < 1) {
-      this.props.chooseProject({id: id, name: this.state.name})
-      socket.emit('select-project', {name: this.state.name, project: name, numStudents: numStudents})
+    if (students.length < maxStudents) {
+      this.props.chooseProject({id: id, name: this.props.user.name})
+      socket.emit('select-project', {name: this.props.user.name, project: name})
       alert(`You chose well! Your topic for Black History Month is: ${name}`)
       this.setState({
           isSelected: true
@@ -40,19 +40,11 @@ class Home extends Component {
       alert('The project is already taken! Choose another!')
     }
   }
-
-  componentDidUpdate(prevProps, prevState){
-      if (prevState.name !== sessionStorage.getItem('name')){
-          this.setState({
-          name: sessionStorage.getItem('name')
-      })
-    }
-  }
   
   componentDidMount(){
     this.props.getProjects()
     socket.on('select-project', (data) => {
-      if (data.numStudents < 1){
+      if (data.students.length < data.maxStudents){
         timer = setTimeout(() => this.props.getProjects(), 1000)
       }
        console.log(`${data.project} was chosen by ${data.name}`)
@@ -74,10 +66,9 @@ render() {
         return <SingleProject
             key={project.id}
             id={project.id}
-            student={this.state.name}
-            users={project.users}
             name={project.name}
-            numStudents={project.numStudents}
+            students={project.students}
+            maxStudents={project.maxStudents}
             isSelected={this.state.isSelected}
             selectProject={this.handleSelect}
             />
@@ -90,7 +81,6 @@ render() {
 }
 
 const mapStateToProps = state => ({
-  name: state.name,
   projects: state.project,
   user: state.user
 })

@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 class SingleProject extends Component {
 
     render(){
-        const {numStudents, name, id, users} = this.props,
+        const {maxStudents, name, id, students} = this.props,
             rgb = []
         for (let i = 0; i < 3; i++) {
             let r = Math.floor(Math.random() * 256);
@@ -12,17 +12,14 @@ class SingleProject extends Component {
         }
         return (
             <div className="project-swatch"
-                 style={{backgroundColor: !numStudents ? `rgb(${rgb})` : 'black'}}
-                 onClick={!this.props.isSelected ? () => this.props.selectProject(id, numStudents, name) : null}>
+                 style={{backgroundColor: students.length < maxStudents ? `rgb(${rgb})` : 'black'}}
+                 onClick={!this.props.isSelected ? () => this.props.selectProject({id, name, students, maxStudents}) : null}>
                 <h2>{name}</h2>
                 <div className='group'>
-                {numStudents === 1 ?
-                users.map((student, i) => {
-                    return (
-                    <p key={i}>{student.name}</p>
-                    )
-                })
-                : null}
+                {students.length === maxStudents ?
+                    students.map((name, i) => (<p key={i}>{name}</p>)) :
+                    null
+                }
                 </div>
             </div>
         );

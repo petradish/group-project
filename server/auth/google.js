@@ -34,8 +34,6 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
             const googleId = profile.id;
             const name = profile.displayName;
 
-            console.log(profile.displayName)
-
             User.findOrCreate({
                 where: {googleId},
                 defaults: {name}

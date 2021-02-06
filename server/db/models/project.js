@@ -9,7 +9,7 @@ const Project = db.define('project', {
         type: Sequelize.ARRAY(Sequelize.STRING),
         defaultValue: []
     },
-    maxStudentCount: {
+    maxStudents: {
         type: Sequelize.INTEGER,
         defaultValue: 1
     }

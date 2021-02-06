@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import './App.css';
-import {getAllProjects, me} from './store'
+import {me} from './store'
 import Routes from './Routes';
 
 class App extends Component {
 
   componentDidMount(){
-    this.props.getProjects()
     this.props.getUser();
   }
 
@@ -21,11 +20,9 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  projects: state.project,
   user: state.user
 })
 const mapDispatchToProps = dispatch => ({
-  getUser: () => dispatch(me()),
-  getProjects: () => dispatch(getAllProjects()),
+  getUser: () => dispatch(me())
 })
 export default connect(mapStateToProps, mapDispatchToProps)(App);
