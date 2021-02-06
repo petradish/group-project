@@ -30,21 +30,6 @@ export const me = () => async dispatch => {
     }
 }
 
-export const auth = () => async dispatch => {
-    let res
-    try {
-        res = await axios.get('/auth/google')
-    } catch (authError) {
-        return dispatch(getUser({error: authError}))
-    }
-    try {
-        dispatch(getUser(res.data))
-        history.push('/')
-    } catch (dispatchOrHistoryErr) {
-        console.error(dispatchOrHistoryErr)
-    }
-}
-
 export const logout = () => async dispatch => {
     try {
         await axios.get('/auth/logout')

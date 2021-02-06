@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import Popup from './Popup'
 import SingleProject from './SingleProject';
-import {auth, getAllProjects, logout, me, selectProject} from '../store'
+import {getAllProjects, logout, me, selectProject} from '../store'
 import socket from '../../src/socket'
 
 let timer = null;
@@ -94,7 +94,6 @@ const mapDispatchToProps = dispatch => ({
   getUser: () => dispatch(me()),
   getProjects: () => dispatch(getAllProjects()),
   chooseProject: (project) => dispatch(selectProject(project)),
-  logout: () => dispatch(logout()),
-  login: () => dispatch(auth())
+  logout: () => dispatch(logout())
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
