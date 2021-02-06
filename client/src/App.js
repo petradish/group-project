@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import Popup from '../src/components/Popup'
 import './App.css';
 import SingleProject from './components/SingleProject';
-import {getAllProjects, selectProject} from './store'
+import {getAllProjects, me, selectProject} from './store'
 import socket from '../src/socket'
 
 let timer = null;
@@ -51,6 +51,7 @@ class App extends Component {
   
   componentDidMount(){
     this.props.getProjects()
+    this.props.getUser()
     socket.on('select-project', (data) => {
       if (data.numStudents < 1){
         timer = setTimeout(() => this.props.getProjects(), 1000)
@@ -90,9 +91,11 @@ render() {
 
 const mapStateToProps = state => ({
   name: state.name,
-  projects: state.project
+  projects: state.project,
+  user: state.user
 })
 const mapDispatchToProps = dispatch => ({
+  getUser: () => dispatch(me()),
   getProjects: () => dispatch(getAllProjects()),
   chooseProject: (project) => dispatch(selectProject(project))
 })

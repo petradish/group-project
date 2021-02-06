@@ -2,13 +2,14 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-
+const session = require('express-session')
+const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db/index');
+const sessionStore = new SequelizeStore({db})
 
 const PORT = process.env.PORT || 5000;
 const app = express();
 const server = app.listen(PORT, () => console.log(`Connected on port ${PORT}`));
-// const server = require('http').createServer(app);
 const socketio = require('socket.io');
 
 // handle sockets
@@ -39,6 +40,7 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
+async () => await sessionStore.sync();
 db.sync().then(() => console.log('Database is synced'));
 
 // static middleware
@@ -49,6 +51,21 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 // body parsing middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
+// session middleware with passport
+app.use(
+    session({
+      secret: process.env.SESSION_SECRET,
+      store: sessionStore,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        maxAge: 60 * 60 * 1000,
+        expires: new Date(Date.now() + 60 * 60 * 1000)
+      }
+    })
+)
 
 app.use(passport.initialize());
 app.use(passport.session());

@@ -1,7 +1,7 @@
 import axios from 'axios'
 // ACTION TYPES
 
-import {SET_PROJECT, GET_PROJECT, GET_ALL_PROJECTS} from './index'
+import {SET_PROJECT, GET_ALL_PROJECTS} from './index'
 
 // ACTION CREATORS
 
