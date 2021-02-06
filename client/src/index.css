@@ -33,21 +33,6 @@ p {
   font-size: 2.25vh;
 }
 
-button {
-  cursor: pointer;
-  border-radius: 1vh;
-  background-color: rebeccapurple;
-  display: flex;
-  color: white;
-  font-weight: bold;
-  font-size: 2vh;
-  padding: 1vh;
-}
-
-button:hover {
-  background-color: mediumvioletred;
-}
-
 .App {
   text-align: center;
   display: grid;
@@ -145,3 +130,19 @@ button:hover {
   font-size: 2vh;
   padding: 2vh;
 }
+
+button {
+  cursor: pointer;
+  border-radius: 1vh;
+  background-color: rebeccapurple;
+  display: flex;
+  color: white;
+  font-weight: bold;
+  font-size: 2vh;
+  padding: 1vh;
+}
+
+button:hover {
+  background-color: mediumvioletred;
+}
+
