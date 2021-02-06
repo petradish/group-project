@@ -5,6 +5,8 @@ import PropTypes from 'prop-types'
 import {me} from './store';
 import App from './App';
 import Popup from './components/Popup';
+import {Login} from './components/Login';
+import Home from './components/Home';
 
 /**
  * COMPONENT
@@ -22,11 +24,11 @@ class Routes extends Component {
                 {isLoggedIn && (
                     <Switch>
                         {/* Routes placed here are only available after logging in */}
-                        <Route path="/home" component={App} />
+                        <Route path="/" component={Home} />
                     </Switch>
                 )}
-                {/* Displays our Login component as a fallback */}
-                <Route path="/login" component={Popup} />
+                 {/*Displays our Login component as a fallback */}
+                <Route path="/" component={Login} />
             </Switch>
         )
     }

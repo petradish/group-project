@@ -6,13 +6,16 @@ const User = db.define('user', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  email: {
+  googleId: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: true
+    allowNull: false
   },
-  googleId: {
+  school: {
     type: Sequelize.STRING
+  },
+  role: {
+    type: Sequelize.ENUM('teacher', 'admin')
   }
 });
 

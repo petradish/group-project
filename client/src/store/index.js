@@ -4,6 +4,7 @@ import project, { getAllProjects } from './project';
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger';
 import socket from '../socket';
+import user from './user';
 
 export const UPDATE_NAME = 'UPDATE_NAME';
 export const SET_PROJECT = 'SET_PROJECT';
@@ -15,6 +16,7 @@ socket.on('select-project', () => {
 
 const rootReducer = combineReducers({
   name,
+  user,
   project,
 })
 

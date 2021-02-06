@@ -1,9 +1,8 @@
 const User = require('./user');
 const Project = require('./project');
 
-
-User.belongsTo(Project);
-Project.hasMany(User);
+Project.belongsTo(User);
+User.hasMany(Project);
 
 module.exports = {
     User,

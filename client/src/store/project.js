@@ -36,7 +36,6 @@ export const selectProject = (project) => {
 };
 // REDUCER
 export default function project (state = [], action) {
-
   switch (action.type) {
 
     case SET_PROJECT:
@@ -46,5 +45,4 @@ export default function project (state = [], action) {
     default:
       return state;
   }
-
 }
