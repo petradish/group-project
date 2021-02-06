@@ -29,20 +29,25 @@ code {
   position: absolute;
   left: 25%;
   right: 25%;
-  top: 30%;
-  bottom: 30%;
+  top: 25%;
+  bottom: 25%;
   align-items: center;
   margin: auto;
   border-radius: 20px;
   background: white;
 }
 
+input[type=text] {
+  padding: 1vh;
+  font-size: 2.25vh;
+}
+
 button {
   cursor: pointer;
   border-radius: 5px;
   background-color: antiquewhite;
-  width: 12vw;
-  height: 6vh;
+  width: 5vw;
+  height: 5vh;
 }
 
 button:hover {

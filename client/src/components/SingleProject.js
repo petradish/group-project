@@ -3,11 +3,12 @@ import React, {Component} from 'react';
 class SingleProject extends Component {
 
     render(){
-        let {numStudents, name, id, users} = this.props
-        let rgb = []
+        const {numStudents, name, id, users} = this.props,
+            rgb = []
         for (let i = 0; i < 3; i++) {
-          let r = Math.floor(Math.random() * 256)
-          rgb.push(r)
+            let r = Math.floor(Math.random() * 256);
+            if (r - rgb[i] < 10) {r += 20;}
+            rgb.push(r);
         }
         return (
             <div className="project-swatch"
@@ -24,10 +25,8 @@ class SingleProject extends Component {
                 : null}
                 </div>
             </div>
-           
-        )
+        );
     }
-    
 }
 
 export default SingleProject

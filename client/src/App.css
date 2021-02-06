@@ -18,9 +18,9 @@
 }
 
 .App .project-swatch .group {
-  display: grid;
-  grid-template-columns: auto;
-  line-height: 2vh
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 .App .project-swatch:hover {
@@ -35,6 +35,11 @@
 h2 {
   text-align: center;
   margin-top: 5vh;
+  font-size: 3vh;
+}
+
+p, label {
+  font-size: 2.25vh;
 }
 
 h1 {
