@@ -2,30 +2,16 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const db = require('./db/index');
 const session = require('express-session')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
-const db = require('./db/index');
 const sessionStore = new SequelizeStore({db})
-
+const socketio = require('socket.io');
 const PORT = process.env.PORT || 5000;
 const app = express();
-const server = app.listen(PORT, () => console.log(`Connected on port ${PORT}`));
-const socketio = require('socket.io');
-
-// handle sockets
-const io = socketio(server);
-require('./socket')(io);
 
 module.exports = app;
 
-/**
- * In your development environment, you can keep all of your
- * app's secret API keys in a file called `secret.js`, in your project
- * root. This file is included in the .gitignore - it will NOT be tracked
- * or show up on Github. On your production server, you can add these
- * keys as environment variables, so that they can still be read by the
- * Node process on process.env
- */
 if (process.env.NODE_ENV !== 'production') require('../secret')
 
 // passport registration
@@ -40,63 +26,64 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-async () => await sessionStore.sync();
-db.sync().then(() => console.log('Database is synced'));
+const createApp = () => {
+    // static middleware
+    app.use(express.static(path.join(__dirname, '..', 'node_modules')));
+    app.use(express.static(path.join(__dirname, '..', 'public')));
+    // body parsing middleware
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: true }));
+    // session middleware with passport
+    app.use(
+        session({
+            secret: process.env.SESSION_SECRET,
+            store: sessionStore,
+            resave: false,
+            saveUninitialized: false,
+            cookie: {
+                maxAge: 60 * 60 * 1000,
+                expires: new Date(Date.now() + 60 * 60 * 1000)
+            }
+        })
+    )
+    app.use(passport.initialize());
+    app.use(passport.session());
+    // auth and api routes
+    app.use('/auth', require('./auth'))
+    app.use('/api', require('./api'));
+    // send index.html
+    app.use(express.static(path.join(__dirname, '..', 'client/build')));
+    app.get('/', function(req, res) {
+        res.sendFile(path.join(__dirname, '..', 'client/build', 'index.html'));
+    });
+    app.use((req, res, next) =>
+        path.extname(req.path).length > 0 ?
+            res.status(404).send('Not found') :
+            next()
+    );
+    // error handling endware
+    app.use((err, req, res, next) =>
+        res.status(err.status || 500).send(err.message || 'Internal server error.'));
+}
 
-// static middleware
+const syncDb = () => db.sync().then(() => console.log('Database is synced'));
+const startListening = () => {
+    const server = app.listen(PORT, () => console.log(`Connected on port ${PORT}`));
 
-app.use(express.static(path.join(__dirname, '..', 'node_modules')));
-app.use(express.static(path.join(__dirname, '..', 'public')));
+    // handle sockets
+    const io = socketio(server);
+    require('./socket')(io);
+}
 
-// body parsing middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+async function bootApp() {
+    await sessionStore.sync();
+    await syncDb();
+    await createApp();
+    await startListening();
+}
 
-
-// session middleware with passport
-app.use(
-    session({
-      secret: process.env.SESSION_SECRET,
-      store: sessionStore,
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-        maxAge: 60 * 60 * 1000,
-        expires: new Date(Date.now() + 60 * 60 * 1000)
-      }
-    })
-)
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-// auth and api routes
-app.use('/auth', require('./auth'))
-app.use('/api', require('./api'));
-
-// send index.html
-app.use(express.static(path.join(__dirname, '..', 'client/build')));
-
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, '..', 'client/build', 'index.html'));
-});
-
-
-
-// app.use(express.static(path.join(__dirname, 'client/build')));
-
-// if (process.env.NODE_ENV === 'production') {  
-//   app.use(express.static(path.join(__dirname, 'client/build')));
-//   app.get('*', (req, res) => res.sendfile(path.join(__dirname = 'client/build/index.html')))
-// }
-// app.get('*', (req, res) => {  res.sendFile(path.join(__dirname +'/client/public/index.html'));})
-// 404 middleware
-app.use((req, res, next) =>
-  path.extname(req.path).length > 0 ?
-    res.status(404).send('Not found') :
-    next()
-);
-
-// error handling endware
-app.use((err, req, res, next) =>
-  res.status(err.status || 500).send(err.message || 'Internal server error.'));
+if (require.main === module) {
+    bootApp();
+} else {
+    createApp();
+}
