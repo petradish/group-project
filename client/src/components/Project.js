@@ -4,7 +4,7 @@ import Popup from './Popup'
 import Topic from './Topic';
 import {getAllTopics, logout, me, selectTopic} from '../store'
 
-class Home extends Component {
+class Project extends Component {
     constructor (){
         super();
         this.state = {
@@ -26,31 +26,32 @@ class Home extends Component {
     }
 
     handleSelect({id, name, isFull}) {
-        const {user, selectedTopic} = this.props;
-        if (selectedTopic) {
+        const {user, selectedTopic, allTopics, project} = this.props;
+
+        if (selectedTopic || allTopics.find(it => it.students.find(s => s.googleId === user.googleId))) {
             alert('You already chose a topic');
             return;
         }
         if (!isFull) {
             this.props.chooseTopic({id: id, student: user});
-            alert(`You chose well! Your topic for Black History Month is: ${name}`);
+            alert(`You chose well! Your topic for ${project.name} is: ${name}`);
         } else {
             alert('The topic is already taken! Choose another!');
         }
     }
   
     componentDidMount() {
-        this.props.getTopics();
+        this.props.getTopics(this.props.project);
         this.props.getUser();
     }
 
     render() {
-        const {allTopics} = this.props;
+        const {allTopics, project} = this.props;
         return (
             <React.Fragment>
-                {this.state.showPopup ? <Popup closePopup={this.closePopup} /> : null}
+                {this.state.showPopup ? <Popup project={project} closePopup={this.closePopup} /> : null}
                 <div>
-                    <h1>Hi, {this.props.user.name}! Choose your BHM topic</h1>
+                    <h1>Hi, {this.props.user.name}! Choose your {project.shortName ?? project.name} topic</h1>
                     <button onClick={this.logout} className={'logout-button'}>Logout</button>
                 </div>
                 <div className="App">
@@ -74,14 +75,15 @@ class Home extends Component {
 const mapStateToProps = state => ({
     allTopics: state.topic.allTopics,
     user: state.user,
-    selectedTopic: state.topic.selectedTopic
+    selectedTopic: state.topic.selectedTopic,
+    project: state.project.project
 });
 
 const mapDispatchToProps = dispatch => ({
     getUser: () => dispatch(me()),
-    getTopics: () => dispatch(getAllTopics()),
+    getTopics: (project) => dispatch(getAllTopics(project)),
     chooseTopic: (topic) => dispatch(selectTopic(topic)),
     logout: () => dispatch(logout())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Project);

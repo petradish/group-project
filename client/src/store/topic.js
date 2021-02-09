@@ -16,10 +16,11 @@ export function gotAllTopics (allTopics) {
 }
 
 // THUNKS
-export const getAllTopics = () => {
+export const getAllTopics = (project) => {
+    const {id} = project;
     return async dispatch => {
         try {
-            const { data } = await axios.get('/api/topics');
+            const { data } = await axios.get(`/api/topics/${id}`);
             dispatch(gotAllTopics(data));
         } catch (err) {
             console.error(err);

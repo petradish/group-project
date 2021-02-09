@@ -3,9 +3,12 @@ const { Project, Topic, User } = require('../db/models');
 
 module.exports = router;
 
-router.get('/', async (req, res, next) => {
+router.get('/:projectId', async (req, res, next) => {
     try {
         const topics = await Topic.findAll({
+            where: {
+                projectId: req.params.projectId
+            },
             include: [
                 {model: Project},
                 {model: User, as: 'students'}

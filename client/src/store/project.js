@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // ACTION TYPES
-import {CREATE_PROJECT, GET_ALL_PROJECTS} from './index'
+import {CREATE_PROJECT, GET_ALL_PROJECTS, GET_PROJECT} from './index'
 
 // ACTION CREATORS
 export function createdProject (project) {
@@ -12,7 +12,13 @@ export function createdProject (project) {
 export function gotAllProjects (projects) {
     const action = { type: GET_ALL_PROJECTS, projects };
     return action;
-  }
+}
+
+export function gotProject (project) {
+    const action = { type: GET_PROJECT, project };
+    return action;
+}
+
 
 // THUNKS
 export const getAllProjects = () => {
@@ -26,20 +32,30 @@ export const getAllProjects = () => {
     };
   };
 
+export const getProject = (linkName) => {
+    return async dispatch => {
+        const { data } = await axios.get(`/api/projects${linkName}`);
+        dispatch(gotProject(data));
+    };
+};
+
 export const createProject = (project) => {
   return async dispatch => {
       const { data } = await axios.post(`/api/projects/create`, project);
       dispatch(createdProject(data));
   };
 };
+
 // REDUCER
-export default function project (state = [], action) {
+export default function project (state = {}, action) {
   switch (action.type) {
-    case CREATE_PROJECT:
-      return action.project;
-    case GET_ALL_PROJECTS:
-      return action.projects;
-    default:
-      return state;
+      case CREATE_PROJECT:
+          return {...state, project: action.project};
+      case GET_ALL_PROJECTS:
+          return {...state, projects: action.projects};
+      case GET_PROJECT:
+          return {...state, project: action.project};
+      default:
+          return state;
   }
 }

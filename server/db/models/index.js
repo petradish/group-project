@@ -4,7 +4,7 @@ const Topic = require('./topic');
 
 Project.belongsTo(User);
 User.hasMany(Project);
-Topic.belongsTo(Project);
+Topic.belongsTo(Project, {onDelete: 'cascade'});
 Project.hasMany(Topic);
 Topic.hasMany(User, {as: 'students', constraints: false, allowNull: true, defaultValue: null});
 

@@ -1,21 +1,17 @@
 module.exports = io => {
     io.on('connection', (socket) => {
-      socket.on('joinRoom', function(room) {
-        console.log('Connected to Room:', room);
-        socket.join(room);
+      socket.on('joinProject', function(project) {
+        console.log('Connected to Project:', project);
+        socket.join(project);
       });
 
       socket.on('select-topic', () => {
         socket.broadcast.emit('topic');
       });
 
-      socket.on('leaveRoom', function(room) {
-        console.log('Leaving Room:', room);
-        socket.leave(room);
-      });
-
-      socket.on('disconnect', () => {
-        console.log(`Connection ${socket.id} has left the building`);
+      socket.on('leaveProject', function(project) {
+        console.log('Leaving Project:', project);
+        socket.leave(project);
       });
     })
 }

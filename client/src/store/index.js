@@ -8,6 +8,7 @@ import socket from '../socket';
 
 export const CREATE_PROJECT = 'CREATE_PROJECT';
 export const GET_ALL_PROJECTS = 'GET_ALL_PROJECTS';
+export const GET_PROJECT = 'GET_PROJECT';
 
 export const SELECT_TOPIC = 'SELECT_TOPIC';
 export const GET_ALL_TOPICS = 'GET_ALL_TOPICS';

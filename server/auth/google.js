@@ -29,13 +29,30 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
         }
     ));
 
-    router.get('/', passport.authenticate('google', {scope: ['https://www.googleapis.com/auth/plus.login']}));
+    router.get('/callback',
+        passport.authenticate('google', {failureRedirect: '/login'}),
+        (req, res) => {
+            try {
+                const state = req.query.state;
+                if (typeof state === 'string') {
+                    return res.redirect('/' + state);
+                }
+            } catch {
+                console.error('Redirect Failed.')
+            }
+            res.redirect('/');
+        }
+    );
 
-    router.get(
-        '/callback',
-        passport.authenticate('google', {
-            successRedirect: '/',
-            failureRedirect: '/login'
-        })
+
+    router.get('/:linkName',
+        (req, res, next) => {
+            const linkName = req.params.linkName;
+
+            passport.authenticate('google', {
+                scope: ['https://www.googleapis.com/auth/plus.login'],
+                state: linkName
+            })(req, res, next);
+        }
     );
 }
