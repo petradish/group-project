@@ -1,10 +1,10 @@
 import {createStore, applyMiddleware, combineReducers} from 'redux';
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger';
-import socket from '../socket';
 import user from './user';
 import topic, {getAllTopics} from './topic';
-import project, {getAllProjects, createProject} from './project';
+import project from './project';
+import socket from '../socket';
 
 export const CREATE_PROJECT = 'CREATE_PROJECT';
 export const GET_ALL_PROJECTS = 'GET_ALL_PROJECTS';
@@ -12,7 +12,7 @@ export const GET_ALL_PROJECTS = 'GET_ALL_PROJECTS';
 export const SELECT_TOPIC = 'SELECT_TOPIC';
 export const GET_ALL_TOPICS = 'GET_ALL_TOPICS';
 
-socket.on('select-topic', () => {
+socket.on('topic', () => {
   store.dispatch(getAllTopics());
 });
 
@@ -28,7 +28,7 @@ const middleware =
 
 const store = createStore(
     rootReducer, middleware
-  );
+);
   
 export default store;
 export * from './user';

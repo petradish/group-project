@@ -6,9 +6,10 @@ const db = require('./db/index');
 const session = require('express-session')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const sessionStore = new SequelizeStore({db})
-const socketio = require('socket.io');
+
 const PORT = process.env.PORT || 5000;
 const app = express();
+const socketio = require('socket.io');
 
 module.exports = app;
 
@@ -67,10 +68,12 @@ const createApp = () => {
 }
 
 const syncDb = () => db.sync().then(() => console.log('Database is synced'));
-const startListening = () => {
-    const server = app.listen(PORT, () => console.log(`Connected on port ${PORT}`));
 
-    // handle sockets
+const startListening = () => {
+    const server = app.listen(PORT, () =>
+        console.log(`Listening on port ${PORT}`)
+    );
+    // set up our socket control center
     const io = socketio(server);
     require('./socket')(io);
 }
@@ -79,7 +82,7 @@ async function bootApp() {
     await sessionStore.sync();
     await syncDb();
     await createApp();
-    await startListening();
+    startListening();
 }
 
 if (require.main === module) {

@@ -31,21 +31,19 @@ router.post('/select', async (req, res, next) => {
           });
       if (topic.students.length < topic.maxStudents) {
           await topic.addStudent(newStudent);
+
+          const allTopics = await Topic.findAll({
+              include: [{model: User, as: 'students'}]
+          }),
+            selectedTopic = await Topic.findByPk(id, {
+                include: [{model: User, as: 'students'}]
+            })
+
           res.status(201);
-          const topics = await Topic.findAll({
-              include: [
-                  {model: User, as: 'students'}
-              ]
-          });
-          res.json(topics);
+          res.json({allTopics, selectedTopic});
       } else {
-          const topics = await Topic.findAll({
-              include: [
-                  {model: User, as: 'students'}
-              ]
-          });
           res.status(403);
-          res.json(topics);
+          res.json(topic);
       }
 
     } catch (error) {
