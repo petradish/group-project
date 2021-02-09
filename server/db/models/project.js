@@ -3,15 +3,17 @@ const db = require('../db');
 
 const Project = db.define('project', {
     name: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    shortName: {
         type: Sequelize.STRING
     },
-    students: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
-        defaultValue: []
+    description: {
+        type: Sequelize.TEXT
     },
-    maxStudents: {
-        type: Sequelize.INTEGER,
-        defaultValue: 1
+    instruction: {
+        type: Sequelize.TEXT
     }
 });
 

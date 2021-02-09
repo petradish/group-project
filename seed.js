@@ -2,34 +2,43 @@
 
 const db = require('./server/db');
 const {
-  Project
+  Project,
+  Topic
 } = require('./server/db/models');
 
 async function seed() {
   await db.sync({ force: true });
   console.log('db synced!');
 
-  const projects = await Promise.all([
-    Project.create({ name: 'Kobe Bryant'}),
-    Project.create({ name: 'Oprah Winfrey'}),
-    Project.create({ name: 'Chadwick Boseman'}),
-    Project.create({ name: 'John Lewis'}),
-    Project.create({ name: 'Muhammed Ali'}),
-    Project.create({ name: 'Will Smith'}),
-    Project.create({ name: 'Michael Jordan'}),
-    Project.create({ name: 'Serena Williams'}),
-    Project.create({ name: 'Michelle Obama'}),
-    Project.create({ name: 'Barack Obama'}),
-    Project.create({ name: 'Martin Luther King, Jr.'}),
-    Project.create({ name: 'Harriet Tubman'}),
-    Project.create({ name: 'Michael Jackson'}),
-    Project.create({ name: 'Meghan Markle'}),
-    Project.create({ name: 'Kamala Harris'}),
-    Project.create({ name: 'Simone Biles'}),
-    Project.create({ name: 'Beyoncé'}),
-    Project.create({ name: 'Malcolm X'}),
-    Project.create({ name: 'Nelson Mandela'}),
-    Project.create({ name: 'Rosa Parks'})
+  const project = await Promise.all([
+    Project.create({
+      id: 1,
+      name: 'Black History Month',
+      shortName: 'BHM'
+    })
+  ])
+
+  const topics = await Promise.all([
+    Topic.create({ name: 'Kobe Bryant', projectId: 1}),
+    Topic.create({ name: 'Oprah Winfrey', projectId: 1}),
+    Topic.create({ name: 'Chadwick Boseman', projectId: 1}),
+    Topic.create({ name: 'John Lewis', projectId: 1}),
+    Topic.create({ name: 'Muhammed Ali', projectId: 1}),
+    Topic.create({ name: 'Will Smith', projectId: 1}),
+    Topic.create({ name: 'Michael Jordan', projectId: 1}),
+    Topic.create({ name: 'Serena Williams', projectId: 1}),
+    Topic.create({ name: 'Michelle Obama', projectId: 1}),
+    Topic.create({ name: 'Barack Obama', projectId: 1}),
+    Topic.create({ name: 'Martin Luther King, Jr.', projectId: 1}),
+    Topic.create({ name: 'Harriet Tubman', projectId: 1}),
+    Topic.create({ name: 'Michael Jackson', projectId: 1}),
+    Topic.create({ name: 'Meghan Markle', projectId: 1}),
+    Topic.create({ name: 'Kamala Harris', projectId: 1}),
+    Topic.create({ name: 'Simone Biles', projectId: 1}),
+    Topic.create({ name: 'Beyoncé', projectId: 1}),
+    Topic.create({ name: 'Malcolm X', projectId: 1}),
+    Topic.create({ name: 'Nelson Mandela', projectId: 1}),
+    Topic.create({ name: 'Rosa Parks', projectId: 1})
   ])
 }
 

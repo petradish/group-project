@@ -4,9 +4,9 @@ module.exports = io => {
         `A socket connection to the server has been made: ${socket.id}`
       );
       
-      socket.on('select-project', (data) => {
-        socket.broadcast.emit('select-project', data);
-        console.log('someone selected a project')
+      socket.on('select-topic', (data) => {
+        socket.broadcast.emit('select-topic', data);
+        console.log('someone selected a topic')
       });
 
       socket.on('disconnect', () => {

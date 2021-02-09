@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-class SingleProject extends Component {
+class Topic extends Component {
 
     render(){
         const {maxStudents, name, id, students} = this.props,
@@ -11,13 +11,13 @@ class SingleProject extends Component {
             rgb.push(r);
         }
         return (
-            <div className="project-swatch"
-                 style={{backgroundColor: students.length < maxStudents ? `rgb(${rgb})` : 'black'}}
-                 onClick={!this.props.isSelected ? () => this.props.selectProject({id, name, students, maxStudents}) : null}>
+            <div className="topic-swatch"
+                 style={{backgroundColor: students?.length === maxStudents ? 'black' : `rgb(${rgb})`}}
+                 onClick={!this.props.isSelected ? () => this.props.selectTopic({id, name, students, maxStudents}) : null}>
                 <h2>{name}</h2>
                 <div className='group'>
-                {students.length === maxStudents ?
-                    students.map((name, i) => (<p key={i}>{name}</p>)) :
+                {students?.length === maxStudents ?
+                    students?.map((s, i) => (<p key={i}>{s.name}</p>)) :
                     null
                 }
                 </div>
@@ -26,4 +26,4 @@ class SingleProject extends Component {
     }
 }
 
-export default SingleProject
+export default Topic

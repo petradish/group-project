@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import Popup from './Popup'
-import SingleProject from './SingleProject';
-import {getAllProjects, logout, me, selectProject} from '../store'
+import Topic from './Topic';
+import {getAllTopics, logout, me, selectTopic} from '../store'
 import socket from '../../src/socket'
 
 let timer = null;
@@ -26,27 +26,27 @@ class Home extends Component {
     }
 
     handleSelect({id, name, students, maxStudents}) {
-        if (this.props.projects.find(it => it.students[0] === this.props.user.name)) {
-            alert('You already chose a project');
+        if (this.props.topics.find(it => it.students?.includes(this.props.user))) {
+            alert('You already chose a topic');
             return;
         }
-        if (students.length < maxStudents) {
-            this.props.chooseProject({id: id, name: this.props.user.name});
-            socket.emit('select-project', {name: this.props.user.name, project: name});
+        if (students?.length < maxStudents) {
+            this.props.chooseTopic({id: id, student: this.props.user});
+            socket.emit('select-topic', {name: this.props.user.name, topic: name});
             alert(`You chose well! Your topic for Black History Month is: ${name}`);
         } else {
-            alert('The project is already taken! Choose another!');
+            alert('The topic is already taken! Choose another!');
         }
     }
   
     componentDidMount() {
-        this.props.getProjects();
-        socket.on('select-project', (data) => {
+        this.props.getTopics();
+        socket.on('select-topic', (data) => {
             if (data.students.length < data.maxStudents) {
-              timer = setTimeout(() => this.props.getProjects(), 1000);
+              timer = setTimeout(() => this.props.getTopics(), 1000);
             }
             // TODO - remove for production
-           console.log(`${data.project} was chosen by ${data.name}`);
+           console.log(`${data.topic} was chosen by ${data.name}`);
         });
         this.props.getUser();
     }
@@ -65,17 +65,17 @@ class Home extends Component {
             <button onClick={this.logout} className={'logout-button'}>Logout</button>
           </div>
           <div className="App">
-            {this.props.projects.length ? this.props.projects.map((project) => {
-              return <SingleProject
-                  key={project.id}
-                  id={project.id}
-                  name={project.name}
-                  students={project.students}
-                  maxStudents={project.maxStudents}
-                  selectProject={this.handleSelect}
+            {this.props.topics.length ? this.props.topics.map((topic) => {
+              return <Topic
+                  key={topic.id}
+                  id={topic.id}
+                  name={topic.name}
+                  students={topic.students}
+                  maxStudents={topic.maxStudents}
+                  selectTopic={this.handleSelect}
                   />
             })
-          : 'Loading Project Name' }
+          : 'Loading Topic Name' }
           </div>
           </React.Fragment>
       );
@@ -83,14 +83,14 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => ({
-    projects: state.project,
+    topics: state.topic,
     user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({
     getUser: () => dispatch(me()),
-    getProjects: () => dispatch(getAllProjects()),
-    chooseProject: (project) => dispatch(selectProject(project)),
+    getTopics: () => dispatch(getAllTopics()),
+    chooseTopic: (topic) => dispatch(selectTopic(topic)),
     logout: () => dispatch(logout())
 })
 

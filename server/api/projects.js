@@ -1,37 +1,32 @@
 const router = require('express').Router();
-const { Project, User } = require('../db/models');
+const { Project, User, Topic } = require('../db/models');
 
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
     try {
-      const projects = await Project.findAll({
-        include: {model: User}
-      })
-      res.status(201)
-      res.json(projects);
+        const projects = await Project.findAll({
+            include: {models: [User, Topic]}
+        });
+        res.status(201)
+        res.json(projects);
     } catch (err) {
-      next(err);
+        next(err);
     }
   });
   
-  router.post('/select', async (req, res, next) => {
+router.post('/create', async (req, res, next) => {
     try {
-      const {name, id} = req.body,
-          project = await Project.findByPk(id);
-      if (project.students.length < project.maxStudents) {
-          const newStudents = [...project.students, name];
-          await project.update({students: newStudents});
-          res.status(201);
-          const projects = await Project.findAll();
-          res.json(projects);
-      } else {
-          const projects = await Project.findAll();
-          res.status(403);
-          res.json(projects);
-      }
-
+        const {name, shortName, description, instructions} = req.body;
+        await Project.create({
+            name, shortName, description, instructions
+        });
+        res.status(201);
+        const projects = await Project.findAll({
+            where: {userId: req.user.id}
+        });
+        res.json(projects);
     } catch (error) {
-      next (error);
+        next (error);
     }
-  });
+});

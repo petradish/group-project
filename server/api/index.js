@@ -11,7 +11,7 @@ router.delete(['/users', '/users:id'], permit('admin'), (req, res) =>
 );
 
 // all other routes available to public
-router.use('/projects', require('./projects'));
+router.use('/topics', require('./topics'));
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')

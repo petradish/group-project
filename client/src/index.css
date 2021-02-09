@@ -41,7 +41,7 @@ p {
   background-color: black
 }
 
-.App .project-swatch {
+.App .topic-swatch {
   cursor: pointer;
   display: grid;
   height: 18vh;
@@ -52,18 +52,18 @@ p {
   border-radius: 1vw
 }
 
-.App .project-swatch .group {
+.App .topic-swatch .group {
   display: flex;
   justify-content: center;
   align-items: flex-end;
 }
 
-.App .project-swatch:hover {
+.App .topic-swatch:hover {
   transform: scale(1.2);
   color: black;
 }
 
-.App .project-swatch:active {
+.App .topic-swatch:active {
   background-color: white
 }
 
