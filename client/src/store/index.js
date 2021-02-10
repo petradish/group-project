@@ -13,8 +13,8 @@ export const GET_PROJECT = 'GET_PROJECT';
 export const SELECT_TOPIC = 'SELECT_TOPIC';
 export const GET_ALL_TOPICS = 'GET_ALL_TOPICS';
 
-socket.on('topic', () => {
-  store.dispatch(getAllTopics());
+socket.on('topic', (projectId) => {
+  store.dispatch(getAllTopics(projectId));
 });
 
 const rootReducer = combineReducers({

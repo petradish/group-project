@@ -16,11 +16,10 @@ export function gotAllTopics (allTopics) {
 }
 
 // THUNKS
-export const getAllTopics = (project) => {
-    const {id} = project;
+export const getAllTopics = (projectId) => {
     return async dispatch => {
         try {
-            const { data } = await axios.get(`/api/topics/${id}`);
+            const { data } = await axios.get(`/api/topics/${projectId}`);
             dispatch(gotAllTopics(data));
         } catch (err) {
             console.error(err);
@@ -31,7 +30,7 @@ export const selectTopic = (topic) => {
     return async dispatch => {
         const { data } = await axios.post(`/api/topics/select`, topic);
         dispatch(selectedTopic(data));
-        socket.emit('select-topic');
+        socket.emit('select-topic', {projectId: data.selectedTopic.projectId});
     };
 };
 // REDUCER

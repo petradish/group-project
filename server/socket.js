@@ -5,8 +5,8 @@ module.exports = io => {
         socket.join(project);
       });
 
-      socket.on('select-topic', () => {
-        socket.broadcast.emit('topic');
+      socket.on('select-topic', ({projectId}) => {
+        socket.broadcast.emit('topic', projectId);
       });
 
       socket.on('leaveProject', function(project) {

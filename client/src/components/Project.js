@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import Popup from './Popup'
 import Topic from './Topic';
 import {getAllTopics, logout, me, selectTopic} from '../store'
+import {sortBy} from 'lodash';
 
 class Project extends Component {
     constructor (){
@@ -41,7 +42,7 @@ class Project extends Component {
     }
   
     componentDidMount() {
-        this.props.getTopics(this.props.project);
+        this.props.getTopics(this.props.project.id);
         this.props.getUser();
     }
 
@@ -73,7 +74,7 @@ class Project extends Component {
 }
 
 const mapStateToProps = state => ({
-    allTopics: state.topic.allTopics,
+    allTopics: sortBy(state.topic.allTopics, 'name'),
     user: state.user,
     selectedTopic: state.topic.selectedTopic,
     project: state.project.project
@@ -81,7 +82,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getUser: () => dispatch(me()),
-    getTopics: (project) => dispatch(getAllTopics(project)),
+    getTopics: (projectId) => dispatch(getAllTopics(projectId)),
     chooseTopic: (topic) => dispatch(selectTopic(topic)),
     logout: () => dispatch(logout())
 })
