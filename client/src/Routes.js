@@ -19,8 +19,6 @@ class Routes extends Component {
     render() {
         const {isLoggedIn, project} = this.props;
 
-        console.log(project, isLoggedIn)
-
         return (
             <Switch>
                 {isLoggedIn ?
