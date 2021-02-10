@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import {getProject, me} from './store';
 import {Login} from './components/Login';
 import Project from './components/Project';
+import {NotFound} from './components/NotFound';
 
 /**
  * COMPONENT
@@ -18,17 +19,17 @@ class Routes extends Component {
     render() {
         const {isLoggedIn, project} = this.props;
 
+        console.log(project, isLoggedIn)
+
         return (
             <Switch>
-                <Route exact path="/" component={Login} />
-                {isLoggedIn && project && (
-                    <Switch>
-                        {/* Routes placed here are only available after logging in and project exists */}
-                        <Route path="/:linkName" component={Project} />
-                    </Switch>
-                )}
-                 {/*Displays our Login component as a fallback if no project exists */}
+                {isLoggedIn ?
+                    <Route path="/:linkName" component={project ? Project : NotFound} /> :
+                    <Route path="/:linkName" component={Login} />
+                }
+                {/*Displays our Login component as a fallback if no project exists */}
                 <Route path="/" component={Login} />
+
             </Switch>
         )
     }

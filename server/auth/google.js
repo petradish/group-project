@@ -45,7 +45,7 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
     );
 
 
-    router.get('/:linkName',
+    router.get('/:linkName?',
         (req, res, next) => {
             const linkName = req.params.linkName;
 
