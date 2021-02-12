@@ -41,7 +41,8 @@ p {
   background-color: black
 }
 
-.App .topic-swatch {
+.App .topic-swatch,
+.App .topic-swatch__selected {
   cursor: pointer;
   display: grid;
   height: 18vh;
@@ -50,6 +51,11 @@ p {
   transition: all 0.4s ease-in-out;
   margin: 1vw;
   border-radius: 1vw
+}
+
+.App .topic-swatch__selected {
+  cursor: text;
+  background-color: black !important;
 }
 
 .App .topic-swatch .group {

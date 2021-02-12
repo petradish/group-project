@@ -14,8 +14,8 @@ class Topic extends Component {
             rgb.push(r);
         }
         return (
-            <div className="topic-swatch"
-                style={{backgroundColor: isFull ? 'black' : `rgb(${rgb})`}}
+            <div className={isFull ? 'topic-swatch__selected' : 'topic-swatch'}
+                style={{backgroundColor: `rgb(${rgb})`}}
                 onClick={() => this.props.selectTopic({id, name, isFull})}
             >
                 <h2>{name}</h2>
