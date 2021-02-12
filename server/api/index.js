@@ -1,7 +1,7 @@
 const permit = require('../permission')
 const router = require('express').Router();
 
-router.get(['/users'], permit('admin'));
+router.get(['/users', '/projects'], permit('admin'));
 
 router.put(['/users', '/users:id'], permit('admin'), (req, res) =>
     res.json({message: 'updated'})

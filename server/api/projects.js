@@ -23,7 +23,7 @@ router.get('/:linkName', async (req, res, next) => {
             },
             include: [{
                 model: Topic,
-                include: [{model: User, as: 'students'}]
+                include: [{model: User, as: 'students', attributes: ['name', 'googleId']}]
             }]
         });
         res.status(201)

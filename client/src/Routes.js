@@ -6,6 +6,7 @@ import {getProject, me} from './store';
 import {Login} from './components/Login';
 import Project from './components/Project';
 import {NotFound} from './components/NotFound';
+import {ComingSoon} from './components/ComingSoon';
 
 /**
  * COMPONENT
@@ -26,7 +27,7 @@ class Routes extends Component {
                     <Route path="/:linkName" component={Login} />
                 }
                 {/*Displays our Login component as a fallback if no project exists */}
-                <Route path="/" component={Login} />
+                <Route path="/" component={isLoggedIn ? ComingSoon : Login} />
 
             </Switch>
         )

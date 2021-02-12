@@ -10,8 +10,8 @@ router.get('/:projectId', async (req, res, next) => {
                 projectId: req.params.projectId
             },
             include: [
-                {model: Project},
-                {model: User, as: 'students'}
+                {model: Project, attributes: ['id', 'name']},
+                {model: User, as: 'students', attributes: ['name', 'googleId']}
             ]
         });
         res.status(201)
@@ -36,10 +36,10 @@ router.post('/select', async (req, res, next) => {
           await topic.addStudent(newStudent);
 
           const allTopics = await Topic.findAll({
-              include: [{model: User, as: 'students'}]
+              include: [{model: User, as: 'students', attributes: ['name', 'googleId']}]
           }),
             selectedTopic = await Topic.findByPk(id, {
-                include: [{model: User, as: 'students'}]
+                include: [{model: User, as: 'students', attributes: ['name', 'googleId']}]
             })
 
           res.status(201);
