@@ -4,6 +4,8 @@ import Popup from './Popup'
 import Topic from './Topic';
 import {getAllTopics, logout, me, selectTopic} from '../store'
 import {sortBy} from 'lodash';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 
 class CreateProject extends Component {
     constructor (){
@@ -26,7 +28,10 @@ class CreateProject extends Component {
             <React.Fragment>
                 <div>
                     <h1>Create a new project</h1>
-                    <button onClick={this.logout} className={'logout-button'}>Logout</button>
+                    <button onClick={this.logout} className={'logout-button'}>
+                        <FontAwesomeIcon icon={faSignOutAlt}/>
+                        Logout
+                    </button>
                 </div>
                 <div className="create-project-container">
                     <div className={'project-swatch-detail'}>

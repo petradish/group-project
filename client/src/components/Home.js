@@ -4,6 +4,8 @@ import Popup from './Popup'
 import Topic from './Topic';
 import {getAllTopics, logout, me, selectTopic} from '../store'
 import {sortBy} from 'lodash';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 
 class Home extends Component {
     constructor (){
@@ -53,7 +55,10 @@ class Home extends Component {
                 {this.state.showPopup ? <Popup project={project} closePopup={this.closePopup} /> : null}
                 <div>
                     <h1>Hi, {this.props.user.name}! Choose your {project.shortName ?? project.name} topic</h1>
-                    <button onClick={this.logout} className={'logout-button'}>Logout</button>
+                    <button onClick={this.logout} className={'logout-button'}>
+                        <FontAwesomeIcon icon={faSignOutAlt}/>
+                        Logout
+                    </button>
                 </div>
                 <div className="App">
                     {allTopics?.length ? allTopics?.map((topic) => {

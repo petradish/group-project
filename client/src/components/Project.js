@@ -2,25 +2,38 @@ import React, {Component} from 'react';
 import {sortBy} from 'lodash';
 import {getAllProjects, getProject, logout} from '../store';
 import {connect} from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faTrashAlt, faEdit} from '@fortawesome/free-regular-svg-icons';
+import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 
 class Project extends Component {
     constructor (){
         super();
         this.state = {
-            showDetail: false
+            showDetail: false,
+            editTopics: false
         };
         this.toggleViewDetail = this.toggleViewDetail.bind(this);
+        this.editTopics = this.editTopics.bind(this);
     }
 
     toggleViewDetail() {
         this.setState({
+            ...this.state,
             showDetail: !this.state.showDetail
+        });
+    }
+
+    editTopics() {
+        this.setState({
+            ...this.state,
+            editTopics: !this.state.editTopics
         });
     }
 
     render(){
         const {name, topics, linkName, maxStudents, shortName, instruction, description} = this.props,
-            {showDetail} = this.state,
+            {showDetail, editTopics} = this.state,
             sortedTopics = sortBy(topics, 'name');
         return (
             !showDetail ?
@@ -31,8 +44,25 @@ class Project extends Component {
                <h2 className={'project-title'}>{name}</h2>
                <div className={'project-detail'}>
                    <div className={'topic-container'}>
-                       <h3>Topic List</h3>
-                       <ol>{sortedTopics?.map((t, i) => <li key={i}>{t.name}</li>)}</ol>
+                       <div className={'topic-header'}>
+                           <h3>Topic List</h3>
+                           <button className="edit-button" onClick={this.editTopics}>
+                               <FontAwesomeIcon icon={faEdit}/>
+                               Edit
+                           </button>
+                       </div>
+                       <ol>{sortedTopics?.map((t, i) => (
+                           <li key={i}>
+                               {editTopics ?
+                                   <div className="topic-input">
+                                       <input required={true} type="text" name="topic" defaultValue={t.name} />
+                                       <FontAwesomeIcon className="delete-topic" icon={faTrashAlt} />
+                                   </div>
+                                   :
+                                   t.name
+                               }
+                           </li>)
+                       )}</ol>
                    </div>
                    <div className={'form-fields'}>
                        <form className="form-inline">

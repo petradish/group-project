@@ -4,6 +4,9 @@ import {getAllProjects, logout} from '../store'
 import {sortBy} from 'lodash';
 import Project from './Project';
 import history from '../history'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSignOutAlt, faPlus} from '@fortawesome/free-solid-svg-icons';
+
 
 class Admin extends Component {
     constructor (){
@@ -24,7 +27,10 @@ class Admin extends Component {
             <div className='Admin'>
                 <div>
                     <h1>Hi, {user.name}! Manage your projects here</h1>
-                    <button onClick={this.logout} className={'logout-button'}>Logout</button>
+                    <button onClick={this.logout} className={'logout-button'}>
+                        <FontAwesomeIcon icon={faSignOutAlt}/>
+                        Logout
+                    </button>
                 </div>
                 <div className="projects-container">
                     {projects?.length ? projects?.map((project) => {
@@ -46,6 +52,7 @@ class Admin extends Component {
 
                 </div>
                 <button className="new-project-button" onClick={()=> history.push('/create/project')}>
+                    <FontAwesomeIcon icon={faPlus}/>
                     Create a new project
                 </button>
             </div>

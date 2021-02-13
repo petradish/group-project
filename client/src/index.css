@@ -8,10 +8,6 @@ body {
   background-color: black;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
-}
 h1 {
   text-align: center;
   color: white;
@@ -77,6 +73,11 @@ p {
   position: absolute;
   right: 2vw;
   top: 3vh;
+  align-items: center;
+}
+
+.logout-button svg {
+  margin-right: 0.5vw;
 }
 
 .popup {
@@ -194,7 +195,7 @@ button:hover {
 }
 
 .project-swatch:hover {
-  background-color: dodgerblue;
+  background-color: #1163ae;
 }
 
 .project-title {
@@ -203,7 +204,7 @@ button:hover {
 }
 
 .project-swatch-detail {
-  background-color: dodgerblue;
+  background-color: #1163ae;
   height: 80vh;
   width: 70vw;
   border-radius: 1vw;
@@ -222,23 +223,64 @@ button:hover {
 
 }
 
-.topic-container {
-  justify-items: end;
+.topic-container ol {
+  margin-top: 0;
+  width: 15vw;
+  padding-left: 2vw;
+}
+
+.topic-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 1vh;
+  width: 15vw;
+  padding-left: 2vw;
 }
 
 .topic-container h3 {
   color: white;
-  text-align: center;
-  margin: 2vh;
+  margin-right: 2vw;
+}
+
+.edit-button {
+  align-items: center;
+  font-size: 1.75vh;
+}
+
+.edit-button svg {
+  margin-right: 0.5vw;
 }
 
 .topic-container li {
   color: white;
-  margin-bottom: 0.5vh;
+  padding: 1px 2px;
+  height: 21px;
+  width: 15vw;
+}
+
+.topic-input {
+  display: flex;
+  align-items: center;
+  width: 18vw;
+}
+
+.delete-topic {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.delete-topic:hover {
+  opacity: 1;
+}
+
+.topic-container li input {
+  width: 18vw;
+  margin-right: 0.5vw;
 }
 
 .form-fields {
-  padding: 1vh;
+  margin-top: 2vh;
   height: 70vh;
 }
 
@@ -275,6 +317,9 @@ textarea {
   margin: 1vh 2vh 1vh 0;
   padding: 1vh;
   height: 16vh;
+  color: darkblue;
+  font-family: Arial, sans-serif;
+  font-size: 1.75vh;
 }
 
 .form-fields button {
@@ -295,5 +340,9 @@ textarea {
 
 .new-project-button a {
   color: white;
+}
+
+.new-project-button svg {
+  margin-right: 0.5vw;
 }
 
