@@ -45,7 +45,6 @@ class Home extends Component {
   
     componentDidMount() {
         this.props.getTopics(this.props.project.id);
-        this.props.getUser();
     }
 
     render() {
@@ -86,7 +85,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    getUser: () => dispatch(me()),
     getTopics: (projectId) => dispatch(getAllTopics(projectId)),
     chooseTopic: (topic) => dispatch(selectTopic(topic)),
     logout: () => dispatch(logout())

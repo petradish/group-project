@@ -15,10 +15,13 @@ import CreateProject from './components/CreateProject';
  */
 class Routes extends Component {
     componentDidMount() {
-        this.props.getUser();
-        if (this.props.user) {
-            this.props.getProject(this.props.location.pathname);
-        }
+        this.props.getUser().then(() => {
+            if (this.props.isLoggedIn) {
+                const {pathname} = this.props.location;
+                if (!pathname || pathname === '/') return;
+                this.props.getProject(this.props.location.pathname);
+            }
+        })
     }
 
     render() {
