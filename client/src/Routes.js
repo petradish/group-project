@@ -8,6 +8,7 @@ import {NotFound} from './components/NotFound';
 import {ComingSoon} from './components/ComingSoon';
 import Admin from './components/Admin';
 import Home from './components/Home';
+import CreateProject from './components/CreateProject';
 
 /**
  * COMPONENT
@@ -23,10 +24,13 @@ class Routes extends Component {
 
         return (
             <Switch>
+                {isLoggedIn && <Route exact={true} path="/create/project" component={CreateProject}/>}
+
                 {isLoggedIn ?
                     <Route path="/:linkName" component={project ? Home : NotFound} /> :
                     <Route path="/:linkName" component={Login} />
                 }
+
                 {/*Displays our Login component as a fallback if no project exists */}
                 <Route path="/" component={isLoggedIn ? Admin : Login} />
 

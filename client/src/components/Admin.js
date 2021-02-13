@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {getAllProjects, logout} from '../store'
 import {sortBy} from 'lodash';
 import Project from './Project';
+import history from '../history'
 
 class Admin extends Component {
     constructor (){
@@ -20,23 +21,34 @@ class Admin extends Component {
     render() {
         const {user, projects} = this.props;
         return (
-            <React.Fragment>
+            <div className='Admin'>
                 <div>
                     <h1>Hi, {user.name}! Manage your projects here</h1>
                     <button onClick={this.logout} className={'logout-button'}>Logout</button>
                 </div>
-                <div className="App">
+                <div className="projects-container">
                     {projects?.length ? projects?.map((project) => {
-                            return <Project
-                                key={project.id}
-                                id={project.id}
-                                name={project.name}
-                                topics={project.topics}
-                            />
-                        })
-                        : 'Loading Project Name' }
+                        const {id, name, linkName, topics, shortName, maxStudents, description, instruction} = project;
+                        return <Project
+                            key={id}
+                            id={id}
+                            name={name}
+                            linkName={linkName}
+                            topics={topics}
+                            shortName={shortName}
+                            maxStudents={maxStudents}
+                            description={description}
+                            instruction={instruction}
+                        />
+                    }) :
+                        'Loading Project Name'
+                    }
+
                 </div>
-            </React.Fragment>
+                <button className="new-project-button" onClick={()=> history.push('/create/project')}>
+                    Create a new project
+                </button>
+            </div>
         );
     }
 }
