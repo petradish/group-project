@@ -32,7 +32,7 @@ class Routes extends Component {
                 }
 
                 {/*Displays our Login component as a fallback if no project exists */}
-                <Route path="/" component={isLoggedIn ? Admin : Login} />
+                <Route path="/" component={isLoggedIn ? ComingSoon : Login} />
 
             </Switch>
         )

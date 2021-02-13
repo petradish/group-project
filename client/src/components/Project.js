@@ -77,7 +77,7 @@ class Project extends Component {
                            <label htmlFor="Instructions">Instructions</label>
                            <textarea required={true} name="instructions" defaultValue={instructions} />
                        </form>
-                       <button onClick={this.toggleViewDetail}>Done</button>
+                       <button className="submit-button" onClick={this.toggleViewDetail}>Done</button>
                    </div>
                </div>
            </div>
