@@ -225,8 +225,8 @@ button:hover {
 
 .topic-container ol {
   margin-top: 0;
-  width: 15vw;
-  padding-left: 2vw;
+  width: 25vw;
+  margin-left: 5vw;
 }
 
 .topic-header {
@@ -234,13 +234,13 @@ button:hover {
   align-items: center;
   justify-content: flex-end;
   margin-top: 1vh;
-  width: 15vw;
-  padding-left: 2vw;
+  width: 26vw;
+  margin-left: 2vw;
 }
 
 .topic-container h3 {
   color: white;
-  margin-right: 2vw;
+  margin-right: 3vw;
 }
 
 .edit-button {
@@ -256,13 +256,13 @@ button:hover {
   color: white;
   padding: 1px 2px;
   height: 21px;
-  width: 15vw;
+  width: 25vw;
 }
 
 .topic-input {
   display: flex;
   align-items: center;
-  width: 18vw;
+  width: 25vw;
 }
 
 .delete-topic {

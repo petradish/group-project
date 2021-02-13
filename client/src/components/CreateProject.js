@@ -50,7 +50,7 @@ class CreateProject extends Component {
                                     <label htmlFor="Description">Description</label>
                                     <textarea required={true} name="description" />
                                     <label htmlFor="Instructions">Instructions</label>
-                                    <textarea required={true} name="instruction" />
+                                    <textarea required={true} name="instructions" />
                                 </form>
                                 <button onClick={this.saveProject}>Done</button>
                             </div>

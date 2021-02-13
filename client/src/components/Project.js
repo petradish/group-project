@@ -32,7 +32,7 @@ class Project extends Component {
     }
 
     render(){
-        const {name, topics, linkName, maxStudents, shortName, instruction, description} = this.props,
+        const {name, topics, linkName, maxStudents, shortName, instructions, description} = this.props,
             {showDetail, editTopics} = this.state,
             sortedTopics = sortBy(topics, 'name');
         return (
@@ -75,7 +75,7 @@ class Project extends Component {
                            <label htmlFor="Description">Description</label>
                            <textarea required={true} name="description" defaultValue={description} />
                            <label htmlFor="Instructions">Instructions</label>
-                           <textarea required={true} name="instruction" defaultValue={instruction} />
+                           <textarea required={true} name="instructions" defaultValue={instructions} />
                        </form>
                        <button onClick={this.toggleViewDetail}>Done</button>
                    </div>

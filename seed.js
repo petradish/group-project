@@ -24,8 +24,9 @@ async function seed() {
       userId: 1,
       name: 'Black History Month Project',
       shortName: 'BHM',
+      maxStudents: 1,
       description: 'Choose one person to research in honor of Black History Month.',
-      instruction: 'First come first serve.\n' +
+      instructions: 'First come first serve.\n' +
           '\n Try to choose someone you know, since you will be researching, creating, and presenting a project on this person.\n' +
           '\n If you aren\'t here, Ms. L will choose for you.'
     })

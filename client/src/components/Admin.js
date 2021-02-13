@@ -34,7 +34,7 @@ class Admin extends Component {
                 </div>
                 <div className="projects-container">
                     {projects?.length ? projects?.map((project) => {
-                        const {id, name, linkName, topics, shortName, maxStudents, description, instruction} = project;
+                        const {id, name, linkName, topics, shortName, maxStudents, description, instructions} = project;
                         return <Project
                             key={id}
                             id={id}
@@ -44,7 +44,7 @@ class Admin extends Component {
                             shortName={shortName}
                             maxStudents={maxStudents}
                             description={description}
-                            instruction={instruction}
+                            instructions={instructions}
                         />
                     }) :
                         'Loading Project Name'

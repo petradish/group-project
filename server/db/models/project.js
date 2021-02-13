@@ -20,10 +20,14 @@ const Project = db.define('project', {
         type: Sequelize.STRING,
         defaultValue: linkName
     },
+    maxStudents: {
+        type: Sequelize.INTEGER,
+        defaultValue: 1
+    },
     description: {
         type: Sequelize.TEXT
     },
-    instruction: {
+    instructions: {
         type: Sequelize.TEXT
     }
 });

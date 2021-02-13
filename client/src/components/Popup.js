@@ -9,7 +9,7 @@ class Popup extends React.Component {
                 <div className={'message'}>
                     <h3>{project.name}</h3>
                     <p>{project.description}</p>
-                    <p>Instructions: {project.instruction}</p>
+                    <p>Instructions: {project.instructions}</p>
                     <button onClick={closePopup}>OK!</button>
                 </div>
             </div>

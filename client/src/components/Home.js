@@ -67,7 +67,7 @@ class Home extends Component {
                           id={topic.id}
                           name={topic.name}
                           students={topic.students}
-                          maxStudents={topic.maxStudents}
+                          maxStudents={project.maxStudents}
                           selectTopic={this.handleSelect}
                           />
                     })

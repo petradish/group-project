@@ -50,15 +50,20 @@ router.get('/all/mine', async (req, res, next) => {
 
 router.post('/create', async (req, res, next) => {
     try {
-        const {name, shortName, description, instructions} = req.body;
-        await Project.create({
-            name, shortName, description, instructions
-        });
-        res.status(201);
+        const {name, shortName, description, instructions, maxStudents, topics} = req.body,
+            project = await Project.create({
+                name, shortName, description, instructions
+            });
+
+        const newTopics = await Promise.all(topics.map(it => {
+            return Topic.create(it);
+        }))
+        project.setTopics(newTopics);
         const projects = await Project.findAll({
             where: {userId: req.user.id},
             include: [Topic]
         });
+        res.status(201);
         res.json(projects);
     } catch (error) {
         next (error);
@@ -68,9 +73,9 @@ router.post('/create', async (req, res, next) => {
 
 router.post('/update', async (req, res, next) => {
     try {
-        const {id, name, shortName, description, instructions, linkName, topics} = req.body,
+        const {id, name, shortName, description, instructions, linkName, maxStudents, topics} = req.body,
             [updatedRows, [project]] = await Project.update({
-                name, shortName, description, instructions, linkName
+                name, shortName, description, instructions, linkName, maxStudents
             }, {where: {id}});
 
         const newTopics = await Promise.all(topics.map(it => {
