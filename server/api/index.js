@@ -10,6 +10,7 @@ router.delete(['/users', '/users:id'], permit('admin'), (req, res) =>
     res.json({message: 'deleted'})
 );
 
+router.use('/users', require('./users'));
 // all other routes available to public
 router.use('/topics', require('./topics'));
 router.use('/projects', require('./projects'));

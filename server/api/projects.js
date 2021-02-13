@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Project, User, Topic } = require('../db/models');
+const { Project, Topic, User } = require('../db/models');
 
 module.exports = router;
 
@@ -47,7 +47,7 @@ router.get('/all/mine', async (req, res, next) => {
         next(err);
     }
 });
-  
+
 router.post('/create', async (req, res, next) => {
     try {
         const {name, shortName, description, instructions} = req.body;
@@ -70,8 +70,8 @@ router.post('/update', async (req, res, next) => {
     try {
         const {id, name, shortName, description, instructions, linkName, topics} = req.body,
             [updatedRows, [project]] = await Project.update({
-            name, shortName, description, instructions, linkName
-        }, {where: {id}});
+                name, shortName, description, instructions, linkName
+            }, {where: {id}});
 
         const newTopics = await Promise.all(topics.map(it => {
             return Topic.create(it);
