@@ -4,9 +4,10 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {getProject, me} from './store';
 import {Login} from './components/Login';
-import Project from './components/Project';
 import {NotFound} from './components/NotFound';
 import {ComingSoon} from './components/ComingSoon';
+import Admin from './components/Admin';
+import Home from './components/Home';
 
 /**
  * COMPONENT
@@ -23,11 +24,11 @@ class Routes extends Component {
         return (
             <Switch>
                 {isLoggedIn ?
-                    <Route path="/:linkName" component={project ? Project : NotFound} /> :
+                    <Route path="/:linkName" component={project ? Home : NotFound} /> :
                     <Route path="/:linkName" component={Login} />
                 }
                 {/*Displays our Login component as a fallback if no project exists */}
-                <Route path="/" component={isLoggedIn ? ComingSoon : Login} />
+                <Route path="/" component={isLoggedIn ? Admin : Login} />
 
             </Switch>
         )
@@ -42,7 +43,7 @@ const mapState = state => {
         // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
         // Otherwise, state.user will be an empty object, and state.user.id will be falsey
         isLoggedIn: !!state.user?.googleId,
-        name: state.user?.name,
+        user: state.user,
         project: state.project.project
     }
 }

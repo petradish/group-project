@@ -32,6 +32,21 @@ router.get('/:linkName', async (req, res, next) => {
         next(err);
     }
 });
+
+router.get('/all/mine', async (req, res, next) => {
+    try {
+        const projects = await Project.findAll({
+            where: {
+                userId: req.user.id
+            },
+            include: [User, Topic]
+        });
+        res.status(201)
+        res.json(projects);
+    } catch (err) {
+        next(err);
+    }
+});
   
 router.post('/create', async (req, res, next) => {
     try {
@@ -41,7 +56,8 @@ router.post('/create', async (req, res, next) => {
         });
         res.status(201);
         const projects = await Project.findAll({
-            where: {userId: req.user.id}
+            where: {userId: req.user.id},
+            include: [Topic]
         });
         res.json(projects);
     } catch (error) {
@@ -53,14 +69,16 @@ router.post('/create', async (req, res, next) => {
 router.post('/update', async (req, res, next) => {
     try {
         const {id, name, shortName, description, instructions, linkName, topics} = req.body,
-            [updatedRows, [updatedProject]] = await Project.update({
+            [updatedRows, [project]] = await Project.update({
             name, shortName, description, instructions, linkName
         }, {where: {id}});
 
         const newTopics = await Promise.all(topics.map(it => {
             return Topic.create(it);
         }))
-        updatedProject.setTopics(newTopics);
+        project.setTopics(newTopics);
+
+        const updatedProject = await Project.findByPk(id, {include: [Topic]})
         res.status(201);
 
         res.json(updatedProject);

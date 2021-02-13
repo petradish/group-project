@@ -3,16 +3,25 @@
 const db = require('./server/db');
 const {
   Project,
-  Topic
+  Topic,
+  User
 } = require('./server/db/models');
 
 async function seed() {
   await db.sync({ force: true });
   console.log('db synced!');
 
+  const admin = await User.create({
+    id: 1,
+    name: 'Petra Laohakul',
+    googleId: '112925598889214653227',
+    role: 'admin'
+  })
+
   const project = await Promise.all([
     Project.create({
       id: 1,
+      userId: 1,
       name: 'Black History Month Project',
       shortName: 'BHM',
       description: 'Choose one person to research in honor of Black History Month.',

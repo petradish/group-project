@@ -24,7 +24,7 @@ export function gotProject (project) {
 export const getAllProjects = () => {
     return async dispatch => {
       try {
-        const { data } = await axios.get('/api/projects');
+        const { data } = await axios.get('/api/projects/all/mine');
         dispatch(gotAllProjects(data));
       } catch (err) {
         console.error(err);
