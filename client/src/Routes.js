@@ -16,7 +16,9 @@ import CreateProject from './components/CreateProject';
 class Routes extends Component {
     componentDidMount() {
         this.props.getUser();
-        this.props.getProject(this.props.location.pathname);
+        if (this.props.user) {
+            this.props.getProject(this.props.location.pathname);
+        }
     }
 
     render() {
