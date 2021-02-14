@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactReduxContext from 'react-redux';
 
 export const Login = () => {
     const {pathname} = window.location,

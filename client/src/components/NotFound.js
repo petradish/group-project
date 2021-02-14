@@ -1,13 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
+import history from '../history';
 
 export const NotFound = () => {
     const {pathname} = window.location;
+    const [linkName, setLinkName] = useState();
     return (
         <div className='popup-login'>
             <div className='popup_inner'>
                 <div className={'login'}>
-                    <h2>{`Sorry, the project code "${pathname.replace('/', '')}" was not found!`}</h2>
+                    <p>Sorry, the project code: <span className='login-code'>{`${pathname.replace('/', '')}`}</span> was not found</p>
+                    <p htmlFor="linkName">Try another code:</p>
+                    <div className={'login-code-input'}>
+                        <input type="text" name="linkName" onChange={(e) => setLinkName(e.target.value)}/>
+                        <button disabled={!linkName} onClick={()=> history.push(`/${linkName}`)}>Go!</button>
+                    </div>
+
                 </div>
+
             </div>
         </div>
     );

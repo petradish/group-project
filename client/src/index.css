@@ -15,7 +15,7 @@ h1 {
 
 h2 {
   text-align: center;
-  margin-top: 5vh;
+  margin: 5vh 1vw 0 1vw;
   font-size: 3vh;
 }
 
@@ -27,6 +27,12 @@ p {
   text-align: center;
   margin: 2vh;
   font-size: 2.25vh;
+}
+
+input[type=text],
+input[type=number] {
+  font-size: 1.75vh;
+  color: darkblue;
 }
 
 .App {
@@ -122,6 +128,28 @@ p {
   font-weight: 800;
   font-size: 2.25vh;
   color: blueviolet;
+}
+
+.login-code-input {
+  display: flex;
+  flex-direction: row;
+  height: 5vh;
+}
+
+.login-code-input input {
+  align-items: center;
+  width: 20vw;
+}
+
+.login-code-input input[type=text] {
+  font-size: 2vh;
+  color: blueviolet;
+  font-weight: bold;
+}
+
+.login-code-input button {
+  align-items: center;
+  margin-left: 1vw;
 }
 
 .popup-login {
@@ -311,12 +339,6 @@ button:hover {
   background-color: #fff;
   border: 1px solid #ddd;
   width: 20vw;
-}
-
-input[type=text],
-input[type=number] {
-  font-size: 1.75vh;
-  color: darkblue;
 }
 
 textarea {

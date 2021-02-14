@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {sortBy} from 'lodash';
-import {getAllProjects, getProject, logout} from '../store';
+import {getProject} from '../store';
 import {connect} from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faTrashAlt, faEdit} from '@fortawesome/free-regular-svg-icons';
-import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 
 class Project extends Component {
     constructor (){
