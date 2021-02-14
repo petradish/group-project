@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import Popup from './Popup'
 import Topic from './Topic';
-import {getAllTopics, logout, me, selectTopic} from '../store'
+import {getAllTopics, logout, selectTopic} from '../store'
 import {sortBy} from 'lodash';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons';

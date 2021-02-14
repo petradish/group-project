@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import history from '../history';
 
-export const NotFound = () => {
-    const {pathname} = window.location;
-    const [linkName, setLinkName] = useState();
+export const NotFound = (props) => {
+    const {pathname} = window.location,
+        [linkName, setLinkName] = useState();
+
     return (
         <div className='popup-login'>
             <div className='popup_inner'>
@@ -12,7 +13,10 @@ export const NotFound = () => {
                     <p htmlFor="linkName">Try another code:</p>
                     <div className={'login-code-input'}>
                         <input type="text" name="linkName" onChange={(e) => setLinkName(e.target.value)}/>
-                        <button disabled={!linkName} onClick={()=> history.push(`/${linkName}`)}>Go!</button>
+                        <button disabled={!linkName} onClick={() => {
+                            props.getProject(`/${linkName}`);
+                            history.push(`/${linkName}`);
+                        }}>Go!</button>
                     </div>
 
                 </div>
