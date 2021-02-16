@@ -6,7 +6,7 @@ import {getProject, me} from './store';
 import {Login} from './components/Login';
 import {NotFound} from './components/NotFound';
 import {ComingSoon} from './components/ComingSoon';
-// import Admin from './components/Admin';
+import Admin from './components/Admin';
 import Home from './components/Home';
 import CreateProject from './components/CreateProject';
 
@@ -18,7 +18,7 @@ class Routes extends Component {
         this.props.getUser().then(() => {
             if (this.props.isLoggedIn) {
                 const {pathname} = this.props.location;
-                if (!pathname || pathname === '/') return;
+                if (!pathname || pathname === '/' || pathname.split('/').length > 2) return;
                 this.props.getProject(this.props.location.pathname);
             }
         })
@@ -41,7 +41,7 @@ class Routes extends Component {
                 }
 
                 {/*Displays our Login component as a fallback if no project exists */}
-                <Route path="/" component={isLoggedIn ? ComingSoon : Login} />
+                <Route path="/" component={isLoggedIn ? Admin : Login} />
 
             </Switch>
         )

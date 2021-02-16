@@ -254,6 +254,12 @@ button:hover {
 
 }
 
+.topic-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
 .topic-container ol {
   margin-top: 0;
   width: 25vw;
@@ -285,6 +291,22 @@ button:hover {
 }
 
 .edit-button svg {
+  margin-right: 0.5vw;
+}
+
+.add-button {
+  background-color: mediumvioletred;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75vh;
+  margin: 0 10vw;
+}
+
+.add-button:hover {
+  background-color: blueviolet;
+}
+
+.add-button svg {
   margin-right: 0.5vw;
 }
 

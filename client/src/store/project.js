@@ -19,7 +19,6 @@ export function gotProject (project) {
     return action;
 }
 
-
 // THUNKS
 export const getAllProjects = () => {
     return async dispatch => {
@@ -44,6 +43,20 @@ export const createProject = (project) => {
       const { data } = await axios.post(`/api/projects/create`, project);
       dispatch(createdProject(data));
   };
+};
+
+export const updateProject = (project) => {
+    return async dispatch => {
+        const { data } = await axios.post(`/api/projects/update`, project);
+        dispatch(gotProject(data));
+    };
+};
+
+export const deleteTopic = (topicId) => {
+    return async dispatch => {
+        const { data } = await axios.get(`/api/projects/delete/topic/${topicId}`);
+        dispatch(gotProject(data));
+    };
 };
 
 // REDUCER

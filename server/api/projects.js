@@ -50,15 +50,20 @@ router.get('/all/mine', async (req, res, next) => {
 
 router.post('/create', async (req, res, next) => {
     try {
-        const {name, shortName, description, instructions, maxStudents, topics} = req.body,
+        const {name, shortName, description, instructions, maxStudents} = req.body,
             project = await Project.create({
-                name, shortName, description, instructions
+                name, shortName, description, instructions, maxStudents
             });
 
-        const newTopics = await Promise.all(topics.map(it => {
-            return Topic.create(it);
-        }))
-        project.setTopics(newTopics);
+        // TODO - Set User here
+
+        if (req.body.topics) {
+            const newTopics = await Promise.all(req.body.topics.map(it => {
+                return Topic.create(it);
+            }))
+            project.setTopics(newTopics);
+        }
+
         const projects = await Project.findAll({
             where: {userId: req.user.id},
             include: [Topic]
@@ -73,22 +78,47 @@ router.post('/create', async (req, res, next) => {
 
 router.post('/update', async (req, res, next) => {
     try {
-        const {id, name, shortName, description, instructions, linkName, maxStudents, topics} = req.body,
+        const {id, name, shortName, description, instructions, linkName, maxStudents} = req.body,
             [updatedRows, [project]] = await Project.update({
                 name, shortName, description, instructions, linkName, maxStudents
-            }, {where: {id}});
+            }, {
+                returning: true,
+                where: {id}
+            });
 
-        const newTopics = await Promise.all(topics.map(it => {
-            return Topic.create(it);
-        }))
-        project.setTopics(newTopics);
+        // Only update topics if needed
+        if (req.body.topics) {
+            const oldTopics = await Topic.findAll({
+                where: {projectId: id}
+            });
+            await Promise.all(oldTopics.map(it => it.destroy()));
+
+            const newTopics = await Promise.all(req.body.topics.map(it => {
+                return Topic.create({name: it});
+            }));
+
+            await project.setTopics(newTopics);
+        }
 
         const updatedProject = await Project.findByPk(id, {include: [Topic]})
-        res.status(201);
 
+        res.status(201);
         res.json(updatedProject);
     } catch (error) {
         next (error);
+    }
+});
+
+router.get('/delete/topic/:id', async (req, res, next) => {
+    try {
+        const topic = await Topic.findByPk(req.params.id, {include: [Project]}),
+            id = topic.projectId;
+        await topic.destroy();
+        const updatedProject = await Project.findByPk(id, {include: [Topic]})
+        res.status(201);
+        res.json(updatedProject);
+    } catch (err) {
+        next(err);
     }
 });
 

@@ -3,6 +3,16 @@ const { Project, Topic, User } = require('../db/models');
 
 module.exports = router;
 
+router.get('/', async(req, res,next) => {
+    try {
+        const topics = await Topic.findAll();
+        res.status(201)
+        res.json(topics);
+    } catch (err) {
+        next(err);
+    }
+})
+
 router.get('/:projectId', async (req, res, next) => {
     try {
         const topics = await Topic.findAll({
