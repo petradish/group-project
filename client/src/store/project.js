@@ -2,6 +2,7 @@ import axios from 'axios'
 
 // ACTION TYPES
 import {CREATE_PROJECT, GET_ALL_PROJECTS, GET_PROJECT} from './index'
+import history from '../history';
 
 // ACTION CREATORS
 export function createdProject (project) {
@@ -42,6 +43,7 @@ export const createProject = (project) => {
   return async dispatch => {
       const { data } = await axios.post(`/api/projects/create`, project);
       dispatch(createdProject(data));
+      history.push('/');
   };
 };
 

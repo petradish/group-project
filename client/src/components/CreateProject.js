@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import Popup from './Popup'
-import Topic from './Topic';
-import {createProject, getAllTopics, logout, me, selectTopic} from '../store'
-import {compact, isEmpty, isEqual, keyBy, omit, sortBy, values} from 'lodash';
+import {createProject, logout} from '../store'
+import {compact, isEmpty, isEqual, keyBy, map, omit, sortBy, values} from 'lodash';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlus, faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
-import {faEdit, faTrashAlt} from '@fortawesome/free-regular-svg-icons';
+import {faTrashAlt} from '@fortawesome/free-regular-svg-icons';
 
 class CreateProject extends Component {
     constructor (){
@@ -34,7 +32,7 @@ class CreateProject extends Component {
     handleChange(evt) {
         let errors = this.state.errors;
         switch (evt.target.name) {
-            case 'topics': return;
+            case 'topic': return;
             case 'maxStudents':
                 errors.maxStudents =
                     evt.target.value < 1 ? 'Max students cannot be 0' : null;
@@ -58,10 +56,10 @@ class CreateProject extends Component {
     }
 
 
-    handleTopicChange(evt, topic) {
+    handleTopicChange(evt, topicId) {
         const {topics} = this.state;
-        topics[topic.id].name = evt.target.value;
-        this.setState({...this.state, topics, isDirty: true})
+        topics[topicId].name = evt.target.value;
+        this.setState({...this.state, topics})
     }
 
     addTopic(evt) {
@@ -84,13 +82,11 @@ class CreateProject extends Component {
     }
 
     handleSubmit(evt) {
-        const {name, linkName, topics, maxStudents, shortName, instructions, description, editTopics, errors} = this.state,
-            {project} = this.props;
+        const {name, linkName, topics, maxStudents, shortName, instructions, description, errors} = this.state;
         evt.preventDefault();
         if (!isEmpty(compact(values(errors)))) {
             return;
         }
-
         const data = {
             id: this.props.id,
             name,
@@ -101,8 +97,8 @@ class CreateProject extends Component {
             description
         };
 
-        if (editTopics) {
-            data.topics = values(topics).map(it => it.name);
+        if (!isEmpty(topics)) {
+            data.topics = map(values(topics), 'name');
         }
 
         this.props.createProject(data);
@@ -131,7 +127,7 @@ class CreateProject extends Component {
                                 <ol>{values(topics)?.map(t => (
                                     <li key={t.id}>
                                         <div className="topic-input">
-                                            <input onChange={(e) => handleTopicChange(e, t)} type="text" name="topic" defaultValue={t.name}/>
+                                            <input onChange={(e) => handleTopicChange(e, t.id)} type="text" name="topic"/>
                                             <FontAwesomeIcon className="delete-topic" icon={faTrashAlt} onClick={(e) => deleteTopic(e, t.id)}/>
                                         </div>
                                     </li>)

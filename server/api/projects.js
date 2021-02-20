@@ -59,9 +59,11 @@ router.post('/create', async (req, res, next) => {
         await project.setUser(user);
 
         if (req.body.topics) {
+            console.log(req.body.topics)
             const newTopics = await Promise.all(req.body.topics.map(it => {
-                return Topic.create(it);
-            }))
+                return Topic.create({name: it});
+            }));
+            console.log(newTopics);
             await project.setTopics(newTopics);
         }
 
@@ -123,12 +125,12 @@ router.get('/delete/topic/:id', async (req, res, next) => {
     }
 });
 
-router.get('/delete', async (req, res, next) => {
+router.get('/delete/:id', async (req, res, next) => {
     try {
-        const project = await Project.findByPk(req.body.id);
+        const project = await Project.findByPk(req.params.id);
         await project.destroy();
         res.status(201);
-        res.json({deleted: req.body.id});
+        res.json({deleted: req.params.id});
     } catch (err) {
         next(err);
     }

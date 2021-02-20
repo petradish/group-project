@@ -61,7 +61,7 @@ class Project extends Component {
     handleChange(evt) {
         let errors = this.state.errors;
         switch (evt.target.name) {
-            case 'topics': return;
+            case 'topic': return;
             case 'maxStudents':
                 errors.maxStudents =
                     evt.target.value < 1 ? 'Max students cannot be 0' : null;
