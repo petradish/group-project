@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import {getProject, me} from './store';
 import {Login} from './components/Login';
 import {NotFound} from './components/NotFound';
-import {ComingSoon} from './components/ComingSoon';
+// import {ComingSoon} from './components/ComingSoon';
 import Admin from './components/Admin';
 import Home from './components/Home';
 import CreateProject from './components/CreateProject';

@@ -59,11 +59,9 @@ router.post('/create', async (req, res, next) => {
         await project.setUser(user);
 
         if (req.body.topics) {
-            console.log(req.body.topics)
             const newTopics = await Promise.all(req.body.topics.map(it => {
                 return Topic.create({name: it});
             }));
-            console.log(newTopics);
             await project.setTopics(newTopics);
         }
 

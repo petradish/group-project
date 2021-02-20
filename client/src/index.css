@@ -244,6 +244,7 @@ button:hover {
   height: 80vh;
   width: 70vw;
   border-radius: 1vw;
+  margin: 2vh;
   transition: all 0.3s ease-out;
 }
 

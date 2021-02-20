@@ -22,6 +22,7 @@ class Project extends Component {
             description,
             toDelete: null,
             isDirty: false,
+            isTopicListDirty: false,
             newTopicCount: 0,
             errors: {}
         };
@@ -55,7 +56,7 @@ class Project extends Component {
     handleTopicChange(evt, topic) {
         const {topics} = this.state;
         topics[topic.id].name = evt.target.value;
-        this.setState({...this.state, topics, isDirty: true})
+        this.setState({...this.state, topics, isDirty: true, isTopicsListDirty: true})
     }
 
     handleChange(evt) {
@@ -82,7 +83,7 @@ class Project extends Component {
     }
 
     handleSubmit(evt) {
-        const {name, linkName, topics, maxStudents, shortName, instructions, description, editTopics, errors} = this.state,
+        const {name, linkName, topics, maxStudents, shortName, instructions, description, isTopicsListDirty, errors} = this.state,
             {project} = this.props;
         evt.preventDefault();
         if (!isEmpty(compact(values(errors)))) {
@@ -99,7 +100,7 @@ class Project extends Component {
             description
         };
         // Do not update if not dirty
-        if (!editTopics && isEqual(data, {
+        if (!isTopicsListDirty && isEqual(data, {
             id: this.props.id,
             name: project.name,
             linkName: project.linkName,
@@ -112,7 +113,7 @@ class Project extends Component {
             return;
         }
 
-        if (editTopics) {
+        if (isTopicsListDirty) {
             data.topics = values(topics).map(it => it.name);
         }
 
@@ -130,6 +131,7 @@ class Project extends Component {
                 description,
                 toDelete: null,
                 isDirty: false,
+                isTopicsListDirty: false,
                 newTopicCount: 0,
                 errors: {}
             });
@@ -143,7 +145,8 @@ class Project extends Component {
             ...this.state,
             topics: {...topics, [`new${newTopicCount}`]: {id: `new${newTopicCount}`, name: ''}},
             newTopicCount: newTopicCount + 1,
-            isDirty: true
+            isDirty: true,
+            isTopicsListDirty: true
         });
     }
 
@@ -153,7 +156,7 @@ class Project extends Component {
         if (!topic.id.startsWith('new')) {
             this.props.deleteTopic(topic.id);
         }
-        this.setState({...this.state, topics: omit(this.state.topics, topic.id)})
+        this.setState({...this.state, topics: omit(this.state.topics, topic.id), isTopicsListDirty: true})
     }
 
     render(){

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {createProject, logout} from '../store'
-import {compact, isEmpty, isEqual, keyBy, map, omit, sortBy, values} from 'lodash';
+import {compact, isEmpty, map, omit, values} from 'lodash';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlus, faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 import {faTrashAlt} from '@fortawesome/free-regular-svg-icons';
