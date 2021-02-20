@@ -158,7 +158,7 @@ class Project extends Component {
 
     render(){
         if (!this.props.project) return null;
-        const {name, linkName, maxStudents, shortName, instructions, description} = this.props.project,
+        const {name, linkName, maxStudents, shortName, instructions, description} = this.props,
             {showDetail, editTopics, topics, isDirty} = this.state,
             {handleChange, handleTopicChange, handleSubmit, deleteTopic, addTopic} = this,
             [newTopics, oldTopics] = partition(topics, (it) => it.id.toString().startsWith('new')),

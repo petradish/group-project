@@ -53,15 +53,16 @@ router.post('/create', async (req, res, next) => {
         const {name, shortName, description, instructions, maxStudents} = req.body,
             project = await Project.create({
                 name, shortName, description, instructions, maxStudents
-            });
+            }),
+            user = await User.findByPk(req.user.id)
 
-        // TODO - Set User here
+        await project.setUser(user);
 
         if (req.body.topics) {
             const newTopics = await Promise.all(req.body.topics.map(it => {
                 return Topic.create(it);
             }))
-            project.setTopics(newTopics);
+            await project.setTopics(newTopics);
         }
 
         const projects = await Project.findAll({

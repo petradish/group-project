@@ -11,12 +11,14 @@ body {
 h1 {
   text-align: center;
   color: white;
+  margin: 3vh 1vw 0 1vw;
+  font-size: 3vw;
 }
 
 h2 {
   text-align: center;
   margin: 5vh 1vw 0 1vw;
-  font-size: 3vh;
+  font-size: 2vw;
 }
 
 a {
@@ -26,12 +28,12 @@ a {
 p {
   text-align: center;
   margin: 2vh;
-  font-size: 2.25vh;
+  font-size: 1.5vw;
 }
 
 input[type=text],
 input[type=number] {
-  font-size: 1.75vh;
+  font-size: 1.25vw;
   color: darkblue;
 }
 
@@ -78,7 +80,7 @@ input[type=number] {
 .logout-button {
   position: absolute;
   right: 2vw;
-  top: 3vh;
+  top: 4vh;
   align-items: center;
 }
 
@@ -126,7 +128,7 @@ input[type=number] {
 
 .login-code {
   font-weight: 800;
-  font-size: 2.25vh;
+  font-size: 1.25vw;
   color: blueviolet;
 }
 
@@ -142,7 +144,7 @@ input[type=number] {
 }
 
 .login-code-input input[type=text] {
-  font-size: 2vh;
+  font-size: 1.25vw;
   color: blueviolet;
   font-weight: bold;
 }
@@ -169,7 +171,7 @@ input[type=number] {
   background-color: blueviolet;
   color: white;
   font-weight: bold;
-  font-size: 2vh;
+  font-size: 1.25vw;
   padding: 2vh;
 }
 
@@ -181,7 +183,7 @@ button {
   display: flex;
   color: white;
   font-weight: bold;
-  font-size: 2vh;
+  font-size: 1.25vw;
   padding: 1vh;
   transition: 0.1s ease-in-out;
 }
@@ -200,7 +202,9 @@ button:hover {
 .projects-container,
 .create-project-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   margin: 2vh;
 }
 
@@ -218,7 +222,8 @@ button:hover {
   justify-content: center;
   align-items: center;
   height: 10vh;
-  width: 70vw;
+  min-width: 70vw;
+  margin: 2vh;
   color: white;
   transition: 0.3s ease-out;
   border-radius: 1vw;
@@ -264,6 +269,7 @@ button:hover {
   margin-top: 0;
   width: 25vw;
   margin-left: 5vw;
+  font-size: 1.25vw;
 }
 
 .topic-header {
@@ -278,12 +284,13 @@ button:hover {
 .topic-container h3 {
   color: white;
   margin-right: 3vw;
+  font-size: 1.5vw;
 }
 
 .edit-button {
   background-color: mediumvioletred;
   align-items: center;
-  font-size: 1.75vh;
+  font-size: 1.25vw;
 }
 
 .edit-button:hover {
@@ -298,8 +305,8 @@ button:hover {
   background-color: mediumvioletred;
   align-items: center;
   justify-content: center;
-  font-size: 1.75vh;
-  margin: 0 10vw;
+  font-size: 1.25vw;
+  margin: 0 8vw 0 9.5vw;
 }
 
 .add-button:hover {
@@ -352,6 +359,7 @@ button:hover {
   text-align: right;
   margin: 1vh 2vh 1vh 0;
   width: 12vw;
+  font-size: 1.25vw;
 }
 
 .form-inline input {
@@ -371,17 +379,14 @@ textarea {
   height: 16vh;
   color: darkblue;
   font-family: Arial, sans-serif;
-  font-size: 1.75vh;
+  font-size: 1.25vw;
 }
 
 .submit-button {
-  position: absolute;
   width: 6vw;
-  bottom: 12vh;
-  right: 18vw;
   justify-content: center;
-  font-size: 2vh;
-  min-width: 45px;
+  font-size: 1.25vw;
+  margin: 1vw 0;
   background-color: mediumvioletred;
 }
 
