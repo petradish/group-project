@@ -2,11 +2,25 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 const { uniqueNamesGenerator, adjectives, colors, animals } = require('unique-names-generator');
 
-const linkName = uniqueNamesGenerator({
-    dictionaries: [adjectives, colors, animals],
-    separator: '',
-    style: 'capital'
-});
+function generateLinkName() {
+    return uniqueNamesGenerator({
+        dictionaries: [adjectives, colors, animals],
+        separator: '',
+        style: 'capital'
+    });
+}
+
+async function getUniqueLinkName() {
+    let linkName, project;
+    do {
+        linkName = generateLinkName();
+        project = await Project.findOne({
+            where: {linkName}
+        });
+    } while (project);
+
+    return linkName;
+}
 
 const Project = db.define('project', {
     name: {
@@ -18,7 +32,8 @@ const Project = db.define('project', {
     },
     linkName: {
         type: Sequelize.STRING,
-        defaultValue: linkName
+        unique: true,
+        defaultValue: () => getUniqueLinkName()
     },
     maxStudents: {
         type: Sequelize.INTEGER,

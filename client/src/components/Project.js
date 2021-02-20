@@ -204,7 +204,7 @@ class Project extends Component {
                    <div className={'form-fields'}>
                        <form className="form-inline">
                            <label htmlFor="linkName">Link name</label>
-                           <input onChange={handleChange} type="text" name="linkName" defaultValue={linkName} readOnly={true}/>
+                           <input onChange={handleChange} type="text" name="linkName" defaultValue={linkName}/>
                            <label htmlFor="maxStudents">Max. students per group</label>
                            <input onChange={handleChange} type="number" name="maxStudents" defaultValue={maxStudents} min={1} max={8} placeholder={1}/>
                            <label htmlFor="shortName">Short name</label>
