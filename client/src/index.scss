@@ -74,10 +74,10 @@ input[type=number] {
   background-color: black !important;
 }
 
-.topic-swatch .group {
+.group {
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  flex-wrap: wrap;
 }
 
 .topic-swatch:hover {
