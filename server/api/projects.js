@@ -39,7 +39,13 @@ router.get('/all/mine', async (req, res, next) => {
             where: {
                 userId: req.user.id
             },
-            include: [User, Topic]
+            include: [
+                User,
+                {
+                    model: Topic,
+                    include: [{model: User, as: 'students', attributes: ['name']}]
+                }
+            ]
         });
         res.status(201)
         res.json(projects);
@@ -101,7 +107,12 @@ router.post('/update', async (req, res, next) => {
             await project.setTopics(newTopics);
         }
 
-        const updatedProject = await Project.findByPk(id, {include: [Topic]})
+        const updatedProject = await Project.findByPk(id, {
+            include: [{
+                model: Topic,
+                include: [{model: User, as: 'students', attributes: ['name']}]
+            }]
+        });
 
         res.status(201);
         res.json(updatedProject);

@@ -3,23 +3,23 @@ import {deleteTopic, getProject, updateProject} from '../store';
 import {connect} from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faTrashAlt, faEdit} from '@fortawesome/free-regular-svg-icons';
-import {faPlus} from '@fortawesome/free-solid-svg-icons';
-import {compact, isEmpty, isEqual, keyBy, omit, partition, sortBy, values} from 'lodash';
+import {faPlus, faExternalLinkAlt} from '@fortawesome/free-solid-svg-icons';
+import {compact, isEmpty, isEqual, keyBy, maxBy, omit, partition, sortBy, values} from 'lodash';
 
 class Project extends Component {
     constructor (props){
         super(props);
         const {name, linkName, topics, maxStudents, shortName, instructions, description} = this.props;
         this.state = {
-            showDetail: false,
-            editTopics: false,
             name,
-            topics: keyBy(topics, 'id'),
             maxStudents,
             linkName,
             shortName,
             instructions,
             description,
+            topics: keyBy(topics, 'id'),
+            showDetail: false,
+            editTopics: false,
             toDelete: null,
             isDirty: false,
             isTopicListDirty: false,
@@ -63,19 +63,27 @@ class Project extends Component {
         let errors = this.state.errors;
         switch (evt.target.name) {
             case 'topic': return;
-            case 'maxStudents':
-                errors.maxStudents =
-                    evt.target.value < 1 ? 'Max students cannot be 0' : null;
+            case 'maxStudents': {
+                const minStudents = maxBy(values(this.state.topics), (t) => t.students.length)?.students.length || 1;
+                errors.maxStudents = evt.target.value < minStudents ? `Min. ${minStudents} students` : null;
                 break;
+            }
             case 'shortName':
                 errors.shortName = evt.target.value.length < 1 ? 'Required' : null
                 break;
-            case 'instructions':
-                errors.instructions = evt.target.value.length < 2 ? 'Required' : null
-                break;
             case 'description':
-                errors.description = evt.target.value.length < 2 ? 'Required' : null
+            case 'instructions':
+                errors[evt.target.name] = evt.target.value.length < 4 ? 'Min. 4 characters' : null
                 break;
+            case 'linkName': {
+                if (evt.target.value.length < 4) {
+                    errors.linkName = 'Min. 4 characters';
+                } else {
+                    const regex = new RegExp(`^[a-zA-Z0-9]{4,50}$`);
+                    errors.linkName = !regex.test(evt.target.value) ? 'Link names can only contain alphanumeric characters' : null;
+                }
+                break;
+            }
             default:
                 break;
         }
@@ -161,11 +169,11 @@ class Project extends Component {
 
     render(){
         if (!this.props.project) return null;
-        const {name, linkName, maxStudents, shortName, instructions, description} = this.props,
-            {showDetail, editTopics, topics, isDirty} = this.state,
+        const {name, linkName, maxStudents, shortName, instructions, description, showDetail, editTopics, topics, isDirty, errors} = this.state,
             {handleChange, handleTopicChange, handleSubmit, deleteTopic, addTopic} = this,
             [newTopics, oldTopics] = partition(topics, (it) => it.id.toString().startsWith('new')),
-            allTopics = sortBy(oldTopics, 'name').concat(newTopics);
+            allTopics = sortBy(oldTopics, 'name').concat(newTopics),
+            minStudents = maxBy(values(this.state.topics), (t) => t.students.length)?.students.length || 1;
 
         return (
             !showDetail ?
@@ -206,18 +214,40 @@ class Project extends Component {
                    </div>
                    <div className={'form-fields'}>
                        <form className="form-inline">
-                           <label htmlFor="linkName">Link name</label>
+                           <label htmlFor="linkName">Link name* <a href={`/${this.props.linkName}`} rel='noopener noreferrer' target='_blank'> <FontAwesomeIcon icon={faExternalLinkAlt} /></a>
+                               {errors.linkName ? <p>{errors.linkName}</p> : null}
+                           </label>
                            <input onChange={handleChange} type="text" name="linkName" defaultValue={linkName}/>
-                           <label htmlFor="maxStudents">Max. students per group</label>
-                           <input onChange={handleChange} type="number" name="maxStudents" defaultValue={maxStudents} min={1} max={8} placeholder={1}/>
-                           <label htmlFor="shortName">Short name</label>
+                           <label htmlFor="maxStudents">
+                               Max. students*
+                               {errors.maxStudents ? <p>{errors.maxStudents}</p> : <p> (per group)</p>}
+                           </label>
+                           <input onChange={handleChange} type="number" name="maxStudents"
+                                  defaultValue={maxStudents} placeholder={minStudents} min={minStudents} max={8}
+                           />
+                           <label htmlFor="shortName">
+                               Short name*
+                               {errors.shortName ? <p>{errors.shortName}</p> : null}
+                           </label>
                            <input onChange={handleChange} type="text" name="shortName" defaultValue={shortName}/>
-                           <label htmlFor="Description">Description</label>
+                           <label htmlFor="Description">
+                               Description*
+                               {errors.description ? <p>{errors.description}</p> : null}
+                           </label>
                            <textarea onChange={handleChange} name="description" defaultValue={description} />
-                           <label htmlFor="Instructions">Instructions</label>
+                           <label htmlFor="Instructions">
+                               Instructions*
+                               {errors.instructions ? <p>{errors.instructions}</p> : null}
+                           </label>
                            <textarea onChange={handleChange} name="instructions" defaultValue={instructions} />
                        </form>
-                       <button className="submit-button" onClick={handleSubmit}>{isDirty ? 'Save' : 'Done'}</button>
+                           <button
+                               className="submit-button"
+                               title={compact(values(errors)).length ? 'Resolve errors before saving' : null}
+                               disabled={compact(values(errors)).length}
+                               onClick={handleSubmit}>{isDirty ? 'Save' : 'Done'}
+                           </button>
+                       }
                    </div>
                </div>
            </div>

@@ -375,12 +375,26 @@ button:hover {
 }
 
 .form-inline input {
-  vertical-align: middle;
   margin: 1vh 2vh 1vh 0;
   padding: 1vh;
   background-color: #fff;
   border: 1px solid #ddd;
   width: 20vw;
+}
+
+.form-inline p {
+  margin: 0;
+  text-align: right;
+  font-size: 1.1vw;
+  color: mediumvioletred;
+}
+
+.form-inline a {
+  color: white;
+}
+
+.form-inline a:hover {
+  color: mediumvioletred;
 }
 
 textarea {
@@ -394,6 +408,16 @@ textarea {
   font-size: 1.25vw;
 }
 
+.submit-button:disabled {
+  cursor: default;
+  width: 6vw;
+  justify-content: center;
+  font-size: 1.25vw;
+  margin: 1vw 0;
+  color: gainsboro;
+  background-color: slategray;
+}
+
 .submit-button {
   width: 6vw;
   justify-content: center;
@@ -402,7 +426,7 @@ textarea {
   background-color: mediumvioletred;
 }
 
-.submit-button:hover {
+.submit-button:hover:not(:disabled) {
   background-color: blueviolet;
 }
 
