@@ -48,9 +48,10 @@ class Home extends Component {
     }
 
     render() {
-        const {allTopics, project} = this.props;
+        const {allTopics, project} = this.props,
+            columnNum = Math.ceil(Math.sqrt(allTopics.length));
         return (
-            <React.Fragment>
+            <div className='App'>
                 {this.state.showPopup ? <Popup project={project} closePopup={this.closePopup} /> : null}
                 <div>
                     <h1>Hi, {this.props.user.name}! Choose your {project.shortName ?? project.name} topic</h1>
@@ -59,7 +60,7 @@ class Home extends Component {
                         Logout
                     </button>
                 </div>
-                <div className="App">
+                <div className={`app-container-${columnNum > 5 ? 5 : columnNum}`}>
                     {allTopics?.length ? allTopics?.map((topic) => {
                       return <Topic
                           key={topic.id}
@@ -72,7 +73,7 @@ class Home extends Component {
                     })
                     : 'Loading Topic Name' }
                 </div>
-            </React.Fragment>
+            </div>
         );
     }
 }

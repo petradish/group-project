@@ -6,6 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: black;
+  height: 100vh;
 }
 
 h1 {
@@ -18,7 +19,7 @@ h1 {
 h2 {
   text-align: center;
   margin: 5vh 1vw 0 1vw;
-  font-size: 2vw;
+  font-size: 1.5em;
 }
 
 a {
@@ -38,42 +39,53 @@ input[type=number] {
 }
 
 .App {
-  text-align: center;
-  display: grid;
-  grid-template-columns: auto auto auto auto auto;
-  grid-row-gap: 1vh;
-  background-color: black
+  height: 100vh;
+  width: 100vw;
 }
 
-.App .topic-swatch,
-.App .topic-swatch__selected {
+@for $i from 1 to 6 {
+  .app-container-#{$i} {
+    text-align: center;
+    display: grid;
+    width: 100vw;
+    height: 90vh;
+    grid-template-columns: repeat($i, 1fr);
+    grid-row-gap: 1vh;
+    margin: 1vw auto;
+    background-color: black;
+  }
+}
+
+
+.topic-swatch,
+.topic-swatch__selected {
   cursor: pointer;
-  display: grid;
-  height: 18vh;
-  width: 18vw;
+  min-height: 20vh;
+  max-height: 33vh;
+  min-width: 18vw;
   color: white;
   transition: all 0.4s ease-in-out;
   margin: 1vw;
   border-radius: 1vw
 }
 
-.App .topic-swatch__selected {
+.topic-swatch__selected {
   cursor: text;
   background-color: black !important;
 }
 
-.App .topic-swatch .group {
+.topic-swatch .group {
   display: flex;
   justify-content: center;
   align-items: flex-end;
 }
 
-.App .topic-swatch:hover {
+.topic-swatch:hover {
   transform: scale(1.2);
   color: black;
 }
 
-.App .topic-swatch:active {
+.topic-swatch:active {
   background-color: white
 }
 

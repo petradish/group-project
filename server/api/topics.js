@@ -47,6 +47,9 @@ router.post('/select', async (req, res, next) => {
           await topic.addStudent(newStudent);
 
           const allTopics = await Topic.findAll({
+              where: {
+                  projectId: topic.projectId
+              },
               include: [
                   {model: User, as: 'students', attributes: ['name', 'googleId']}
               ]
