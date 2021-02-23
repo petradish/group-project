@@ -65,7 +65,11 @@ class Project extends Component {
             case 'topic': return;
             case 'maxStudents': {
                 const minStudents = maxBy(values(this.state.topics), (t) => t.students.length)?.students.length || 1;
-                errors.maxStudents = evt.target.value < minStudents ? `Min. ${minStudents} students` : null;
+                errors.maxStudents = evt.target.value < minStudents ?
+                    `Min. ${minStudents} students` :
+                    evt.target.value > 8 ?
+                        'Max. 8 students' :
+                        null;
                 break;
             }
             case 'shortName':
@@ -214,7 +218,7 @@ class Project extends Component {
                    </div>
                    <div className={'form-fields'}>
                        <form className="form-inline">
-                           <label htmlFor="linkName">Link name* <a href={`/${this.props.linkName}`} rel='noopener noreferrer' target='_blank'> <FontAwesomeIcon icon={faExternalLinkAlt} /></a>
+                           <label htmlFor="linkName">Link name* <a href={`/${this.props.project.linkName}`} rel='noopener noreferrer' target='_blank'> <FontAwesomeIcon icon={faExternalLinkAlt} /></a>
                                {errors.linkName ? <p>{errors.linkName}</p> : null}
                            </label>
                            <input onChange={handleChange} type="text" name="linkName" defaultValue={linkName}/>
