@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import Popup from './Popup'
-import Topic from './Topic';
+import Popup from './app/Popup'
+import Topic from './app/Topic';
 import {getAllTopics, logout, selectTopic} from '../store'
 import {sortBy} from 'lodash';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 
 class Home extends Component {
-    constructor (){
+    constructor() {
         super();
         this.state = {
             showPopup: true
@@ -24,7 +24,7 @@ class Home extends Component {
         });
     }
 
-    logout(){
+    logout() {
         this.props.logout();
     }
 
@@ -42,7 +42,7 @@ class Home extends Component {
             alert('The topic is already taken! Choose another!');
         }
     }
-  
+
     componentDidMount() {
         this.props.getTopics(this.props.project.id);
     }
@@ -52,7 +52,7 @@ class Home extends Component {
             columnNum = Math.ceil(Math.sqrt(allTopics.length));
         return (
             <div className='App'>
-                {this.state.showPopup ? <Popup project={project} closePopup={this.closePopup} /> : null}
+                {this.state.showPopup ? <Popup project={project} closePopup={this.closePopup}/> : null}
                 <div>
                     <h1>Hi, {this.props.user.name}! Choose your {project.shortName ?? project.name} topic</h1>
                     <button onClick={this.logout} className={'logout-button'}>
@@ -62,16 +62,16 @@ class Home extends Component {
                 </div>
                 <div className={`app-container-${columnNum > 5 ? 5 : columnNum}`}>
                     {allTopics?.length ? allTopics?.map((topic) => {
-                      return <Topic
-                          key={topic.id}
-                          id={topic.id}
-                          name={topic.name}
-                          students={topic.students}
-                          maxStudents={project.maxStudents}
-                          selectTopic={this.handleSelect}
-                          />
-                    })
-                    : 'Loading Topic Name' }
+                            return <Topic
+                                key={topic.id}
+                                id={topic.id}
+                                name={topic.name}
+                                students={topic.students}
+                                maxStudents={project.maxStudents}
+                                selectTopic={this.handleSelect}
+                            />
+                        })
+                        : 'Loading Topic Name'}
                 </div>
             </div>
         );

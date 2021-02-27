@@ -5,72 +5,72 @@ import {CREATE_PROJECT, GET_ALL_PROJECTS, GET_PROJECT} from './index'
 import history from '../history';
 
 // ACTION CREATORS
-export function createdProject (project) {
-  const action = { type: CREATE_PROJECT, project };
-  return action;
-}
-
-export function gotAllProjects (projects) {
-    const action = { type: GET_ALL_PROJECTS, projects };
+export function createdProject(project) {
+    const action = {type: CREATE_PROJECT, project};
     return action;
 }
 
-export function gotProject (project) {
-    const action = { type: GET_PROJECT, project };
+export function gotAllProjects(projects) {
+    const action = {type: GET_ALL_PROJECTS, projects};
+    return action;
+}
+
+export function gotProject(project) {
+    const action = {type: GET_PROJECT, project};
     return action;
 }
 
 // THUNKS
-export const getAllProjects = () => {
+export const getAllProjects = (classroomId) => {
     return async dispatch => {
-      try {
-        const { data } = await axios.get('/api/projects/all/mine');
-        dispatch(gotAllProjects(data));
-      } catch (err) {
-        console.error(err);
-      }
+        try {
+            const {data} = await axios.get(`/api/projects/all/${classroomId}`);
+            dispatch(gotAllProjects(data));
+        } catch (err) {
+            console.error(err);
+        }
     };
-  };
+};
 
 export const getProject = (linkName) => {
     return async dispatch => {
-        const { data } = await axios.get(`/api/projects${linkName}`);
+        const {data} = await axios.get(`/api/projects${linkName}`);
         dispatch(gotProject(data));
     };
 };
 
 export const createProject = (project) => {
-  return async dispatch => {
-      const { data } = await axios.post(`/api/projects/create`, project);
-      dispatch(createdProject(data));
-      history.push('/');
-  };
+    return async dispatch => {
+        const {data} = await axios.post(`/api/projects/create`, project);
+        dispatch(createdProject(data));
+        history.push('/');
+    };
 };
 
 export const updateProject = (project) => {
     return async dispatch => {
-        const { data } = await axios.post(`/api/projects/update`, project);
+        const {data} = await axios.post(`/api/projects/update`, project);
         dispatch(gotProject(data));
     };
 };
 
 export const deleteTopic = (topicId) => {
     return async dispatch => {
-        const { data } = await axios.get(`/api/projects/delete/topic/${topicId}`);
+        const {data} = await axios.get(`/api/projects/delete/topic/${topicId}`);
         dispatch(gotProject(data));
     };
 };
 
 // REDUCER
-export default function project (state = {}, action) {
-  switch (action.type) {
-      case CREATE_PROJECT:
-          return {...state, project: action.project};
-      case GET_ALL_PROJECTS:
-          return {...state, projects: action.projects};
-      case GET_PROJECT:
-          return {...state, project: action.project};
-      default:
-          return state;
-  }
+export default function project(state = {}, action) {
+    switch (action.type) {
+        case CREATE_PROJECT:
+            return {...state, project: action.project};
+        case GET_ALL_PROJECTS:
+            return {...state, projects: action.projects};
+        case GET_PROJECT:
+            return {...state, project: action.project};
+        default:
+            return state;
+    }
 }

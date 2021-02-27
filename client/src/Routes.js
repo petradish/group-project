@@ -1,14 +1,16 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {withRouter, Route, Switch} from 'react-router-dom'
+import {Route, Switch, withRouter} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {getProject, me} from './store';
 import {Login} from './components/Login';
-import {NotFound} from './components/NotFound';
-// import {ComingSoon} from './components/ComingSoon';
-import Admin from './components/Admin';
+import {NotFound} from './components/app/NotFound';
+import {JoinProject} from './components/app/JoinProject';
+import Admin from './components/admin/Admin';
 import Home from './components/Home';
-import CreateProject from './components/CreateProject';
+import CreateProject from './components/admin/CreateProject';
+import {ComingSoon} from './components/app/ComingSoon';
+import Classroom from './components/admin/Classroom';
 
 /**
  * COMPONENT
@@ -29,7 +31,10 @@ class Routes extends Component {
 
         return (
             <Switch>
-                {isLoggedIn && <Route exact={true} path="/create/project" component={CreateProject}/>}
+                <Route exact path="/home" component={isLoggedIn ? Admin : Login}/>
+                {isLoggedIn && <Route path="/home/classroom/:id" component={Classroom}/>}
+                {isLoggedIn && <Route exact path="/create/project" component={CreateProject}/>}
+                {isLoggedIn && <Route exact path="/create/classroom" component={ComingSoon}/>}
 
                 {isLoggedIn ?
                     <Route path="/:linkName"
@@ -37,11 +42,11 @@ class Routes extends Component {
                                <Home {...props} /> :
                                <NotFound getProject={this.props.getProject}/>}
                     /> :
-                    <Route path="/:linkName" component={Login} />
+                    <Route path="/:linkName" component={JoinProject}/>
                 }
 
                 {/*Displays our Login component as a fallback if no project exists */}
-                <Route path="/" component={isLoggedIn ? Admin : Login} />
+                <Route exact path="/" component={isLoggedIn ? Admin : Login}/>
 
             </Switch>
         )

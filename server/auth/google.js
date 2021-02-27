@@ -15,19 +15,19 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
 
     passport.use('google',
         new GoogleStrategy(
-        googleConfig,
-        (token, refreshToken, profile, done) => {
-            const googleId = profile.id;
-            const name = profile.displayName;
+            googleConfig,
+            (token, refreshToken, profile, done) => {
+                const googleId = profile.id;
+                const name = profile.displayName;
 
-            User.findOrCreate({
-                where: {googleId},
-                defaults: {name}
-            })
-                .then(([user]) => done(null, user))
-                .catch(done)
-        }
-    ));
+                User.findOrCreate({
+                    where: {googleId},
+                    defaults: {name}
+                })
+                    .then(([user]) => done(null, user))
+                    .catch(done)
+            }
+        ));
 
     router.get('/callback',
         passport.authenticate('google', {failureRedirect: '/login'}),

@@ -1,12 +1,12 @@
 const router = require('express').Router();
-const { Project, Topic, User } = require('../db/models');
+const {Classroom, Project, Topic, User} = require('../db/models');
 
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
     try {
         const projects = await Project.findAll({
-            include: [User, Topic]
+            include: [Classroom, Topic]
         });
         res.status(201)
         res.json(projects);
@@ -33,14 +33,14 @@ router.get('/:linkName', async (req, res, next) => {
     }
 });
 
-router.get('/all/mine', async (req, res, next) => {
+router.get('/all/:classroomId', async (req, res, next) => {
     try {
         const projects = await Project.findAll({
             where: {
-                userId: req.user.id
+                classroomId: req.params.classroomId
             },
             include: [
-                User,
+                Classroom,
                 {
                     model: Topic,
                     include: [{model: User, as: 'students', attributes: ['name']}]
@@ -78,7 +78,7 @@ router.post('/create', async (req, res, next) => {
         res.status(201);
         res.json(projects);
     } catch (error) {
-        next (error);
+        next(error);
     }
 });
 
@@ -117,7 +117,7 @@ router.post('/update', async (req, res, next) => {
         res.status(201);
         res.json(updatedProject);
     } catch (error) {
-        next (error);
+        next(error);
     }
 });
 

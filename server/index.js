@@ -19,12 +19,12 @@ if (process.env.NODE_ENV !== 'production') require('../secret')
 passport.serializeUser((user, done) => done(null, user.id))
 
 passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await db.models.user.findByPk(id)
-    done(null, user)
-  } catch (err) {
-    done(err)
-  }
+    try {
+        const user = await db.models.user.findByPk(id)
+        done(null, user)
+    } catch (err) {
+        done(err)
+    }
 });
 
 const createApp = () => {
@@ -33,7 +33,7 @@ const createApp = () => {
     app.use(express.static(path.join(__dirname, '..', 'public')));
     // body parsing middleware
     app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.urlencoded({extended: true}));
     // session middleware with passport
     app.use(
         session({
@@ -54,7 +54,7 @@ const createApp = () => {
     app.use('/api', require('./api'));
     // send index.html
     app.use(express.static(path.join(__dirname, '..', 'client/build')));
-    app.get('/*', function(req, res) {
+    app.get('/*', function (req, res) {
         res.sendFile(path.join(__dirname, '..', 'client/build', 'index.html'));
     });
     app.use((req, res, next) =>

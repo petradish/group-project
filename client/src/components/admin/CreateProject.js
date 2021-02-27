@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import {createProject, logout} from '../store'
+import {createProject, logout} from '../../store'
 import {compact, isEmpty, map, omit, values} from 'lodash';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlus, faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 import {faTrashAlt} from '@fortawesome/free-regular-svg-icons';
 
 class CreateProject extends Component {
-    constructor (){
+    constructor() {
         super();
 
         this.state = {
@@ -32,7 +32,8 @@ class CreateProject extends Component {
     handleChange(evt) {
         let errors = this.state.errors;
         switch (evt.target.name) {
-            case 'topic': return;
+            case 'topic':
+                return;
             case 'maxStudents':
                 errors.maxStudents =
                     evt.target.value < 1 ? 'Max students cannot be 0' : null;
@@ -72,7 +73,7 @@ class CreateProject extends Component {
         });
     }
 
-    logout(){
+    logout() {
         this.props.logout();
     }
 
@@ -108,7 +109,7 @@ class CreateProject extends Component {
         const {topics} = this.state,
             {handleChange, handleTopicChange, handleSubmit, deleteTopic, addTopic} = this;
 
-            return (
+        return (
             <React.Fragment>
                 <div>
                     <h1>Create a new project</h1>
@@ -127,8 +128,10 @@ class CreateProject extends Component {
                                 <ol>{values(topics)?.map(t => (
                                     <li key={t.id}>
                                         <div className="topic-input">
-                                            <input onChange={(e) => handleTopicChange(e, t.id)} type="text" name="topic"/>
-                                            <FontAwesomeIcon className="delete-topic" icon={faTrashAlt} onClick={(e) => deleteTopic(e, t.id)}/>
+                                            <input onChange={(e) => handleTopicChange(e, t.id)} type="text"
+                                                   name="topic"/>
+                                            <FontAwesomeIcon className="delete-topic" icon={faTrashAlt}
+                                                             onClick={(e) => deleteTopic(e, t.id)}/>
                                         </div>
                                     </li>)
                                 )}</ol>
@@ -141,15 +144,16 @@ class CreateProject extends Component {
                             <div className={'form-fields'}>
                                 <form className="form-inline">
                                     <label htmlFor="name">Project name</label>
-                                    <input onChange={handleChange} type="text" name="name" />
+                                    <input onChange={handleChange} type="text" name="name"/>
                                     <label htmlFor="maxStudents">Max. students per group</label>
-                                    <input onChange={handleChange} type="number" name="maxStudents" min={1} max={8} placeholder={1}/>
+                                    <input onChange={handleChange} type="number" name="maxStudents" min={1} max={8}
+                                           placeholder={1}/>
                                     <label htmlFor="shortName">Short name</label>
-                                    <input onChange={handleChange} type="text" name="shortName" />
+                                    <input onChange={handleChange} type="text" name="shortName"/>
                                     <label htmlFor="Description">Description</label>
-                                    <textarea onChange={handleChange} name="description" />
+                                    <textarea onChange={handleChange} name="description"/>
                                     <label htmlFor="Instructions">Instructions</label>
-                                    <textarea onChange={handleChange} name="instructions" />
+                                    <textarea onChange={handleChange} name="instructions"/>
                                 </form>
                                 <button onClick={handleSubmit}>Done</button>
                             </div>

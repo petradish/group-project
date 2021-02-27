@@ -14,11 +14,11 @@ router.use('/users', require('./users'));
 // all other routes available to public
 router.use('/topics', require('./topics'));
 router.use('/projects', require('./projects'));
-
+router.use('/classrooms', require('./classrooms'));
 router.use((req, res, next) => {
-  const error = new Error('Not Found')
-  error.status = 404
-  next(error)
+    const error = new Error('Not Found')
+    error.status = 404
+    next(error)
 });
 
 module.exports = router;

@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import {deleteTopic, getProject, updateProject} from '../store';
+import {deleteTopic, getProject, updateProject} from '../../store';
 import {connect} from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faTrashAlt, faEdit} from '@fortawesome/free-regular-svg-icons';
-import {faPlus, faExternalLinkAlt} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faEdit, faTrashAlt} from '@fortawesome/free-regular-svg-icons';
+import {faExternalLinkAlt, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {compact, isEmpty, isEqual, keyBy, maxBy, omit, partition, sortBy, values} from 'lodash';
 
 class Project extends Component {
-    constructor (props){
+    constructor(props) {
         super(props);
         const {name, linkName, topics, maxStudents, shortName, instructions, description} = this.props;
         this.state = {
@@ -62,7 +62,8 @@ class Project extends Component {
     handleChange(evt) {
         let errors = this.state.errors;
         switch (evt.target.name) {
-            case 'topic': return;
+            case 'topic':
+                return;
             case 'maxStudents': {
                 const minStudents = maxBy(values(this.state.topics), (t) => t.students.length)?.students.length || 1;
                 errors.maxStudents = evt.target.value < minStudents ?
@@ -171,7 +172,7 @@ class Project extends Component {
         this.setState({...this.state, topics: omit(this.state.topics, topic.id), isTopicsListDirty: true})
     }
 
-    render(){
+    render() {
         if (!this.props.project) return null;
         const {name, linkName, maxStudents, shortName, instructions, description, showDetail, editTopics, topics, isDirty, errors} = this.state,
             {handleChange, handleTopicChange, handleSubmit, deleteTopic, addTopic} = this,
@@ -181,80 +182,84 @@ class Project extends Component {
 
         return (
             !showDetail ?
-            <div className={'project-swatch'} onClick={this.toggleViewDetail}>
-                <h2 className={'project-title'}>{name}</h2>
-            </div> :
-           <div className={'project-swatch-detail'}>
-               <h2 className={'project-title'}>{name}</h2>
-               <div className={'project-detail'}>
-                   <div className={'topic-container'}>
-                       <div className={'topic-header'}>
-                           <h3>Topic List</h3>
-                           <button className="edit-button" onClick={this.editTopics}>
-                               <FontAwesomeIcon icon={faEdit}/>
-                               Edit
-                           </button>
-                       </div>
-                       <ol>{allTopics?.map(t => (
-                           <li key={t.id}>
-                               {
-                                   editTopics ?
-                                   <div className="topic-input">
-                                       <input onChange={(e) => handleTopicChange(e, t)} type="text" name="topic" defaultValue={t.name}/>
-                                       <FontAwesomeIcon className="delete-topic" icon={faTrashAlt} onClick={(e) => deleteTopic(e, t)}/>
-                                   </div> :
-                                   t.name
-                               }
-                           </li>)
-                       )}</ol>
-                       {
-                           editTopics ?
-                               <button className="add-button" onClick={addTopic}>
-                                   <FontAwesomeIcon icon={faPlus}/>
-                                   Add Another Topic
-                               </button> :
-                               null
-                       }
-                   </div>
-                   <div className={'form-fields'}>
-                       <form className="form-inline">
-                           <label htmlFor="linkName">Link name* <a href={`/${this.props.project.linkName}`} rel='noopener noreferrer' target='_blank'> <FontAwesomeIcon icon={faExternalLinkAlt} /></a>
-                               {errors.linkName ? <p>{errors.linkName}</p> : null}
-                           </label>
-                           <input onChange={handleChange} type="text" name="linkName" defaultValue={linkName}/>
-                           <label htmlFor="maxStudents">
-                               Max. students*
-                               {errors.maxStudents ? <p>{errors.maxStudents}</p> : <p> (per group)</p>}
-                           </label>
-                           <input onChange={handleChange} type="number" name="maxStudents"
-                                  defaultValue={maxStudents} placeholder={minStudents} min={minStudents} max={8}
-                           />
-                           <label htmlFor="shortName">
-                               Short name*
-                               {errors.shortName ? <p>{errors.shortName}</p> : null}
-                           </label>
-                           <input onChange={handleChange} type="text" name="shortName" defaultValue={shortName}/>
-                           <label htmlFor="Description">
-                               Description*
-                               {errors.description ? <p>{errors.description}</p> : null}
-                           </label>
-                           <textarea onChange={handleChange} name="description" defaultValue={description} />
-                           <label htmlFor="Instructions">
-                               Instructions*
-                               {errors.instructions ? <p>{errors.instructions}</p> : null}
-                           </label>
-                           <textarea onChange={handleChange} name="instructions" defaultValue={instructions} />
-                       </form>
-                           <button
-                               className="submit-button"
-                               title={compact(values(errors)).length ? 'Resolve errors before saving' : null}
-                               disabled={compact(values(errors)).length}
-                               onClick={handleSubmit}>{isDirty ? 'Save' : 'Done'}
-                           </button>
-                       }
-                   </div>
-               </div>
-           </div>
+                <div className={'project-swatch'} onClick={this.toggleViewDetail}>
+                    <h2 className={'project-title'}>{name}</h2>
+                </div> :
+                <div className={'project-swatch-detail'}>
+                    <h2 className={'project-title'}>{name}</h2>
+                    <div className={'project-detail'}>
+                        <div className={'topic-container'}>
+                            <div className={'topic-header'}>
+                                <h3>Topic List</h3>
+                                <button className="edit-button" onClick={this.editTopics}>
+                                    <FontAwesomeIcon icon={faEdit}/>
+                                    Edit
+                                </button>
+                            </div>
+                            <ol>{allTopics?.map(t => (
+                                <li key={t.id}>
+                                    {
+                                        editTopics ?
+                                            <div className="topic-input">
+                                                <input onChange={(e) => handleTopicChange(e, t)} type="text"
+                                                       name="topic" defaultValue={t.name}/>
+                                                <FontAwesomeIcon className="delete-topic" icon={faTrashAlt}
+                                                                 onClick={(e) => deleteTopic(e, t)}/>
+                                            </div> :
+                                            t.name
+                                    }
+                                </li>)
+                            )}</ol>
+                            {
+                                editTopics ?
+                                    <button className="add-button" onClick={addTopic}>
+                                        <FontAwesomeIcon icon={faPlus}/>
+                                        Add Another Topic
+                                    </button> :
+                                    null
+                            }
+                        </div>
+                        <div className={'form-fields'}>
+                            <form className="form-inline">
+                                <label htmlFor="linkName">Link name* <a href={`/${this.props.project.linkName}`}
+                                                                        rel='noopener noreferrer' target='_blank'>
+                                    <FontAwesomeIcon icon={faExternalLinkAlt}/></a>
+                                    {errors.linkName ? <p>{errors.linkName}</p> : null}
+                                </label>
+                                <input onChange={handleChange} type="text" name="linkName" defaultValue={linkName}/>
+                                <label htmlFor="maxStudents">
+                                    Max. students*
+                                    {errors.maxStudents ? <p>{errors.maxStudents}</p> : <p> (per group)</p>}
+                                </label>
+                                <input onChange={handleChange} type="number" name="maxStudents"
+                                       defaultValue={maxStudents} placeholder={minStudents} min={minStudents} max={8}
+                                />
+                                <label htmlFor="shortName">
+                                    Short name*
+                                    {errors.shortName ? <p>{errors.shortName}</p> : null}
+                                </label>
+                                <input onChange={handleChange} type="text" name="shortName" defaultValue={shortName}/>
+                                <label htmlFor="Description">
+                                    Description*
+                                    {errors.description ? <p>{errors.description}</p> : null}
+                                </label>
+                                <textarea onChange={handleChange} name="description" defaultValue={description}/>
+                                <label htmlFor="Instructions">
+                                    Instructions*
+                                    {errors.instructions ? <p>{errors.instructions}</p> : null}
+                                </label>
+                                <textarea onChange={handleChange} name="instructions" defaultValue={instructions}/>
+                            </form>
+                            <button
+                                className="submit-button"
+                                title={compact(values(errors)).length ? 'Resolve errors before saving' : null}
+                                disabled={compact(values(errors)).length}
+                                onClick={handleSubmit}>{isDirty ? 'Save' : 'Done'}
+                            </button>
+                            }
+                        </div>
+                    </div>
+                </div>
         );
     }
 }

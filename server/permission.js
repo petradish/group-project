@@ -1,4 +1,3 @@
-
 // middleware for doing role-based permissions
 const permit = (...allowed) => {
     const isAllowed = role => allowed.indexOf(role) > -1

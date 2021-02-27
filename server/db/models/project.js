@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
-const { uniqueNamesGenerator, adjectives, colors, animals } = require('unique-names-generator');
+const {uniqueNamesGenerator, adjectives, colors, animals} = require('unique-names-generator');
 
 const Project = db.define('project', {
     name: {

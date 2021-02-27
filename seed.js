@@ -2,6 +2,7 @@
 
 const db = require('./server/db');
 const {
+  Classroom,
   Project,
   Topic,
   User
@@ -18,10 +19,29 @@ async function seed() {
     role: 'admin'
   })
 
-  const project = await Promise.all([
-    Project.create({
+  const classroom = await Promise.all([
+      Classroom.create({
+          id: 1,
+          name: 'Section A',
+          description: 'Period 2',
+          userId: 1
+      }),
+      Classroom.create({
+          id: 2,
+          name: 'Section B',
+          description: 'Period 5',
+          userId: 1
+      })
+  ]);
+
+  const students = await Promise.all([
+      User.create({id: 2, name: 'Student 1 Test', googleId: 'testtest1', classroomId: 1}),
+      User.create({id: 3, name: 'Student 2 Test', googleId: 'testtest2', classroomId: 1})
+  ])
+
+  const project = await Project.create({
       id: 1,
-      userId: 1,
+      classroomId: 1,
       name: 'Black History Month Project',
       shortName: 'BHM',
       maxStudents: 1,
@@ -29,8 +49,7 @@ async function seed() {
       instructions: 'First come first serve.\n' +
           '\n Try to choose someone you know, since you will be researching, creating, and presenting a project on this person.\n' +
           '\n If you aren\'t here, Ms. L will choose for you.'
-    })
-  ])
+  })
 
   const topics = await Promise.all([
     Topic.create({ name: 'Kobe Bryant', projectId: 1}),
