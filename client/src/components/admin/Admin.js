@@ -14,16 +14,16 @@ class Admin extends Component {
         super();
         this.state = {
             classroomId: null,
-            classroomName: null
+            classroomName: null,
+            projects: null,
+            students: null
         };
         this.setClassroom = this.setClassroom.bind(this);
     }
 
     setClassroom(classroom) {
-        const {id, name} = classroom;
-        this.setState({...this.state, classroomId: id, classroomName: name});
-        this.props.getProjects(id);
-        // history.push(`/home/classroom/${id}`);
+        const {id, name, projects, students} = classroom;
+        this.setState({...this.state, classroomId: id, classroomName: name, projects, students});
     }
 
     componentDidMount() {
@@ -31,7 +31,7 @@ class Admin extends Component {
     }
 
     render() {
-        const {user, logout, classrooms, projects} = this.props,
+        const {user, logout, classrooms} = this.props,
             {classroomId, classroomName} = this.state;
         return (
             <div className='Admin'>
@@ -55,7 +55,13 @@ class Admin extends Component {
                 </div>
                 <div className="main">
                     <TitleBar logout={logout} text={`${classroomName ?? 'Manage Classrooms'}`} />
-                    {classroomId ? <Classroom id={classroomId} projects={projects}/> : null}
+                    {classroomId ?
+                        <Classroom
+                            key={classroomId}
+                            id={classroomId}
+                        /> :
+                        null
+                    }
                 </div>
             </div>
         );
@@ -64,13 +70,11 @@ class Admin extends Component {
 
 const mapStateToProps = state => ({
     user: state.user,
-    classrooms: sortBy(state.classroom.classrooms, 'name'),
-    projects: sortBy(state.project.projects, 'name')
+    classrooms: sortBy(state.classroom.classrooms, 'name')
 });
 
 const mapDispatchToProps = dispatch => ({
     getClassrooms: () => dispatch(getAllClassrooms()),
-    getProjects: (id) => dispatch(getAllProjects(id)),
     logout: () => dispatch(logout())
 })
 

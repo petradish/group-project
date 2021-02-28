@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {createProject, logout} from '../../store'
 import {compact, isEmpty, map, omit, values} from 'lodash';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faPlus, faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
+import {faCheck, faPlus, faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 import {faTrashAlt} from '@fortawesome/free-regular-svg-icons';
 
 class CreateProject extends Component {
@@ -150,7 +150,8 @@ class CreateProject extends Component {
                                 <textarea onChange={handleChange} name="instructions"/>
                             </form>
                             <div className={'action-button'}>
-                                <button onClick={handleSubmit}>Done</button>
+                                <button onClick={()=> this.props.setIsAdding(false)}>Cancel</button>
+                                <button onClick={handleSubmit}><FontAwesomeIcon icon={faCheck}/>Done</button>
                             </div>
                         </div>
                     </div>

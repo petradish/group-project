@@ -29,12 +29,13 @@ class Classroom extends Component {
     }
 
     render() {
-        const {projects, classroom} = this.props;
+        const {classroom} = this.props;
         if (!classroom) return null;
+        const {projects} = classroom;
         return (
             <div className='Admin'>
                 <div className="projects-container">
-                    {projects?.length ? projects?.map((project) => {
+                    {projects.length ? projects.map((project) => {
                             const {id} = project;
                             return <Project
                                 key={id}
@@ -47,7 +48,7 @@ class Classroom extends Component {
                     }
                     {
                         this.state.isAdding ?
-                            <CreateProject classroomId={classroom.id} setIsAdding={this.setIsAdding}/> :
+                            <CreateProject key={classroom.id} classroomId={classroom.id} setIsAdding={this.setIsAdding}/> :
                             <button className="new-project-button" onClick={() => this.setIsAdding(true)}>
                                 <FontAwesomeIcon icon={faPlus}/>
                                 Create a new project
@@ -60,7 +61,6 @@ class Classroom extends Component {
 }
 
 const mapStateToProps = state => ({
-    user: state.user,
     classroom: state.classroom.classroom
 });
 
