@@ -56,13 +56,13 @@ router.get('/all/:classroomId', async (req, res, next) => {
 
 router.post('/create', async (req, res, next) => {
     try {
-        const {name, shortName, description, instructions, maxStudents} = req.body,
+        const {name, shortName, description, instructions, maxStudents, classroomId} = req.body,
             project = await Project.create({
-                name, shortName, description, instructions, maxStudents
+                name, shortName, description, instructions, maxStudents, classroomId
             }),
-            user = await User.findByPk(req.user.id)
+            classroom = await Classroom.findByPk(classroomId)
 
-        await project.setUser(user);
+        await project.setClassroom(classroom);
 
         if (req.body.topics) {
             const newTopics = await Promise.all(req.body.topics.map(it => {
@@ -72,8 +72,14 @@ router.post('/create', async (req, res, next) => {
         }
 
         const projects = await Project.findAll({
-            where: {userId: req.user.id},
-            include: [Topic]
+            where: {classroomId},
+            include: [
+                Classroom,
+                {
+                    model: Topic,
+                    include: [{model: User, as: 'students', attributes: ['name']}]
+                }
+            ]
         });
         res.status(201);
         res.json(projects);
@@ -136,10 +142,22 @@ router.get('/delete/topic/:id', async (req, res, next) => {
 
 router.get('/delete/:id', async (req, res, next) => {
     try {
-        const project = await Project.findByPk(req.params.id);
+        const project = await Project.findByPk(req.params.id),
+            classroomId = project.classroomId;
         await project.destroy();
+
+        const projects = await Project.findAll({
+            where: {classroomId},
+            include: [
+                Classroom,
+                {
+                    model: Topic,
+                    include: [{model: User, as: 'students', attributes: ['name']}]
+                }
+            ]
+        });
         res.status(201);
-        res.json({deleted: req.params.id});
+        res.json(projects);
     } catch (err) {
         next(err);
     }

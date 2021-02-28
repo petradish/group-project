@@ -1,0 +1,299 @@
+.Admin {
+  display: grid;
+  grid-template-columns: 15vw auto;
+}
+
+.sidebar {
+  //background-color: rgba(144, 230, 216, 0.9);
+  width: 15vw;
+  height: 98vh;
+  margin: 1vw;
+  border-right: 2px solid mediumslateblue;
+
+  h3 {
+    color: white;
+    text-align: center;
+    font-size: 1.5vw;
+  }
+
+  .classroom,
+  .classroom--selected {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 10vw;
+    width: 13vw;
+    color: white;
+    margin: 1vw;
+    transition: 0.3s ease-out;
+    border-radius: 1vw;
+    background-color: blueviolet;
+
+    &:hover,
+    &--selected {
+      background-color: mediumvioletred;
+    }
+
+    &__title {
+      margin: 1vw;
+      font-size: 2vw;
+    }
+
+    &__description {
+      white-space: nowrap;
+    }
+  }
+
+  .new-class-button {
+    height: 5vw;
+    width: 13vw;
+    align-items: center;
+    margin: 1vw;
+  }
+}
+
+.main {
+  width: 85vw;
+  display: flex;
+  flex-direction: column;
+
+  .projects-container,
+  .create-project-container {
+    width: 83vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 2vh;
+
+    h4 {
+      color: white;
+      font-size: 1.25vw;
+    }
+  }
+
+  .project-swatch {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+    width: 70vw;
+    margin: 2vh;
+    color: white;
+    transition: 0.3s ease-out;
+    border-radius: 1vw;
+    background-color: blueviolet;
+  }
+
+  .project-swatch:hover {
+    background-color: #1163ae;
+  }
+
+  .project-title {
+    margin: 0;
+    padding: 1vh;
+    font-size: 2vw;
+  }
+
+  .project-swatch-detail {
+    background-color: #1163ae;
+    height: 85vh;
+    width: 70vw;
+    border-radius: 1vw;
+    margin: 2vh;
+    transition: all 0.3s ease-out;
+  }
+
+  .project-swatch-detail .project-title {
+    margin-top: 2vh;
+    color: white
+  }
+
+  .project-detail {
+    display: grid;
+    grid-template-columns: 30vw 40vw;
+    justify-items: center;
+
+  }
+
+  .topic-container {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+  }
+
+  .topic-container ol {
+    margin-top: 0;
+    width: 25vw;
+    height: 55vh;
+    padding-left: 6vw;
+    font-size: 1.25vw;
+    overflow-y: auto;
+  }
+
+  .topic-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1vh;
+    width: 25vw;
+  }
+
+  .topic-container h3 {
+    color: white;
+    font-size: 1.5vw;
+  }
+
+  .edit-button {
+    background-color: mediumvioletred;
+    align-items: center;
+    margin-left: 2vw;
+    font-size: 1.25vw;
+  }
+
+  .edit-button:hover {
+    background-color: blueviolet;
+  }
+
+  .edit-button svg {
+    margin-right: 0.5vw;
+  }
+
+  .add-button {
+    background-color: mediumvioletred;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25vw;
+  }
+
+  .add-button:hover {
+    background-color: blueviolet;
+  }
+
+  .add-button svg {
+    margin-right: 0.5vw;
+  }
+
+  .topic-container li {
+    color: white;
+    padding: 1px 2px;
+    height: 21px;
+    width: 25vw;
+  }
+
+  .topic-input {
+    display: flex;
+    align-items: center;
+    width: 25vw;
+  }
+
+  .delete-topic {
+    cursor: pointer;
+    opacity: 0.6;
+  }
+
+  .delete-topic:hover {
+    opacity: 1;
+  }
+
+  .topic-container li input {
+    width: 18vw;
+    margin-right: 0.5vw;
+  }
+
+  .form-fields {
+    margin-top: 2vh;
+    height: 70vh;
+  }
+
+  .form-inline {
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+
+  .form-inline label {
+    color: white;
+    text-align: right;
+    margin: 1vh 2vh 1vh 0;
+    width: 12vw;
+    font-size: 1.25vw;
+  }
+
+  .form-inline input {
+    margin: 1vh 2vh 1vh 0;
+    padding: 1vh;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    width: 20vw;
+  }
+
+  .form-inline p {
+    margin: 0;
+    text-align: right;
+    font-size: 1.1vw;
+    color: mediumvioletred;
+  }
+
+  .form-inline a {
+    color: white;
+  }
+
+  .form-inline a:hover {
+    color: mediumvioletred;
+  }
+
+  textarea {
+    width: 20vw;
+    resize: none;
+    margin: 1vh 2vh 1vh 0;
+    padding: 1vh;
+    height: 16vh;
+    color: darkblue;
+    font-family: Arial, sans-serif;
+    font-size: 1.25vw;
+  }
+
+  .action-button {
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      width: 7vw;
+      justify-content: center;
+      font-size: 1.25vw;
+      background-color: mediumvioletred;
+      margin: 1vw 1vw;
+
+      svg {
+        margin-right: 0.5vw;
+      }
+    }
+
+    .button:disabled {
+      cursor: default;
+      width: 6vw;
+      justify-content: center;
+      font-size: 1.25vw;
+      color: gainsboro;
+      background-color: slategray;
+    }
+
+    button:hover:not(:disabled) {
+      background-color: blueviolet;
+    }
+  }
+
+  .new-project-button {
+    justify-content: center;
+    width: 20vw;
+  }
+
+  .new-project-button a {
+    color: white;
+  }
+
+  .new-project-button svg {
+    margin-right: 0.5vw;
+  }
+}

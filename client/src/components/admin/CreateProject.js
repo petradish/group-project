@@ -7,8 +7,8 @@ import {faPlus, faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 import {faTrashAlt} from '@fortawesome/free-regular-svg-icons';
 
 class CreateProject extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             name: null,
@@ -90,6 +90,7 @@ class CreateProject extends Component {
         }
         const data = {
             id: this.props.id,
+            classroomId: this.props.classroomId,
             name,
             linkName,
             maxStudents,
@@ -103,6 +104,7 @@ class CreateProject extends Component {
         }
 
         this.props.createProject(data);
+        this.props.setIsAdding(false);
     }
 
     render() {
@@ -110,57 +112,50 @@ class CreateProject extends Component {
             {handleChange, handleTopicChange, handleSubmit, deleteTopic, addTopic} = this;
 
         return (
-            <React.Fragment>
-                <div>
-                    <h1>Create a new project</h1>
-                    <button onClick={this.logout} className={'logout-button'}>
-                        <FontAwesomeIcon icon={faSignOutAlt}/>
-                        Logout
-                    </button>
-                </div>
-                <div className="create-project-container">
-                    <div className={'project-swatch-detail'}>
-                        <div className={'project-detail'}>
-                            <div className={'topic-container'}>
-                                <div className={'topic-header'}>
-                                    <h3>Topic List</h3>
-                                </div>
-                                <ol>{values(topics)?.map(t => (
-                                    <li key={t.id}>
-                                        <div className="topic-input">
-                                            <input onChange={(e) => handleTopicChange(e, t.id)} type="text"
-                                                   name="topic"/>
-                                            <FontAwesomeIcon className="delete-topic" icon={faTrashAlt}
-                                                             onClick={(e) => deleteTopic(e, t.id)}/>
-                                        </div>
-                                    </li>)
-                                )}</ol>
-                                <button className="add-button" onClick={addTopic}>
-                                    <FontAwesomeIcon icon={faPlus}/>
-                                    Add Another Topic
-                                </button>
-
+            <div className="create-project-container">
+                <div className={'project-swatch-detail'}>
+                    <div className={'project-detail'}>
+                        <div className={'topic-container'}>
+                            <div className={'topic-header'}>
+                                <h3>Topic List</h3>
                             </div>
-                            <div className={'form-fields'}>
-                                <form className="form-inline">
-                                    <label htmlFor="name">Project name</label>
-                                    <input onChange={handleChange} type="text" name="name"/>
-                                    <label htmlFor="maxStudents">Max. students per group</label>
-                                    <input onChange={handleChange} type="number" name="maxStudents" min={1} max={8}
-                                           placeholder={1}/>
-                                    <label htmlFor="shortName">Short name</label>
-                                    <input onChange={handleChange} type="text" name="shortName"/>
-                                    <label htmlFor="Description">Description</label>
-                                    <textarea onChange={handleChange} name="description"/>
-                                    <label htmlFor="Instructions">Instructions</label>
-                                    <textarea onChange={handleChange} name="instructions"/>
-                                </form>
+                            <ol>{values(topics)?.map(t => (
+                                <li key={t.id}>
+                                    <div className="topic-input">
+                                        <input onChange={(e) => handleTopicChange(e, t.id)} type="text"
+                                               name="topic"/>
+                                        <FontAwesomeIcon className="delete-topic" icon={faTrashAlt}
+                                                         onClick={(e) => deleteTopic(e, t.id)}/>
+                                    </div>
+                                </li>)
+                            )}</ol>
+                            <button className="add-button" onClick={addTopic}>
+                                <FontAwesomeIcon icon={faPlus}/>
+                                Add Another Topic
+                            </button>
+
+                        </div>
+                        <div className={'form-fields'}>
+                            <form className="form-inline">
+                                <label htmlFor="name">Project name</label>
+                                <input onChange={handleChange} type="text" name="name"/>
+                                <label htmlFor="maxStudents">Max. students per group</label>
+                                <input onChange={handleChange} type="number" name="maxStudents" min={1} max={8}
+                                       placeholder={1}/>
+                                <label htmlFor="shortName">Short name</label>
+                                <input onChange={handleChange} type="text" name="shortName"/>
+                                <label htmlFor="Description">Description</label>
+                                <textarea onChange={handleChange} name="description"/>
+                                <label htmlFor="Instructions">Instructions</label>
+                                <textarea onChange={handleChange} name="instructions"/>
+                            </form>
+                            <div className={'action-button'}>
                                 <button onClick={handleSubmit}>Done</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </React.Fragment>
+            </div>
         );
     }
 }

@@ -89,16 +89,30 @@ input[type=number] {
   background-color: white
 }
 
-.logout-button {
-  position: absolute;
-  right: 2vw;
-  top: 4vh;
+.title-bar {
+  display: flex;
+  flex-direction: row;
   align-items: center;
+  height: 6vw;
+
+  h1 {
+    flex: 1;
+    margin: 0 0 0 10vw;
+  }
+
+  .logout-button {
+    width: 8vw;
+    max-height: 5vw;
+    align-items: center;
+    justify-content: center;
+    margin: 0 1vw;
+  }
+
+  .logout-button svg {
+    margin-right: 0.5vw;
+  }
 }
 
-.logout-button svg {
-  margin-right: 0.5vw;
-}
 
 .popup {
   position: fixed;
@@ -201,245 +215,5 @@ button {
 
 button:hover {
   background-color: mediumvioletred;
-}
-
-.Admin {
-  display: flex;
-  flex-direction: column;
-  justify-items: center;
-  justify-content: center;
-}
-
-.projects-container,
-.create-project-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 2vh;
-}
-
-.create-project-container {
-  padding-top: 2vh;
-}
-
-.create-project-container .project-swatch-detail {
-  padding-top: 2vh;
-}
-
-.project-swatch {
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 10vh;
-  min-width: 70vw;
-  margin: 2vh;
-  color: white;
-  transition: 0.3s ease-out;
-  border-radius: 1vw;
-  background-color: blueviolet;
-}
-
-.project-swatch:hover {
-  background-color: #1163ae;
-}
-
-.project-title {
-  margin: 0;
-  padding: 1vh;
-}
-
-.project-swatch-detail {
-  background-color: #1163ae;
-  height: 80vh;
-  width: 70vw;
-  border-radius: 1vw;
-  margin: 2vh;
-  transition: all 0.3s ease-out;
-}
-
-.project-swatch-detail .project-title {
-  margin-top: 2vh;
-  color: white
-}
-
-.project-detail {
-  display: grid;
-  grid-template-columns: 30vw 40vw;
-  justify-items: center;
-
-}
-
-.topic-container {
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  align-items: center;
-}
-
-.topic-container ol {
-  margin-top: 0;
-  width: 25vw;
-  padding-left: 6vw;
-  font-size: 1.25vw;
-}
-
-.topic-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1vh;
-  width: 25vw;
-}
-
-.topic-container h3 {
-  color: white;
-  font-size: 1.5vw;
-}
-
-.edit-button {
-  background-color: mediumvioletred;
-  align-items: center;
-  margin-left: 2vw;
-  font-size: 1.25vw;
-}
-
-.edit-button:hover {
-  background-color: blueviolet;
-}
-
-.edit-button svg {
-  margin-right: 0.5vw;
-}
-
-.add-button {
-  background-color: mediumvioletred;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.25vw;
-}
-
-.add-button:hover {
-  background-color: blueviolet;
-}
-
-.add-button svg {
-  margin-right: 0.5vw;
-}
-
-.topic-container li {
-  color: white;
-  padding: 1px 2px;
-  height: 21px;
-  width: 25vw;
-}
-
-.topic-input {
-  display: flex;
-  align-items: center;
-  width: 25vw;
-}
-
-.delete-topic {
-  cursor: pointer;
-  opacity: 0.6;
-}
-
-.delete-topic:hover {
-  opacity: 1;
-}
-
-.topic-container li input {
-  width: 18vw;
-  margin-right: 0.5vw;
-}
-
-.form-fields {
-  margin-top: 2vh;
-  height: 70vh;
-}
-
-.form-inline {
-  display: grid;
-  grid-template-columns: auto auto;
-}
-
-.form-inline label {
-  color: white;
-  text-align: right;
-  margin: 1vh 2vh 1vh 0;
-  width: 12vw;
-  font-size: 1.25vw;
-}
-
-.form-inline input {
-  margin: 1vh 2vh 1vh 0;
-  padding: 1vh;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  width: 20vw;
-}
-
-.form-inline p {
-  margin: 0;
-  text-align: right;
-  font-size: 1.1vw;
-  color: mediumvioletred;
-}
-
-.form-inline a {
-  color: white;
-}
-
-.form-inline a:hover {
-  color: mediumvioletred;
-}
-
-textarea {
-  width: 20vw;
-  resize: none;
-  margin: 1vh 2vh 1vh 0;
-  padding: 1vh;
-  height: 16vh;
-  color: darkblue;
-  font-family: Arial, sans-serif;
-  font-size: 1.25vw;
-}
-
-.submit-button:disabled {
-  cursor: default;
-  width: 6vw;
-  justify-content: center;
-  font-size: 1.25vw;
-  margin: 1vw 0;
-  color: gainsboro;
-  background-color: slategray;
-}
-
-.submit-button {
-  width: 6vw;
-  justify-content: center;
-  font-size: 1.25vw;
-  margin: 1vw 0;
-  background-color: mediumvioletred;
-}
-
-.submit-button:hover:not(:disabled) {
-  background-color: blueviolet;
-}
-
-.new-project-button {
-  align-self: center;
-  justify-content: center;
-  width: 20vw;
-}
-
-.new-project-button a {
-  color: white;
-}
-
-.new-project-button svg {
-  margin-right: 0.5vw;
 }
 

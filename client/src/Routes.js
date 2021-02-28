@@ -32,8 +32,7 @@ class Routes extends Component {
         return (
             <Switch>
                 <Route exact path="/home" component={isLoggedIn ? Admin : Login}/>
-                {isLoggedIn && <Route path="/home/classroom/:id" component={Classroom}/>}
-                {isLoggedIn && <Route exact path="/create/project" component={CreateProject}/>}
+                {isLoggedIn && <Route path="/home/classroom/:id" component={Admin}/>}
                 {isLoggedIn && <Route exact path="/create/classroom" component={ComingSoon}/>}
 
                 {isLoggedIn ?

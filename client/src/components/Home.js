@@ -6,6 +6,7 @@ import {getAllTopics, logout, selectTopic} from '../store'
 import {sortBy} from 'lodash';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
+import {TitleBar} from './TitleBar';
 
 class Home extends Component {
     constructor() {
@@ -48,18 +49,12 @@ class Home extends Component {
     }
 
     render() {
-        const {allTopics, project} = this.props,
+        const {allTopics, project, user, logout} = this.props,
             columnNum = Math.ceil(Math.sqrt(allTopics.length));
         return (
             <div className='App'>
                 {this.state.showPopup ? <Popup project={project} closePopup={this.closePopup}/> : null}
-                <div>
-                    <h1>Hi, {this.props.user.name}! Choose your {project.shortName ?? project.name} topic</h1>
-                    <button onClick={this.logout} className={'logout-button'}>
-                        <FontAwesomeIcon icon={faSignOutAlt}/>
-                        Logout
-                    </button>
-                </div>
+                <TitleBar user={user} logout={logout} text={`Choose your ${project.shortName ?? project.name} topic`} />
                 <div className={`app-container-${columnNum > 5 ? 5 : columnNum}`}>
                     {allTopics?.length ? allTopics?.map((topic) => {
                             return <Topic

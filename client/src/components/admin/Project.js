@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {deleteTopic, getProject, updateProject} from '../../store';
+import {deleteProject, deleteTopic, getProject, updateProject} from '../../store';
 import {connect} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEdit, faTrashAlt} from '@fortawesome/free-regular-svg-icons';
@@ -20,7 +20,6 @@ class Project extends Component {
             topics: keyBy(topics, 'id'),
             showDetail: false,
             editTopics: false,
-            toDelete: null,
             isDirty: false,
             isTopicListDirty: false,
             newTopicCount: 0,
@@ -33,6 +32,7 @@ class Project extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.addTopic = this.addTopic.bind(this);
         this.deleteTopic = this.deleteTopic.bind(this);
+        this.deleteProject = this.deleteProject.bind(this);
     }
 
     componentDidMount() {
@@ -44,6 +44,16 @@ class Project extends Component {
             ...this.state,
             showDetail: !this.state.showDetail
         });
+    }
+
+    addProject() {
+        this.setState({
+            ...this.setState({
+                ...this.state,
+
+                showDetail: true
+            })
+        })
     }
 
     editTopics() {
@@ -142,7 +152,6 @@ class Project extends Component {
                 shortName,
                 instructions,
                 description,
-                toDelete: null,
                 isDirty: false,
                 isTopicsListDirty: false,
                 newTopicCount: 0,
@@ -166,19 +175,24 @@ class Project extends Component {
     deleteTopic(evt, topic) {
         evt.preventDefault();
         // Only delete topic from API if saved
-        if (!topic.id.startsWith('new')) {
+        if (!topic.id.toString().startsWith('new')) {
             this.props.deleteTopic(topic.id);
         }
         this.setState({...this.state, topics: omit(this.state.topics, topic.id), isTopicsListDirty: true})
     }
 
+    deleteProject(evt) {
+        evt.preventDefault();
+        this.props.deleteProject(this.props.project.id);
+    }
+
     render() {
         if (!this.props.project) return null;
         const {name, linkName, maxStudents, shortName, instructions, description, showDetail, editTopics, topics, isDirty, errors} = this.state,
-            {handleChange, handleTopicChange, handleSubmit, deleteTopic, addTopic} = this,
+            {handleChange, handleTopicChange, handleSubmit, deleteTopic, addTopic, deleteProject} = this,
             [newTopics, oldTopics] = partition(topics, (it) => it.id.toString().startsWith('new')),
             allTopics = sortBy(oldTopics, 'name').concat(newTopics),
-            minStudents = maxBy(values(this.state.topics), (t) => t.students.length)?.students.length || 1;
+            minStudents = maxBy(values(this.state.topics), (t) => t.students?.length)?.students.length || 1;
 
         return (
             !showDetail ?
@@ -216,13 +230,12 @@ class Project extends Component {
                                         <FontAwesomeIcon icon={faPlus}/>
                                         Add Another Topic
                                     </button> :
-                                    null
+                                    <h4>{allTopics.length} Topics</h4>
                             }
                         </div>
                         <div className={'form-fields'}>
                             <form className="form-inline">
-                                <label htmlFor="linkName">Link name* <a href={`/${this.props.project.linkName}`}
-                                                                        rel='noopener noreferrer' target='_blank'>
+                                <label htmlFor="linkName">Link name* <a href={`/${this.props.project.linkName}`} rel='noopener noreferrer' target='_blank'>
                                     <FontAwesomeIcon icon={faExternalLinkAlt}/></a>
                                     {errors.linkName ? <p>{errors.linkName}</p> : null}
                                 </label>
@@ -250,13 +263,20 @@ class Project extends Component {
                                 </label>
                                 <textarea onChange={handleChange} name="instructions" defaultValue={instructions}/>
                             </form>
-                            <button
-                                className="submit-button"
-                                title={compact(values(errors)).length ? 'Resolve errors before saving' : null}
-                                disabled={compact(values(errors)).length}
-                                onClick={handleSubmit}>{isDirty ? 'Save' : 'Done'}
-                            </button>
-                            }
+                            <div className={"action-button"}>
+                                <button
+                                    className="delete-button"
+                                    onClick={(e) => deleteProject(e)}>
+                                    <FontAwesomeIcon className="delete-topic" icon={faTrashAlt}/>
+                                     Delete
+                                </button>
+                                <button
+                                    className="submit-button"
+                                    title={compact(values(errors)).length ? 'Resolve errors before saving' : null}
+                                    disabled={compact(values(errors)).length}
+                                    onClick={handleSubmit}>{isDirty ? 'Save' : 'Done'}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -271,7 +291,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getProject: (linkName) => dispatch(getProject(linkName)),
     updateProject: (project) => dispatch(updateProject(project)),
-    deleteTopic: (topicId) => dispatch(deleteTopic(topicId))
+    deleteTopic: (topicId) => dispatch(deleteTopic(topicId)),
+    deleteProject: (projectId) => dispatch(deleteProject(projectId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Project);

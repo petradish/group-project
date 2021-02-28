@@ -1,28 +1,28 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import {getAllProjects, getClassroom, logout} from '../../store'
-import {sortBy} from 'lodash';
+import {createProject, getClassroom, logout} from '../../store'
 import Project from './Project';
 import history from '../../history'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faPlus, faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
-
+import {faPlus} from '@fortawesome/free-solid-svg-icons';
+import CreateProject from './CreateProject';
 
 class Classroom extends Component {
     constructor(props) {
         super(props);
-        this.logout = this.logout.bind(this);
+        this.state = {
+            isAdding: false
+        };
+        this.setIsAdding = this.setIsAdding.bind(this);
     }
 
     componentDidMount() {
-        const {pathname} = window.location,
-            id = pathname.replace('/home/classroom', '');
+        const {id} = this.props;
         this.props.getClassroom(id);
-        this.props.getProjects(id);
     }
 
-    logout() {
-        this.props.logout();
+    setIsAdding(isAdding) {
+        this.setState({isAdding})
     }
 
     render() {
@@ -30,13 +30,6 @@ class Classroom extends Component {
         if (!classroom) return null;
         return (
             <div className='Admin'>
-                <div>
-                    <h1>Manage your projects for {classroom?.name}</h1>
-                    <button onClick={this.logout} className={'logout-button'}>
-                        <FontAwesomeIcon icon={faSignOutAlt}/>
-                        Logout
-                    </button>
-                </div>
                 <div className="projects-container">
                     {projects?.length ? projects?.map((project) => {
                             const {id, name, linkName, topics, shortName, maxStudents, description, instructions} = project;
@@ -54,11 +47,15 @@ class Classroom extends Component {
                         }) :
                         null
                     }
+                    {
+                        this.state.isAdding ?
+                            <CreateProject classroomId={classroom.id} setIsAdding={this.setIsAdding}/> :
+                            <button className="new-project-button" onClick={() => this.setIsAdding(true)}>
+                                <FontAwesomeIcon icon={faPlus}/>
+                                Create a new project
+                            </button>
+                    }
                 </div>
-                <button className="new-project-button" onClick={() => history.push('/create/project')}>
-                    <FontAwesomeIcon icon={faPlus}/>
-                    Create a new project
-                </button>
             </div>
         );
     }
@@ -67,12 +64,11 @@ class Classroom extends Component {
 const mapStateToProps = state => ({
     user: state.user,
     classroom: state.classroom.classroom,
-    projects: sortBy(state.project.projects, 'name')
+    project: state.project.project
 });
 
 const mapDispatchToProps = dispatch => ({
     getClassroom: (id) => dispatch(getClassroom(id)),
-    getProjects: (id) => dispatch(getAllProjects(id)),
     logout: () => dispatch(logout())
 })
 

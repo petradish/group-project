@@ -42,8 +42,8 @@ export const getProject = (linkName) => {
 export const createProject = (project) => {
     return async dispatch => {
         const {data} = await axios.post(`/api/projects/create`, project);
-        dispatch(createdProject(data));
-        history.push('/');
+        dispatch(gotAllProjects(data));
+        history.push('/home');
     };
 };
 
@@ -54,18 +54,24 @@ export const updateProject = (project) => {
     };
 };
 
+export const deleteProject = (id) => {
+    return async dispatch => {
+        const {data} = await axios.get(`/api/projects/delete/${id}`);
+        dispatch(gotAllProjects(data));
+    };
+};
+
 export const deleteTopic = (topicId) => {
     return async dispatch => {
         const {data} = await axios.get(`/api/projects/delete/topic/${topicId}`);
         dispatch(gotProject(data));
+        history.push('/');
     };
 };
 
 // REDUCER
 export default function project(state = {}, action) {
     switch (action.type) {
-        case CREATE_PROJECT:
-            return {...state, project: action.project};
         case GET_ALL_PROJECTS:
             return {...state, projects: action.projects};
         case GET_PROJECT:
