@@ -47,7 +47,9 @@ class Project extends Component {
 
     deleteProject(evt) {
         evt.preventDefault();
-        this.props.deleteProject(this.props.project.id);
+        this.props.deleteProject(this.props.project.id).then(() => {
+            this.props.fetchClassroom();
+        })
     }
 
     handleChange(evt) {
@@ -136,6 +138,7 @@ class Project extends Component {
             isTopicsListDirty: true
         });
     }
+
     handleTopicChange(evt, topic) {
         const {topics} = this.state;
         topics[topic.id].name = evt.target.value;
@@ -200,7 +203,9 @@ class Project extends Component {
                         </div>
                         <div className={'form-fields'}>
                             <form className="form-inline">
-                                <label htmlFor="linkName">Link name* <a href={`/${!isDirty ? linkName : this.props.project.linkName}`} rel='noopener noreferrer' target='_blank'>
+                                <label htmlFor="linkName">Link name* <a
+                                    href={`/${!isDirty ? linkName : this.props.project.linkName}`}
+                                    rel='noopener noreferrer' target='_blank'>
                                     <FontAwesomeIcon icon={faExternalLinkAlt}/></a>
                                     {errors.linkName ? <p>{errors.linkName}</p> : null}
                                 </label>
@@ -233,7 +238,7 @@ class Project extends Component {
                                     className="delete-button"
                                     onClick={(e) => deleteProject(e)}>
                                     <FontAwesomeIcon icon={faTrashAlt}/>
-                                     Delete
+                                    Delete
                                 </button>
                                 <button
                                     className="submit-button"
@@ -254,8 +259,8 @@ class Project extends Component {
 const mapDispatchToProps = dispatch => ({
     getProject: (linkName) => dispatch(getProject(linkName)),
     updateProject: (project) => dispatch(updateProject(project)),
-    deleteTopic: (topicId) => dispatch(deleteTopic(topicId)),
-    deleteProject: (projectId) => dispatch(deleteProject(projectId))
+    deleteProject: (projectId) => dispatch(deleteProject(projectId)),
+    deleteTopic: (topicId) => dispatch(deleteTopic(topicId))
 })
 
 export default connect(null, mapDispatchToProps)(Project);

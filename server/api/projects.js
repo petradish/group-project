@@ -33,56 +33,25 @@ router.get('/:linkName', async (req, res, next) => {
     }
 });
 
-router.get('/all/:classroomId', async (req, res, next) => {
-    try {
-        const projects = await Project.findAll({
-            where: {
-                classroomId: req.params.classroomId
-            },
-            include: [
-                Classroom,
-                {
-                    model: Topic,
-                    include: [{model: User, as: 'students', attributes: ['name']}]
-                }
-            ]
-        });
-        res.status(201)
-        res.json(projects);
-    } catch (err) {
-        next(err);
-    }
-});
-
 router.post('/create', async (req, res, next) => {
     try {
         const {name, shortName, description, instructions, maxStudents, classroomId} = req.body,
-            project = await Project.create({
+            createdProject = await Project.create({
                 name, shortName, description, instructions, maxStudents, classroomId
             }),
             classroom = await Classroom.findByPk(classroomId)
 
-        await project.setClassroom(classroom);
+        await createdProject.setClassroom(classroom);
 
         if (req.body.topics) {
             const newTopics = await Promise.all(req.body.topics.map(it => {
                 return Topic.create({name: it});
             }));
-            await project.setTopics(newTopics);
+            await createdProject.setTopics(newTopics);
         }
 
-        const projects = await Project.findAll({
-            where: {classroomId},
-            include: [
-                Classroom,
-                {
-                    model: Topic,
-                    include: [{model: User, as: 'students', attributes: ['name']}]
-                }
-            ]
-        });
         res.status(201);
-        res.json(projects);
+        res.json({createdProject, success: true});
     } catch (error) {
         next(error);
     }
@@ -121,7 +90,7 @@ router.post('/update', async (req, res, next) => {
         });
 
         res.status(201);
-        res.json(updatedProject);
+        res.json({updatedProject, success: true});
     } catch (error) {
         next(error);
     }
@@ -134,7 +103,7 @@ router.get('/delete/topic/:id', async (req, res, next) => {
         await topic.destroy();
         const updatedProject = await Project.findByPk(id, {include: [Topic]})
         res.status(201);
-        res.json(updatedProject);
+        res.json({updatedProject, success: true});
     } catch (err) {
         next(err);
     }
@@ -142,22 +111,11 @@ router.get('/delete/topic/:id', async (req, res, next) => {
 
 router.get('/delete/:id', async (req, res, next) => {
     try {
-        const project = await Project.findByPk(req.params.id),
-            classroomId = project.classroomId;
+        const project = await Project.findByPk(req.params.id);
         await project.destroy();
 
-        const projects = await Project.findAll({
-            where: {classroomId},
-            include: [
-                Classroom,
-                {
-                    model: Topic,
-                    include: [{model: User, as: 'students', attributes: ['name']}]
-                }
-            ]
-        });
         res.status(201);
-        res.json(projects);
+        res.json({deletedProject: project, success: true});
     } catch (err) {
         next(err);
     }
