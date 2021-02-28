@@ -104,6 +104,12 @@
     transition: all 0.3s ease-out;
   }
 
+  .create-project-container {
+    .project-swatch-detail {
+      background-color: mediumslateblue;
+    }
+  }
+
   .project-swatch-detail .project-title {
     margin-top: 2vh;
     color: white

@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import {createProject, getClassroom, logout} from '../../store'
+import {getClassroom, logout} from '../../store'
 import Project from './Project';
-import history from '../../history'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import CreateProject from './CreateProject';
@@ -14,11 +13,15 @@ class Classroom extends Component {
             isAdding: false
         };
         this.setIsAdding = this.setIsAdding.bind(this);
+        this.fetchClassroom = this.fetchClassroom.bind(this);
     }
 
     componentDidMount() {
-        const {id} = this.props;
-        this.props.getClassroom(id);
+        this.fetchClassroom();
+    }
+
+    fetchClassroom() {
+        this.props.getClassroom(this.props.id);
     }
 
     setIsAdding(isAdding) {
@@ -32,17 +35,12 @@ class Classroom extends Component {
             <div className='Admin'>
                 <div className="projects-container">
                     {projects?.length ? projects?.map((project) => {
-                            const {id, name, linkName, topics, shortName, maxStudents, description, instructions} = project;
+                            const {id} = project;
                             return <Project
                                 key={id}
                                 id={id}
-                                name={name}
-                                linkName={linkName}
-                                topics={topics}
-                                shortName={shortName}
-                                maxStudents={maxStudents}
-                                description={description}
-                                instructions={instructions}
+                                project={project}
+                                fetchClassroom={this.fetchClassroom}
                             />
                         }) :
                         null
@@ -63,8 +61,7 @@ class Classroom extends Component {
 
 const mapStateToProps = state => ({
     user: state.user,
-    classroom: state.classroom.classroom,
-    project: state.project.project
+    classroom: state.classroom.classroom
 });
 
 const mapDispatchToProps = dispatch => ({

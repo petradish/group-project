@@ -3,13 +3,21 @@ import {deleteProject, deleteTopic, getProject, updateProject} from '../../store
 import {connect} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEdit, faTrashAlt} from '@fortawesome/free-regular-svg-icons';
-import {faExternalLinkAlt, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faCheck, faExternalLinkAlt, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {compact, isEmpty, isEqual, keyBy, maxBy, omit, partition, sortBy, values} from 'lodash';
 
 class Project extends Component {
     constructor(props) {
         super(props);
-        const {name, linkName, topics, maxStudents, shortName, instructions, description} = this.props;
+        const {name, linkName, topics, maxStudents, shortName, instructions, description} = props.project;
+        this.initialState = {
+            showDetail: false,
+            editTopics: false,
+            isDirty: false,
+            isTopicsListDirty: false,
+            newTopicCount: 0,
+            errors: {}
+        };
         this.state = {
             name,
             maxStudents,
@@ -18,12 +26,7 @@ class Project extends Component {
             instructions,
             description,
             topics: keyBy(topics, 'id'),
-            showDetail: false,
-            editTopics: false,
-            isDirty: false,
-            isTopicListDirty: false,
-            newTopicCount: 0,
-            errors: {}
+            ...this.initialState
         };
         this.toggleViewDetail = this.toggleViewDetail.bind(this);
         this.editTopics = this.editTopics.bind(this);
@@ -33,10 +36,6 @@ class Project extends Component {
         this.addTopic = this.addTopic.bind(this);
         this.deleteTopic = this.deleteTopic.bind(this);
         this.deleteProject = this.deleteProject.bind(this);
-    }
-
-    componentDidMount() {
-        this.props.getProject('/' + this.props.linkName);
     }
 
     toggleViewDetail() {
@@ -106,7 +105,7 @@ class Project extends Component {
     }
 
     handleSubmit(evt) {
-        const {name, linkName, topics, maxStudents, shortName, instructions, description, isTopicsListDirty, errors} = this.state,
+        const {name, linkName, topics, maxStudents, shortName, instructions, description, isDirty, isTopicsListDirty, errors} = this.state,
             {project} = this.props;
         evt.preventDefault();
         if (!isEmpty(compact(values(errors)))) {
@@ -123,16 +122,8 @@ class Project extends Component {
             description
         };
         // Do not update if not dirty
-        if (!isTopicsListDirty && isEqual(data, {
-            id: this.props.id,
-            name: project.name,
-            linkName: project.linkName,
-            maxStudents: project.maxStudents,
-            shortName: project.shortName,
-            instructions: project.instructions,
-            description: project.description
-        })) {
-            this.setState({...this.state, showDetail: false, isDirty: false})
+        if (!isTopicsListDirty && !isDirty) {
+            this.setState(this.initialState)
             return;
         }
 
@@ -141,22 +132,8 @@ class Project extends Component {
         }
 
         this.props.updateProject(data).then(() => {
-            const {name, linkName, topics, maxStudents, shortName, instructions, description} = this.props.project;
-            this.setState({
-                showDetail: false,
-                editTopics: false,
-                name,
-                topics: keyBy(topics, 'id'),
-                maxStudents,
-                linkName,
-                shortName,
-                instructions,
-                description,
-                isDirty: false,
-                isTopicsListDirty: false,
-                newTopicCount: 0,
-                errors: {}
-            });
+            this.props.fetchClassroom();
+            this.setState(this.initialState);
         });
     }
 
@@ -178,7 +155,7 @@ class Project extends Component {
         if (!topic.id.toString().startsWith('new')) {
             this.props.deleteTopic(topic.id);
         }
-        this.setState({...this.state, topics: omit(this.state.topics, topic.id), isTopicsListDirty: true})
+        this.setState({...this.state, topics: omit(this.state.topics, topic.id)})
     }
 
     deleteProject(evt) {
@@ -235,7 +212,7 @@ class Project extends Component {
                         </div>
                         <div className={'form-fields'}>
                             <form className="form-inline">
-                                <label htmlFor="linkName">Link name* <a href={`/${this.props.project.linkName}`} rel='noopener noreferrer' target='_blank'>
+                                <label htmlFor="linkName">Link name* <a href={`/${!isDirty ? linkName : this.props.project.linkName}`} rel='noopener noreferrer' target='_blank'>
                                     <FontAwesomeIcon icon={faExternalLinkAlt}/></a>
                                     {errors.linkName ? <p>{errors.linkName}</p> : null}
                                 </label>
@@ -267,14 +244,16 @@ class Project extends Component {
                                 <button
                                     className="delete-button"
                                     onClick={(e) => deleteProject(e)}>
-                                    <FontAwesomeIcon className="delete-topic" icon={faTrashAlt}/>
+                                    <FontAwesomeIcon icon={faTrashAlt}/>
                                      Delete
                                 </button>
                                 <button
                                     className="submit-button"
                                     title={compact(values(errors)).length ? 'Resolve errors before saving' : null}
                                     disabled={compact(values(errors)).length}
-                                    onClick={handleSubmit}>{isDirty ? 'Save' : 'Done'}
+                                    onClick={handleSubmit}>
+                                    <FontAwesomeIcon icon={faCheck}/>
+                                    {isDirty ? 'Save' : 'Done'}
                                 </button>
                             </div>
                         </div>
@@ -284,10 +263,6 @@ class Project extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    project: state.project.project,
-});
-
 const mapDispatchToProps = dispatch => ({
     getProject: (linkName) => dispatch(getProject(linkName)),
     updateProject: (project) => dispatch(updateProject(project)),
@@ -295,4 +270,4 @@ const mapDispatchToProps = dispatch => ({
     deleteProject: (projectId) => dispatch(deleteProject(projectId))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Project);
+export default connect(null, mapDispatchToProps)(Project);
