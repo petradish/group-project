@@ -8,9 +8,7 @@ import {NotFound} from './components/app/NotFound';
 import {JoinProject} from './components/app/JoinProject';
 import Admin from './components/admin/Admin';
 import Home from './components/Home';
-import CreateProject from './components/admin/CreateProject';
 import {ComingSoon} from './components/app/ComingSoon';
-import Classroom from './components/admin/Classroom';
 
 /**
  * COMPONENT
@@ -20,7 +18,7 @@ class Routes extends Component {
         this.props.getUser().then(() => {
             if (this.props.isLoggedIn) {
                 const {pathname} = this.props.location;
-                if (!pathname || pathname === '/' || pathname.split('/').length > 2) return;
+                if (!pathname || ['/', '/home'].includes(pathname) || pathname.split('/').length > 2) return;
                 this.props.getProject(this.props.location.pathname);
             }
         })

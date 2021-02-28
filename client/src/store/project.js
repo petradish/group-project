@@ -41,16 +41,13 @@ export const getProject = (linkName) => {
 
 export const createProject = (project) => {
     return async dispatch => {
-        const {data} = await axios.post(`/api/projects/create`, project);
-        dispatch(gotAllProjects(data));
-        history.push('/home');
+        await axios.post(`/api/projects/create`, project);
     };
 };
 
 export const updateProject = (project) => {
     return async dispatch => {
-        const {data} = await axios.post(`/api/projects/update`, project);
-        dispatch(gotProject(data));
+        await axios.post(`/api/projects/update`, project);
     };
 };
 

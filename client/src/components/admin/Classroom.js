@@ -48,7 +48,12 @@ class Classroom extends Component {
                     }
                     {
                         this.state.isAdding ?
-                            <CreateProject key={classroom.id} classroomId={classroom.id} setIsAdding={this.setIsAdding}/> :
+                            <CreateProject
+                                key={classroom.id}
+                                classroomId={classroom.id}
+                                setIsAdding={this.setIsAdding}
+                                fetchClassroom={this.fetchClassroom}
+                            /> :
                             <button className="new-project-button" onClick={() => this.setIsAdding(true)}>
                                 <FontAwesomeIcon icon={faPlus}/>
                                 Create a new project

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import {getAllClassrooms, getAllProjects, logout} from '../../store'
+import {getAllClassrooms, logout} from '../../store'
 import {sortBy} from 'lodash';
 import history from '../../history'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';

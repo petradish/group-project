@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEdit, faTrashAlt} from '@fortawesome/free-regular-svg-icons';
 import {faCheck, faExternalLinkAlt, faPlus} from '@fortawesome/free-solid-svg-icons';
-import {compact, isEmpty, isEqual, keyBy, maxBy, omit, partition, sortBy, values} from 'lodash';
+import {compact, isEmpty, keyBy, maxBy, omit, partition, sortBy, values} from 'lodash';
 
 class Project extends Component {
     constructor(props) {
@@ -45,27 +45,9 @@ class Project extends Component {
         });
     }
 
-    addProject() {
-        this.setState({
-            ...this.setState({
-                ...this.state,
-
-                showDetail: true
-            })
-        })
-    }
-
-    editTopics() {
-        this.setState({
-            ...this.state,
-            editTopics: !this.state.editTopics
-        });
-    }
-
-    handleTopicChange(evt, topic) {
-        const {topics} = this.state;
-        topics[topic.id].name = evt.target.value;
-        this.setState({...this.state, topics, isDirty: true, isTopicsListDirty: true})
+    deleteProject(evt) {
+        evt.preventDefault();
+        this.props.deleteProject(this.props.project.id);
     }
 
     handleChange(evt) {
@@ -105,8 +87,7 @@ class Project extends Component {
     }
 
     handleSubmit(evt) {
-        const {name, linkName, topics, maxStudents, shortName, instructions, description, isDirty, isTopicsListDirty, errors} = this.state,
-            {project} = this.props;
+        const {name, linkName, topics, maxStudents, shortName, instructions, description, isDirty, isTopicsListDirty, errors} = this.state;
         evt.preventDefault();
         if (!isEmpty(compact(values(errors)))) {
             return;
@@ -137,6 +118,13 @@ class Project extends Component {
         });
     }
 
+    editTopics() {
+        this.setState({
+            ...this.state,
+            editTopics: !this.state.editTopics
+        });
+    }
+
     addTopic(evt) {
         evt.preventDefault();
         const {topics, newTopicCount} = this.state;
@@ -148,6 +136,11 @@ class Project extends Component {
             isTopicsListDirty: true
         });
     }
+    handleTopicChange(evt, topic) {
+        const {topics} = this.state;
+        topics[topic.id].name = evt.target.value;
+        this.setState({...this.state, topics, isDirty: true, isTopicsListDirty: true})
+    }
 
     deleteTopic(evt, topic) {
         evt.preventDefault();
@@ -156,11 +149,6 @@ class Project extends Component {
             this.props.deleteTopic(topic.id);
         }
         this.setState({...this.state, topics: omit(this.state.topics, topic.id)})
-    }
-
-    deleteProject(evt) {
-        evt.preventDefault();
-        this.props.deleteProject(this.props.project.id);
     }
 
     render() {

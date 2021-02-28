@@ -4,8 +4,6 @@ import Popup from './app/Popup'
 import Topic from './app/Topic';
 import {getAllTopics, logout, selectTopic} from '../store'
 import {sortBy} from 'lodash';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 import {TitleBar} from './TitleBar';
 
 class Home extends Component {
