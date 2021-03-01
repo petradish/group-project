@@ -35,7 +35,7 @@ class Classroom extends Component {
         return (
             <div className='Admin'>
                 <div className="projects-container">
-                    {projects.length ? projects.map((project) => {
+                    {projects?.length ? projects.map((project) => {
                             const {id} = project;
                             return <Project
                                 key={id}

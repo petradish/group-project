@@ -7,12 +7,9 @@ import topic, {getAllTopics} from './topic';
 import project from './project';
 import socket from '../socket';
 
-export const CREATE_CLASSROOM = 'CREATE_CLASSROOM';
 export const GET_ALL_CLASSROOMS = 'GET_ALL_CLASSROOMS';
 export const GET_CLASSROOM = 'GET_CLASSROOM';
 
-export const CREATE_PROJECT = 'CREATE_PROJECT';
-export const GET_ALL_PROJECTS = 'GET_ALL_PROJECTS';
 export const GET_PROJECT = 'GET_PROJECT';
 
 export const SELECT_TOPIC = 'SELECT_TOPIC';

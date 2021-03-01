@@ -2,12 +2,12 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {getAllClassrooms, logout} from '../../store'
 import {sortBy} from 'lodash';
-import history from '../../history'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import {TitleBar} from '../TitleBar';
 import './admin.scss';
 import Classroom from './Classroom';
+import CreateClassroom from './CreateClassroom';
 
 class Admin extends Component {
     constructor() {
@@ -15,19 +15,28 @@ class Admin extends Component {
         this.state = {
             classroomId: null,
             classroomName: null,
-            projects: null,
-            students: null
+            isAdding: false
         };
         this.setClassroom = this.setClassroom.bind(this);
+        this.setIsAdding = this.setIsAdding.bind(this);
+        this.getClassrooms = this.getClassrooms.bind(this);
     }
 
     setClassroom(classroom) {
-        const {id, name, projects, students} = classroom;
-        this.setState({...this.state, classroomId: id, classroomName: name, projects, students});
+        const {id, name} = classroom;
+        this.setState({...this.state, classroomId: id, classroomName: name});
+    }
+
+    setIsAdding(isAdding) {
+        this.setState({isAdding})
+    }
+
+    getClassrooms() {
+        this.props.getClassrooms();
     }
 
     componentDidMount() {
-        this.props.getClassrooms();
+        this.getClassrooms();
     }
 
     render() {
@@ -48,10 +57,18 @@ class Admin extends Component {
                         }) :
                         'Loading Classroom'
                     }
-                    <button className="new-class-button" onClick={() => history.push('/create/classroom')}>
-                        <FontAwesomeIcon icon={faPlus}/>
-                        Create a new classroom
-                    </button>
+                    {
+                        this.state.isAdding ?
+                            <CreateClassroom
+                                setIsAdding={this.setIsAdding}
+                                getClassrooms={this.getClassrooms}
+                                setClassroom={this.setClassroom}
+                            /> :
+                            <button className="new-class-button" onClick={() => this.setIsAdding(true)}>
+                                <FontAwesomeIcon icon={faPlus}/>
+                                Create a new classroom
+                            </button>
+                    }
                 </div>
                 <div className="main">
                     <TitleBar logout={logout} text={`${classroomName ?? 'Manage Classrooms'}`} />

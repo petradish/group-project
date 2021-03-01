@@ -8,7 +8,7 @@ import {NotFound} from './components/app/NotFound';
 import {JoinProject} from './components/app/JoinProject';
 import Admin from './components/admin/Admin';
 import Home from './components/Home';
-import {ComingSoon} from './components/app/ComingSoon';
+import {ComingSoon} from './components/admin/ComingSoon';
 
 /**
  * COMPONENT

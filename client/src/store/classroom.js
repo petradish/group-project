@@ -1,15 +1,9 @@
 import axios from 'axios'
 
 // ACTION TYPES
-import {CREATE_CLASSROOM, GET_ALL_CLASSROOMS, GET_CLASSROOM} from './index'
-import history from '../history';
+import {GET_ALL_CLASSROOMS, GET_CLASSROOM} from './index'
 
 // ACTION CREATORS
-export function createdClassroom(classroom) {
-    const action = {type: CREATE_CLASSROOM, classroom};
-    return action;
-}
-
 export function gotAllClassrooms(classrooms) {
     const action = {type: GET_ALL_CLASSROOMS, classrooms};
     return action;
@@ -42,8 +36,7 @@ export const getClassroom = (id) => {
 export const createClassroom = (classroom) => {
     return async dispatch => {
         const {data} = await axios.post(`/api/classrooms/create`, classroom);
-        dispatch(createdClassroom(data));
-        history.push('/');
+        dispatch(gotClassroom(data));
     };
 };
 
@@ -51,6 +44,12 @@ export const updateClassroom = (classroom) => {
     return async dispatch => {
         const {data} = await axios.post(`/api/classrooms/update`, classroom);
         dispatch(gotClassroom(data));
+    };
+};
+
+export const deleteClassroom = (id) => {
+    return async () => {
+        await axios.get(`/api/classrooms/delete/${id}`);
     };
 };
 
@@ -64,8 +63,6 @@ export const deleteStudent = ({id, googleId}) => {
 // REDUCER
 export default function classroom(state = {}, action) {
     switch (action.type) {
-        case CREATE_CLASSROOM:
-            return {...state, classroom: action.classroom};
         case GET_ALL_CLASSROOMS:
             return {...state, classrooms: action.classrooms};
         case GET_CLASSROOM:

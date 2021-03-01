@@ -1,14 +1,9 @@
 import axios from 'axios'
 
 // ACTION TYPES
-import {CREATE_PROJECT, GET_PROJECT} from './index'
+import {GET_PROJECT} from './index'
 
 // ACTION CREATORS
-export function createdProject(project) {
-    const action = {type: CREATE_PROJECT, project};
-    return action;
-}
-
 export function gotProject(project) {
     const action = {type: GET_PROJECT, project};
     return action;

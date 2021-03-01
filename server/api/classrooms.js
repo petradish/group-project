@@ -105,12 +105,8 @@ router.post('/create', async (req, res, next) => {
 
         await classroom.setUser(user);
 
-        const classrooms = await Classroom.findAll({
-            where: {userId: req.user.id},
-            include: [Project]
-        });
         res.status(201);
-        res.json(classrooms);
+        res.json(classroom);
     } catch (error) {
         next(error);
     }
@@ -193,7 +189,7 @@ router.post('/delete/student/:id', async (req, res, next) => {
     }
 });
 
-router.get('/delete/classroom/:id', async (req, res, next) => {
+router.get('/delete/:id', async (req, res, next) => {
     try {
         const classroom = await Classroom.findByPk(req.params.id);
         await classroom.destroy();

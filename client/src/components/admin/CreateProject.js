@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import {createProject, logout} from '../../store'
-import {compact, isEmpty, map, omit, values} from 'lodash';
+import {createProject} from '../../store'
+import {compact, isEmpty, isString, map, omit, values} from 'lodash';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCheck, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {faTrashAlt} from '@fortawesome/free-regular-svg-icons';
@@ -26,45 +26,47 @@ class CreateProject extends Component {
         this.handleTopicChange = this.handleTopicChange.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.addTopic = this.addTopic.bind(this);
-        this.logout = this.logout.bind(this);
     }
 
     handleChange(evt) {
-        let errors = this.state.errors;
+        let errors = this.state.errors,
+            value = evt.target.value
+        value = isString(value) ? value.trim() : value;
+
         switch (evt.target.name) {
             case 'topic':
                 return;
             case 'maxStudents': {
-                errors.maxStudents = evt.target.value < 1 ?
-                    `Min. 1 student` : evt.target.value > 8 ?
+                errors.maxStudents = value < 1 ?
+                    `Min. 1 student` : value > 8 ?
                         'Max. 8 students' :
                         null;
                 break;
             }
             case 'shortName':
-                errors.shortName = evt.target.value.length < 1 ? 'Required' : null
+                errors.shortName = value.length < 1 ? 'Required' : null
                 break;
             case 'name':
             case 'description':
             case 'instructions':
-                errors[evt.target.name] = evt.target.value.length < 4 ? 'Min. 4 characters' : null
+                errors[evt.target.name] = value.length < 4 ? 'Min. 4 characters' : null
                 break;
             case 'linkName': {
-                if (evt.target.value.length < 4) {
+                if (value.length < 4) {
                     errors.linkName = 'Min. 4 characters';
                 } else {
                     const regex = new RegExp(`^[a-zA-Z0-9]{4,50}$`);
-                    errors.linkName = !regex.test(evt.target.value) ? 'Link names can only contain alphanumeric characters' : null;
+                    errors.linkName = !regex.test(value) ? 'Link names can only contain alphanumeric characters' : null;
                 }
                 break;
             }
             default:
                 break;
         }
-        this.setState({...this.state, errors, [evt.target.name]: evt.target.value});
+        this.setState({...this.state, errors, [evt.target.name]: value});
     }
 
-    handleSubmit(evt) {
+    async handleSubmit(evt) {
         const {name, linkName, topics, maxStudents, shortName, instructions, description, errors} = this.state;
         evt.preventDefault();
         if (!isEmpty(compact(values(errors)))) {
@@ -85,9 +87,8 @@ class CreateProject extends Component {
             data.topics = compact(map(values(topics), 'name'));
         }
 
-        this.props.createProject(data).then(() => {
-            this.props.fetchClassroom();
-        });
+        await this.props.createProject(data);
+        this.props.fetchClassroom();
         this.props.setIsAdding(false);
     }
 
@@ -110,10 +111,6 @@ class CreateProject extends Component {
     deleteTopic(evt, topicId) {
         evt.preventDefault();
         this.setState({...this.state, topics: omit(this.state.topics, topicId)})
-    }
-
-    logout() {
-        this.props.logout();
     }
 
     render() {
@@ -192,7 +189,6 @@ class CreateProject extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    logout: () => dispatch(logout()),
     createProject: (project) => dispatch(createProject(project))
 })
 

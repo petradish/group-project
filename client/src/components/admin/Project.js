@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEdit, faTrashAlt} from '@fortawesome/free-regular-svg-icons';
 import {faCheck, faExternalLinkAlt, faPlus} from '@fortawesome/free-solid-svg-icons';
-import {compact, isEmpty, keyBy, maxBy, omit, partition, sortBy, values} from 'lodash';
+import {compact, isEmpty, isString, keyBy, maxBy, omit, partition, sortBy, values} from 'lodash';
 
 class Project extends Component {
     constructor(props) {
@@ -45,50 +45,51 @@ class Project extends Component {
         });
     }
 
-    deleteProject(evt) {
+    async deleteProject(evt) {
         evt.preventDefault();
-        this.props.deleteProject(this.props.project.id).then(() => {
-            this.props.fetchClassroom();
-        })
+        await this.props.deleteProject(this.props.project.id);
+        this.props.fetchClassroom();
     }
 
     handleChange(evt) {
-        let errors = this.state.errors;
+        let errors = this.state.errors,
+            value = evt.target.value
+        value = isString(value) ? value.trim() : value;
         switch (evt.target.name) {
             case 'topic':
                 return;
             case 'maxStudents': {
                 const minStudents = maxBy(values(this.state.topics), (t) => t.students.length)?.students.length || 1;
-                errors.maxStudents = evt.target.value < minStudents ?
+                errors.maxStudents = value < minStudents ?
                     `Min. ${minStudents} students` :
-                    evt.target.value > 8 ?
+                    value > 8 ?
                         'Max. 8 students' :
                         null;
                 break;
             }
             case 'shortName':
-                errors.shortName = evt.target.value.length < 1 ? 'Required' : null
+                errors.shortName = value.length < 1 ? 'Required' : null
                 break;
             case 'description':
             case 'instructions':
-                errors[evt.target.name] = evt.target.value.length < 4 ? 'Min. 4 characters' : null
+                errors[evt.target.name] = value.length < 4 ? 'Min. 4 characters' : null
                 break;
             case 'linkName': {
-                if (evt.target.value.length < 4) {
+                if (value.length < 4) {
                     errors.linkName = 'Min. 4 characters';
                 } else {
                     const regex = new RegExp(`^[a-zA-Z0-9]{4,50}$`);
-                    errors.linkName = !regex.test(evt.target.value) ? 'Link names can only contain alphanumeric characters' : null;
+                    errors.linkName = !regex.test(value) ? 'Link names can only contain alphanumeric characters' : null;
                 }
                 break;
             }
             default:
                 break;
         }
-        this.setState({...this.state, isDirty: true, errors, [evt.target.name]: evt.target.value});
+        this.setState({...this.state, isDirty: true, errors, [evt.target.name]: value});
     }
 
-    handleSubmit(evt) {
+    async handleSubmit(evt) {
         const {name, linkName, topics, maxStudents, shortName, instructions, description, isDirty, isTopicsListDirty, errors} = this.state;
         evt.preventDefault();
         if (!isEmpty(compact(values(errors)))) {
@@ -114,10 +115,9 @@ class Project extends Component {
             data.topics = values(topics).map(it => it.name);
         }
 
-        this.props.updateProject(data).then(() => {
-            this.props.fetchClassroom();
-            this.setState(this.initialState);
-        });
+        await this.props.updateProject(data)
+        this.props.fetchClassroom();
+        this.setState(this.initialState);
     }
 
     editTopics() {
@@ -141,7 +141,7 @@ class Project extends Component {
 
     handleTopicChange(evt, topic) {
         const {topics} = this.state;
-        topics[topic.id].name = evt.target.value;
+        topics[topic.id].name = evt.target.value?.trim();
         this.setState({...this.state, topics, isDirty: true, isTopicsListDirty: true})
     }
 
