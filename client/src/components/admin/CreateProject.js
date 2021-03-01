@@ -119,7 +119,7 @@ class CreateProject extends Component {
             {handleChange, handleTopicChange, handleSubmit, deleteTopic, addTopic} = this;
 
         return (
-            <div className={'project-swatch-detail'}>
+            <div className={'project-swatch-detail__create'}>
                 <div className={'project-detail'}>
                     <div className={'topic-container'}>
                         <div className={'topic-header'}>

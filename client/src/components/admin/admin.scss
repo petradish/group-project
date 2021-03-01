@@ -134,18 +134,17 @@
     font-size: 2vw;
   }
 
-  .project-swatch-detail {
+  .project-swatch-detail,
+  .project-swatch-detail__create {
     background-color: #1163ae;
     height: 85vh;
     width: 70vw;
     border-radius: 1vw;
     margin: 2vh;
     transition: all 0.3s ease-out;
-  }
 
-  .create-project-container {
-    .project-swatch-detail {
-      background-color: mediumslateblue;
+    &__create {
+      background-color: slateblue;
     }
   }
 
