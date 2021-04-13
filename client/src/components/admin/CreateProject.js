@@ -153,7 +153,7 @@ class CreateProject extends Component {
                                 {errors.maxStudents ? <p>{errors.maxStudents}</p> : <p> (per group)</p>}
                             </label>
                             <input onChange={handleChange} type="number" name="maxStudents" min={1} max={8}
-                                   placeholder={1}/>
+                                   placeholder={'e.g. 1'}/>
                             <label htmlFor="shortName">
                                 Short name*
                                 {errors.shortName ? <p>{errors.shortName}</p> : null}

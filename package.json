@@ -1,12 +1,12 @@
 {
-  "name": "school_project",
+  "name": "group-project",
   "version": "1.0.0",
   "engines": {
     "node": "14.16.0"
   },
   "description": "server",
   "main": "server/index.js",
-  "homepage": "http://school-group-project.herokuapp.com/",
+  "homepage": "http://ezgp.herokuapp.com/",
   "scripts": {
     "client-install": "npm install --prefix client",
     "start": "node server/index.js",
@@ -17,10 +17,10 @@
   "author": "petra",
   "license": "ISC",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.2",
-    "@fortawesome/fontawesome-svg-core": "^1.2.34",
-    "@fortawesome/free-regular-svg-icons": "^5.15.2",
-    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@fortawesome/fontawesome-free": "^5.15.3",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-regular-svg-icons": "^5.15.3",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
     "body-parser": "^1.19.0",
     "concurrently": "^5.3.0",
@@ -35,7 +35,7 @@
     "passport-oauth2": "^1.5.0",
     "path": "^0.12.7",
     "pg": "^7.18.2",
-    "sequelize": "^5.22.3",
+    "sequelize": "^6.1.1",
     "socket.io": "^2.4.1",
     "unique-names-generator": "^4.4.0"
   }
