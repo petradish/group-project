@@ -1,2 +1,2 @@
-web: node client/index.js
+web: node server/index.js
 api: node server/index.js
