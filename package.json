@@ -2,7 +2,7 @@
   "name": "group-project",
   "version": "1.0.0",
   "engines": {
-    "node": "14.16.0"
+    "node": "12.20.1"
   },
   "description": "server",
   "main": "server/index.js",
