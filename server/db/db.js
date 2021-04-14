@@ -8,6 +8,7 @@ const db = new Sequelize(
   {
       logging: false,
       dialect: 'postgres',
+      protocol: 'postgres',
       dialectOptions: {
           ssl: true
       }
